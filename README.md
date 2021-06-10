@@ -19,5 +19,4 @@ Como dijo nuestro prócer Luis Migel:
 
 Así lo haremos con BankerBot. :wink:
 
-<a href="https://www.youtube.com/watch?v=yG7MPEQm1-w" title="Temón"><img src="{image-url}" alt="Alternate Text" /></a>
 [![Temón](/docs/67195573.jpeg)](https://www.youtube.com/watch?v=yG7MPEQm1-) "Click en Luismi para escuchar un temón")
