@@ -5,6 +5,11 @@ namespace Library
 {
     public class User
     {
+        //La clase User cumple con el patrón Expert pues es el experto en la información sobre el usuario.
+        //Cumple con SRP pues no se encuentra más de una razón de cambio para la clase. 
+        //Crea instancias de Account porque las usa de manera muy estrecha, por lo que cumple con el patrón Creator. 
+        
+
         private List<Account> accounts;
         public User(string username, string password)
         {
@@ -43,9 +48,9 @@ namespace Library
         {
             return null;
         }
-        public void AddAccount()
+        public Account AddAccount(string name, Currency currencyType)
         {
-
+            return null;
         }
         public void RemoveAccount()
         {
