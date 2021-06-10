@@ -14,7 +14,7 @@
 - Whatsapp
 - Discord
 
-Como dijo nuestro prócer Luis Migel:
+Como dijo nuestro prócer Luis Miguel:
 > "Si no existieras yo te inventaría, como el sol al día"
 
 Así lo haremos con BankerBot. :wink:
