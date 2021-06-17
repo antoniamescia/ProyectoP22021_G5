@@ -2,9 +2,9 @@
 
 namespace Library
 {
-    public class Message
+    public class UserMessage
     {
-        public User User
+        public UserMessage User
         {
             get;
             set;

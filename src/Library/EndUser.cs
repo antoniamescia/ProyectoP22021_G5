@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    public class User
+    public class EndUser
     {
         //La clase User cumple con el patrón Expert pues es el experto en la información sobre el usuario.
         //Cumple con SRP pues no se encuentra más de una razón de cambio para la clase. 
@@ -11,7 +11,7 @@ namespace Library
         
 
         private List<Account> accounts;
-        public User(string username, string password)
+        public EndUser(string username, string password)
         {
 
         }

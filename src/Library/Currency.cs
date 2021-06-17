@@ -9,6 +9,12 @@ namespace Library
             get;
             private set;
         }
+
+        public string CurrencySymbol
+        {
+            get;
+            private set;
+        }
         
     }
 }

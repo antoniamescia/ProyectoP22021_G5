@@ -15,6 +15,7 @@ namespace Library
             }
         }
         //faltaria el set de la lista de Currency si es necesario
+        
         public void AddCurrency(Currency curency)
         {
 
@@ -23,6 +24,7 @@ namespace Library
         {
 
         }
+        
         public double Convert(double amount, Currency initialCurrency, Currency finalCurrency)
         {
             return 0;
