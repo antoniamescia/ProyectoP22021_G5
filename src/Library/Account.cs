@@ -15,7 +15,7 @@ namespace Library
         public Currency CurrencyType { get; private set; }
         public double Amount { get; private set; }
 
-        public Account(string name, Currency currencyType, double amount)
+        public Account(string name, Currency currencyType, double amount)   // hay que decidir si siempre tiene una SavingsGoal o creamos metodos para agregarle cuando querramos
         {
             this.transactionsRecord = new List<Transaction>();
             this.Name = name;

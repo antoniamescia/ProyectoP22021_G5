@@ -8,11 +8,11 @@ namespace Library
         public Account Account { get; private set; }   //para que necesitamos una account en transactions?
         public double Amount { get; private set; }
         public string Description { get; private set; }
-        public Currency CurrencyType { get; private set;}
-        public DateTime Date { get; private set;}
+        public Currency CurrencyType { get; private set; }
+        public DateTime Date { get; private set; }
 
         /// <summary>
-        /// Crea objeto transacción.
+        /// Constructor de objeto Transacción.
         /// </summary>
         /// <param name="amount"></param>
         /// <param name="currency"></param>
