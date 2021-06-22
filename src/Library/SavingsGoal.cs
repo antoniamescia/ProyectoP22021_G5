@@ -7,7 +7,7 @@ namespace Library
         //Cumple con SRP pues no se halla más de una razón de cambio.
         //Cumple con Expert pues es la experta en la información de los objetivos de ahorro. 
         //Crea instancias de Alert por que, al momento, es la única clase que las utiliza de manera estrecha. Así cumple con Creator.
-        public SavingsGoal(double objectiveAmount, Currency currency, string timeLimit)
+        public SavingsGoal(double objectiveAmount, Currency currency, DateTime timeLimit)
         {
             this.ObjectiveAmount = objectiveAmount;
             this.Currency = currency;
@@ -28,15 +28,15 @@ namespace Library
             get;
             private set;
         }
-        public string TimeLimit
+        public DateTime TimeLimit
         {
             get;
             private set;
         }
 
-        public void SendAlert(Alert alert)
-        {
+        // public void SendAlert(IAlert alert)
+        // {
 
-        }
+        // }
     }
 }

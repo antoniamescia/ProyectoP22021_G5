@@ -7,12 +7,24 @@ using Telegram.Bot.Types.Enums;
 using System.IO;
 using System.Text;
 
-namespace Program
+namespace Library
 {
     class Program
     {
         static void Main(string[] args)
         {
+            // Currency pesosUruguayos = new Currency();
+            // DateTime l = new DateTime(2021, 06, 21);
+            // SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, l);
+            // SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, l);
+            // Account itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min);
+            // double daysLeft = (itauPesos.MaxGoal.TimeLimit - DateTime.Today).TotalDays;
+            // //Console.WriteLine($"Quedan {daysLeft} días");
+            // TimeLimitAlert alert = new TimeLimitAlert();
+            // Console.WriteLine(alert.SendAlert(itauPesos));
+            // MaxSavingsGoalAlert maxAlert = new MaxSavingsGoalAlert();
+            // Console.WriteLine(maxAlert.SendAlert(itauPesos));
+
             //Obtengo una instancia de TelegramBot
             TelegramBot telegramBot = TelegramBot.Instance;
             Console.WriteLine($"Hola soy Luis Miguel, mi nombre es {telegramBot.BotName} y tengo el Identificador {telegramBot.BotId}");
@@ -59,6 +71,8 @@ namespace Program
                                                                             .Append("/link\n")
                                                                             .Append("/voice\n")
                                                                             .Append("/audio\n");
+                                                                            
+                                                                            
 
 
                         await client.SendTextMessageAsync(
@@ -71,6 +85,7 @@ namespace Program
                         await client.SendTextMessageAsync(
                                           chatId: chatInfo.Id,
                                           text: $"Hola, ¿cómo estás {chatInfo.FirstName}? 👋😀");
+                    
                         break;
 
                     case "/foto":
