@@ -13,26 +13,10 @@ namespace Library
             this.Currency = currency;
             this.TimeLimit = timeLimit;
         }
-        public double ObjectiveAmount
-        {
-            get;
-            private set;
-        }
-        public Currency Currency
-        {
-            get;
-            private set;
-        }
-        public double ActualSavedAmount
-        {
-            get;
-            private set;
-        }
-        public string TimeLimit
-        {
-            get;
-            private set;
-        }
+        public double ObjectiveAmount { get; private set; }
+        public Currency Currency { get; private set; }
+        public double ActualSavedAmount { get; private set; } //habría que compararlo con el balance actual de la cuenta en vez de tener esta variable
+        public string TimeLimit { get; private set; }   //hace falta que tengamos un time limit?
 
         public void SendAlert(Alert alert)
         {
