@@ -2,14 +2,14 @@
 
 namespace Library
 {
-    public class TimeLimitAlert : IAlert
+    public class TimeLimitReachedAlert : IAlert
     {
         public string SendAlert(Account account)
         {
-           if ((account.MaxGoal.TimeLimit - DateTime.Today).TotalDays <= 7 && account.Balance < account.MaxGoal.ObjectiveAmount)
+           if ((account.MaxGoal.TimeLimit - DateTime.Today).TotalDays < 0 && account.Balance < account.MaxGoal.ObjectiveAmount)
             {
-             double daysLeft = (account.MaxGoal.TimeLimit - DateTime.Today).TotalDays;
-             string alert = $"¡Atención! Tienes {daysLeft} días para llegar a tu objetivo máximo de ahorro. 💵🏃🏼";  
+             double daysLeft = ((account.MaxGoal.TimeLimit - DateTime.Today).TotalDays) * -1;
+             string alert = $"¡Atención! Han pasado {daysLeft} días de tu tiempo límite de ahorro.";  
              return alert; 
             }
             else

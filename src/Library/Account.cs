@@ -11,11 +11,11 @@ namespace Library
     // A su vez cumple con el patrón OCP, ya que es una clase que se encuentra abierta a la extensión, pero cerrada a la modificación.
 
         private List<Transaction> transactionsRecord;
-        public Account (string name, Currency currencyType, double balance, SavingsGoal maxGoal, SavingsGoal minGoal)
+        public Account (string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
         {
             this.Name = name;
             this.CurrencyType = currencyType;
-            this.Balance = balance;
+            this.Amount = amount;
             this.MaxGoal = maxGoal;
             this.MinGoal = minGoal;
         }
@@ -30,7 +30,7 @@ namespace Library
             get;
             private set;
         }
-        public int Amount
+        public double Amount
         {
             get;
             private set;
