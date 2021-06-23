@@ -4,7 +4,7 @@ namespace Library
 {
     public class Message
     {
-        public User User
+        public EndUser EndUser
         {
             get;
             set;

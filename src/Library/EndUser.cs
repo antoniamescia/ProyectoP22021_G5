@@ -46,22 +46,22 @@ namespace Library
         public string DisplayAccounts()
         {
             StringBuilder accountsList = new StringBuilder();
-            foreach(Account account in Accounts)
+            foreach (Account account in Accounts)
             {
                 accountsList.Append(account.Name + "\n");
             }
             return accountsList.ToString();
         }
-        public Account AddAccount(string name, Currency currencyType, double amount)
+        public Account AddAccount(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
         {
-            foreach(Account account in Accounts)
+            foreach (Account account in Accounts)
             {
-                if(account.Name == name)
+                if (account.Name == name)
                 {
                     return null;
                 }
             }
-            Account newAccount = new Account(name, currencyType, amount);
+            Account newAccount = new Account(name, currencyType, amount, maxGoal, minGoal);
             this.Accounts.Add(newAccount);
             return newAccount;
         }
@@ -84,7 +84,7 @@ namespace Library
                 categoriesList.Append(category + "\n");
             }
             return categoriesList.ToString();
-            
+
         }
         public void AddExpenseCategory(string newCategory)
         {
