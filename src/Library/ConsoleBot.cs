@@ -8,11 +8,11 @@ namespace Library
         {
             
         }
-        public void ManageMessage(Message message)
+        public void ManageMessage(UserMessage message)
         {
 
         }
-        public void SendMessage(Message message)
+        public void SendMessage(UserMessage message)
         {
 
         }
