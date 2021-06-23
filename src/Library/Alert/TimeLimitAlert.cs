@@ -6,7 +6,7 @@ namespace Library
     {
         public string SendAlert(Account account)
         {
-           if ((account.MaxGoal.TimeLimit - DateTime.Today).TotalDays <= 7 && account.Balance < account.MaxGoal.ObjectiveAmount)
+           if ((account.MaxGoal.TimeLimit - DateTime.Today).TotalDays <= 7 && account.Amount < account.MaxGoal.ObjectiveAmount)
             {
              double daysLeft = (account.MaxGoal.TimeLimit - DateTime.Today).TotalDays;
              string alert = $"¡Atención! Tienes {daysLeft} días para llegar a tu objetivo máximo de ahorro. 💵🏃🏼";  

@@ -6,9 +6,9 @@ namespace Library
     {
         public string SendAlert(Account account)
         {
-            if (account.MaxGoal.ObjectiveAmount - account.Balance <= 100)
+            if (account.MaxGoal.ObjectiveAmount - account.Amount <= 100)
             {
-             double ammountLeft = account.MaxGoal.ObjectiveAmount - account.Balance;
+             double ammountLeft = account.MaxGoal.ObjectiveAmount - account.Amount;
              string alert = $"¡Wohoo! Te restan ${ammountLeft} para llegar a tu objetivo máximo de ahorro. 🙌";  
              return alert; 
             }

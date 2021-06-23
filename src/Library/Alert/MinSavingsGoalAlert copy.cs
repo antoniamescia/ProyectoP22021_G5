@@ -6,9 +6,9 @@ namespace Library
     {
         public string SendAlert(Account account)
         {
-           if (account.Balance <= account.MinGoal.ObjectiveAmount)
+           if (account.Amount <= account.MinGoal.ObjectiveAmount)
             {
-             double ammountLeft = account.Balance - account.MinGoal.ObjectiveAmount;
+             double ammountLeft = account.Amount - account.MinGoal.ObjectiveAmount;
              string alert = $"Has pasado tu objetivo mínimo de ahorro. 😮 ";  
              return alert; 
             }
