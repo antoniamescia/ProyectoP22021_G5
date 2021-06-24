@@ -9,7 +9,7 @@ namespace Library
         //La clase User cumple con el patrón Expert pues es el experto en la información sobre el usuario.
         //Cumple con SRP pues no se encuentra más de una razón de cambio para la clase. 
         //Crea instancias de Account porque las usa de manera muy estrecha, por lo que cumple con el patrón Creator. 
-
+        //Tambien cumple con el patrón OCP al ser una clase abierta a la extensión y cerrada a la modificación.
 
         private List<Account> accounts;
         public string Username { get; private set; }
@@ -25,7 +25,6 @@ namespace Library
         }
 
 
-        //puse que los get devuelvan una IList<T> para poder devolver la lista de modo AsReadOnly
         public IList<Account> Accounts
         {
             get
@@ -33,7 +32,6 @@ namespace Library
                 return accounts.AsReadOnly();
             }
         }
-        //faltaria el set si es necesario de la lista de Accounts
 
         public void ChangeUsername(string newUsername)
         {

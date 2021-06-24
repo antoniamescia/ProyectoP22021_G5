@@ -13,17 +13,17 @@ namespace Library
     {
         static void Main(string[] args)
         {
-            Currency pesosUruguayos = new Currency();
-            DateTime l = new DateTime(2021, 06, 20);
-            SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, l);
-            SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, l);
-            Account itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min);
-            //double daysLeft = (itauPesos.MaxGoal.TimeLimit - DateTime.Today).TotalDays;
-            //Console.WriteLine($"Quedan {daysLeft} días");
-            IAlert alert = new TimeLimitReachedAlert();
-            Console.WriteLine(alert.SendAlert(itauPesos));
-            IAlert maxAlert = new MaxSavingsGoalAlert();
-            Console.WriteLine(maxAlert.SendAlert(itauPesos));
+            // Currency pesosUruguayos = new Currency();
+            // DateTime l = new DateTime(2021, 06, 20);
+            // SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, l);
+            // SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, l);
+            // Account itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min);
+            // //double daysLeft = (itauPesos.MaxGoal.TimeLimit - DateTime.Today).TotalDays;
+            // //Console.WriteLine($"Quedan {daysLeft} días");
+            // IAlert alert = new TimeLimitReachedAlert();
+            // Console.WriteLine(alert.SendAlert(itauPesos));
+            // IAlert maxAlert = new MaxSavingsGoalAlert();
+            // Console.WriteLine(maxAlert.SendAlert(itauPesos));
 
             //Obtengo una instancia de TelegramBot
             TelegramBot telegramBot = TelegramBot.Instance;
