@@ -10,7 +10,7 @@ namespace Library
             get;
             private set;
         }
-        public User User
+        public EndUser EndUser
         {
             get;
         }

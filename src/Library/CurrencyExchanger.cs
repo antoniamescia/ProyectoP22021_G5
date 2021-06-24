@@ -36,6 +36,7 @@ namespace Library
         }*/
         //faltaria el set de la lista de Currency si es necesario
 
+       
         /// <summary>
         /// Agrega un nuevo tipo de moneda
         /// </summary>
@@ -66,6 +67,7 @@ namespace Library
             }
         }
 
+
         /// <summary>
         /// Realiza la conversión entre los tipo de monedas
         /// </summary>
@@ -73,6 +75,8 @@ namespace Library
         /// <param name="initialCurrency"></param>
         /// <param name="finalCurrency"></param>
         /// <returns></returns>
+        
+
         public double Convert(double amount, Currency initialCurrency, Currency finalCurrency)
         {
             if (initialCurrency.Type != "UYU")
