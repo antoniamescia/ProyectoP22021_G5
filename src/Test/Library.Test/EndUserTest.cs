@@ -19,7 +19,7 @@ namespace Library.Test
         }
 
         [Test]
-        public void Test1()
+        public void Test1() //addaccount
         {
             int cant = facundo.Accounts.Count;
 
@@ -29,7 +29,37 @@ namespace Library.Test
         }
 
         [Test]
-        public void test2()
+        public void testdsafgfg() //addaccount
+        {
+            int cant = facundo.Accounts.Count;
+
+            facundo.AddAccount("BBVA", currency, 400, new SavingsGoal(900, currency, new DateTime(2021,06,25)), new SavingsGoal(200, currency, new DateTime(2021,06,25)));
+            
+            Assert.AreEqual(cant, facundo.Accounts.Count);
+        }
+
+        [Test]
+        public void testx()  //removeaccount
+        {
+            int  cant = facundo.Accounts.Count;
+
+            facundo.RemoveAccount(facundo.Accounts[0]);
+
+            Assert.AreNotEqual(cant, facundo.Accounts.Count);
+        }
+
+        // [Test]  
+        // public void testx1() 
+        // {
+        //     int  cant = facundo.Accounts.Count;
+
+        //     facundo.RemoveAccount(facundo.Accounts[3]);
+
+        //     Assert.AreEqual(cant, facundo.Accounts.Count);
+        // }
+
+        [Test]
+        public void test2() //username
         {
             string name = facundo.Username;
 
@@ -39,7 +69,7 @@ namespace Library.Test
 
         }
 
-        [Test]
+        [Test]  //pass
         public void test3()
         {
             string pass = facundo.Password;
@@ -50,7 +80,7 @@ namespace Library.Test
         }
 
         [Test]
-        public void test4()
+        public void test4()  //addcategory
         {   
             int cant = facundo.ExpenseCategories.Count;
 
@@ -60,7 +90,7 @@ namespace Library.Test
         }
 
         [Test]
-        public void test5()
+        public void test5() //removecategory
         {
             int cant = facundo.ExpenseCategories.Count;
 
@@ -71,7 +101,7 @@ namespace Library.Test
         }
 
         [Test]
-        public void test6()
+        public void test6() //addcategory
         {
             facundo.AddExpenseCategory("Ropa");
             facundo.AddExpenseCategory("Comida");
@@ -79,6 +109,17 @@ namespace Library.Test
             facundo.AddExpenseCategory("Ropa");
 
             Assert.AreEqual(2, facundo.ExpenseCategories.Count);
+        }
+
+        [Test]
+        public void test45() //removecategory
+        {
+            int cant = facundo.ExpenseCategories.Count;
+
+            facundo.AddExpenseCategory("Comida");
+            facundo.RemoveExpenseCategory("Ropa");
+
+            Assert.AreNotEqual(cant, facundo.ExpenseCategories.Count);
         }
     }
 }
