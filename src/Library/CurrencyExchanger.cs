@@ -11,6 +11,16 @@ namespace Library
     {
         private List<Currency> currencyList;
         
+        private static CurrencyExchanger instance;
+        public static CurrencyExchanger Instance
+        {
+            get
+            {
+                if (instance == null) instance = new CurrencyExchanger();
+                return instance;
+            }
+        }
+
         private CurrencyExchanger()
         {
             this.currencyList = new List<Currency>() { new Currency("UYU", 1), new Currency("USD", 45.05), new Currency("EUR", 55.03), new Currency("BRL", 9.89) };
