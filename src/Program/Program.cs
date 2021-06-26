@@ -13,6 +13,7 @@ namespace Library
     {
         static void Main(string[] args)
         {
+<<<<<<< HEAD
             Currency pesosUruguayos = new Currency("UYU", 1);
             DateTime l = new DateTime(2021, 06, 20);
             SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, l);
@@ -25,6 +26,17 @@ namespace Library
             IAlert maxAlert = new MaxSavingsGoalAlert();
             Console.WriteLine(maxAlert.SendAlert(itauPesos));
 
+=======
+            // Currency pesosUruguayos = new Currency("UYU", 1);
+            // DateTime limit = new DateTime(2021, 06, 20);
+            // SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, limit);
+            // SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, limit);    
+            // Account itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min);  
+            // IAlert maxAlert = new MaxSavingsGoalAlert();
+            // string actualAlert = maxAlert.SendAlert(itauPesos);
+            // Console.WriteLine(actualAlert);
+        
+>>>>>>> main
             //Obtengo una instancia de TelegramBot
             TelegramBot telegramBot = TelegramBot.Instance;
             Console.WriteLine($"Hola soy Luis Miguel, mi nombre es {telegramBot.BotName} y tengo el Identificador {telegramBot.BotId}");

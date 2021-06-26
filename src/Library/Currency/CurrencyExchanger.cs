@@ -11,7 +11,18 @@ namespace Library
 {
     public class CurrencyExchanger
     {
+<<<<<<< HEAD:src/Library/Currency/CurrencyExchanger.cs
         public List<Currency> currencyList { get; set; }
+=======
+        /*
+        Patrones y principios:
+        Cumple con el patrón Expert pues es la experta en la información necesaria para realizar las responsabilidades otorgadas.
+        Cumple con el patrón Creator pues al usar muy estrechamente instancias de Currency, se encarga de crearlas. 
+        Cumple con SRP porque no se identifica más de una razón de cambio.
+        Cumple con el patrón Singleton. Al tener un constructor privado nos aseguramos que no puedan crearse instancias de esta clase. La propiedad Instance nos provee un único punto de acceso al convertor.
+        */
+        private List<Currency> currencyList;
+>>>>>>> main:src/Library/CurrencyExchanger.cs
         
         private static CurrencyExchanger instance;
         public static CurrencyExchanger Instance
