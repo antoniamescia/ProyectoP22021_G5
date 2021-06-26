@@ -7,7 +7,6 @@ namespace Library.Test
     public class EndUserTest
     {
         private EndUser facundo;
-        private Account accounts;
         private Currency currency;
 
         [SetUp]
@@ -19,17 +18,22 @@ namespace Library.Test
         }
 
         [Test]
-        public void Test1() //addaccount
+        public void TestAccountIsAddedAndThenRemoved() //addaccount
         {
-            int cant = facundo.Accounts.Count;
+            int initialQuantity = facundo.Accounts.Count;
 
             facundo.AddAccount("ITAU", currency, 300, new SavingsGoal(800, currency, new DateTime(2021,06,25)), new SavingsGoal(200, currency, new DateTime(2021,06,25)));
+
+            int secondQuantity = facundo.Accounts.Count;
+
+            facundo.RemoveAccount(facundo.Accounts[1]);
             
-            Assert.AreNotEqual(cant, facundo.Accounts.Count);
+            Assert.AreNotEqual(initialQuantity, secondQuantity);
+            Assert.AreNotEqual(secondQuantity, facundo.Accounts.Count);
         }
 
         [Test]
-        public void testdsafgfg() //addaccount
+        public void TestAccountCantBeRepeatedByName() //addaccount
         {
             int cant = facundo.Accounts.Count;
 
@@ -38,15 +42,6 @@ namespace Library.Test
             Assert.AreEqual(cant, facundo.Accounts.Count);
         }
 
-        [Test]
-        public void testx()  //removeaccount
-        {
-            int  cant = facundo.Accounts.Count;
-
-            facundo.RemoveAccount(facundo.Accounts[0]);
-
-            Assert.AreNotEqual(cant, facundo.Accounts.Count);
-        }
 
         // [Test]  
         // public void testx1() 
@@ -59,7 +54,7 @@ namespace Library.Test
         // }
 
         [Test]
-        public void test2() //username
+        public void TestUsernameChanges() //username
         {
             string name = facundo.Username;
 
@@ -70,7 +65,7 @@ namespace Library.Test
         }
 
         [Test]  //pass
-        public void test3()
+        public void TestPasswordChanges()
         {
             string pass = facundo.Password;
 
@@ -80,24 +75,16 @@ namespace Library.Test
         }
 
         [Test]
-        public void test4()  //addcategory
-        {   
-            int cant = facundo.ExpenseCategories.Count;
-
-            facundo.AddExpenseCategory("Comida");
-
-            Assert.AreNotEqual(cant, facundo.ExpenseCategories.Count);
-        }
-
-        [Test]
-        public void test5() //removecategory
+        public void TestCategoryIsAddedAndThenRemoved() //removecategory
         {
-            int cant = facundo.ExpenseCategories.Count;
+            int initialQuantity = facundo.ExpenseCategories.Count;
 
             facundo.AddExpenseCategory("Comida");
+            int secondQuantity = facundo.ExpenseCategories.Count;
             facundo.RemoveExpenseCategory("Comida");
 
-            Assert.AreEqual(cant, facundo.ExpenseCategories.Count);
+            Assert.AreNotEqual(initialQuantity, secondQuantity);
+            Assert.AreNotEqual(secondQuantity, facundo.ExpenseCategories.Count);
         }
 
         [Test]
