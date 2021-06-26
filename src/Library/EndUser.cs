@@ -60,7 +60,7 @@ namespace Library
                 }
             }
             Account newAccount = new Account(name, currencyType, amount, maxGoal, minGoal);
-            this.Accounts.Add(newAccount);
+            this.accounts.Add(newAccount);
             return newAccount;
         }
         public void RemoveAccount(Account account)
