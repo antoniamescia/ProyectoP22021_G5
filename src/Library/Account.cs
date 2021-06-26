@@ -42,9 +42,14 @@ namespace Library
             this.transactionsRecord.Add(transaction);
             this.Amount += amount;
         }
-        public void ChangeCurrencyType(Currency newCurrencyType)        //se necesita currency exchanger 
+        public void ChangeCurrencyType(Currency newCurrencyType)
         {
-
+            CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
+            if (currencyExchanger.ExistsCurrency(newCurrencyType.Type))
+            {
+                this.Amount = currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
+                this.CurrencyType = newCurrencyType;
+            }
         }
         public void ChangeMaxGoal(double objectiveAmount, Currency currency, DateTime timeLimit)
         {
