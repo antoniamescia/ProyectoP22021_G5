@@ -13,7 +13,7 @@ namespace Library
     {
         static void Main(string[] args)
         {
-            Currency pesosUruguayos = new Currency();
+            Currency pesosUruguayos = new Currency("UYU", 1);
             DateTime l = new DateTime(2021, 06, 20);
             SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, l);
             SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, l);
