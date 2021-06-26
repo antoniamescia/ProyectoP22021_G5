@@ -6,9 +6,13 @@ namespace Library
     public class Account
     {
 
-        //Cumple con el patrón Expert pues es el experto en la información requerida para realizar las responsabilidades otorgadas. 
-        //Cumple con el patrón Creator al crear las transacciones pues usa de forma directa dichas instancias al ser el encargado de realizar las transacciones.
-        // A su vez cumple con el patrón OCP, ya que es una clase que se encuentra abierta a la extensión, pero cerrada a la modificación.
+        /*
+        Patrones y principios:
+        Cumple con SRP porque no se identifica más de un razón de cambio.
+        Cumple con el patrón Expert pues es el experto en la información requerida para realizar las responsabilidades otorgadas. 
+        Cumple con el patrón Creator al crear las transacciones pues usa de forma directa dichas instancias al ser el encargado de realizar las transacciones.
+        */
+    
 
         private List<Transaction> transactionsRecord;
         public string Name { get; set; }

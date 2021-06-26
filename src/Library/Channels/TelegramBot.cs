@@ -8,6 +8,14 @@ namespace Library
 {
     public class TelegramBot : IComunicationChannel
     {
+        /*
+        Patrones y principios:
+        Cumple con SRP porque solo se identifica una razón de cambio.
+        Cumple con LSP porque el tipo implícito que define la clase puede ser sustiuido por ICommunicationChannel.
+        Cumple con ISP porque solo implementa una interfaz (ICommunicationChannel).
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con las responsabilidades otorgadas.
+        Cumple con Polymorphism porque usa los métodos polimórfico StatCommunication, ManageMessage y SendMessage.
+        */
         
         private const string TELEBRAM_BOT_TOKEN = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
         private static TelegramBot instance;
