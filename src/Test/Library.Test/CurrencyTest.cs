@@ -25,7 +25,7 @@ namespace Library.Test
         {
             CurrencyExchanger.Instance.AddCurrency("type", 1);
             int count = 0;
-            foreach (var item in CurrencyExchanger.Instance.currencyList)
+            foreach (var item in CurrencyExchanger.Instance.CurrencyList)
             {
                 if (item.Type == "type") count++;
             }
