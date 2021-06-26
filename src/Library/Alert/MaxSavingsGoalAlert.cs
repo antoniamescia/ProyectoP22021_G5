@@ -18,7 +18,7 @@ namespace Library
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-         public string SendAlert(Account account)
+        public string SendAlert(Account account)
         {
             if (account.MaxGoal.ObjectiveAmount - account.Amount <= 100 && account.MaxGoal.ObjectiveAmount > 0)
             {

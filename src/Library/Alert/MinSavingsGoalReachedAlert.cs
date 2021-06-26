@@ -13,11 +13,13 @@ namespace Library
         Cumple con Polymorphism porque usa el método polimórfico SendAlert.
         */
 
+
         /// <summary>
         /// Crea una alerta que será enviada al realizar una transacción cuando se haya superado el objetivo mínimo de ahorro.
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
+
         public string SendAlert(Account account)
         {
            if (account.Amount <= account.MinGoal.ObjectiveAmount)

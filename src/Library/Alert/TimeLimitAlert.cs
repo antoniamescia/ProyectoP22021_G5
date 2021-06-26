@@ -18,6 +18,7 @@ namespace Library
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
+
         public string SendAlert(Account account)
         {
            if ((account.MaxGoal.TimeLimit - DateTime.Today).TotalDays <= 7 && (account.MaxGoal.TimeLimit - DateTime.Today).TotalDays > 0 && account.Amount < account.MaxGoal.ObjectiveAmount)

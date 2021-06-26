@@ -18,6 +18,7 @@ namespace Library
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
+
         public string SendAlert(Account account)
         {
            if (account.Amount - account.MinGoal.ObjectiveAmount <= 100)
