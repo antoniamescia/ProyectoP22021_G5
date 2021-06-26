@@ -9,6 +9,11 @@ namespace Library
     */
     public interface IAlert
     {
+        /// <summary>
+        /// Crea un string que funcionará como alerta cuando el usuario realice una transacción
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         string SendAlert(Account account);
     }
 }

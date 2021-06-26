@@ -12,6 +12,13 @@ namespace Library
         Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad de enviar la alerta.
         Cumple con Polymorphism porque usa el método polimórfico SendAlert.
         */
+
+        /// <summary>
+        /// Crea una alerta que será enviada al realizar una transacción cuando la diferencia entre el balance actual y el objetivo mínimo de ahorro sea menor o igual a 100.
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+
         public string SendAlert(Account account)
         {
            if (account.Amount - account.MinGoal.ObjectiveAmount <= 100)
