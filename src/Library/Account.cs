@@ -21,7 +21,7 @@ namespace Library
         public SavingsGoal MaxGoal { get; private set; }
         public SavingsGoal MinGoal { get; private set; }
 
-        public Account(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)   // hay que decidir si siempre tiene una SavingsGoal o creamos metodos para agregarle cuando querramos
+        public Account(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
         {
             this.transactionsRecord = new List<Transaction>();
             this.Name = name;
@@ -31,7 +31,6 @@ namespace Library
             this.MinGoal = minGoal;
         }
 
-        //puse que los get devuelvan una IList<T> para poder devolver la lista de modo AsReadOnly
         public IList<Transaction> TransactionsRecord
         {
             get
@@ -46,9 +45,14 @@ namespace Library
             this.transactionsRecord.Add(transaction);
             this.Amount += amount;
         }
-        public void ChangeCurrencyType(Currency newCurrencyType)        //se necesita currency exchanger 
+        public void ChangeCurrencyType(Currency newCurrencyType)
         {
-
+            CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
+            if (currencyExchanger.ExistsCurrency(newCurrencyType.Type))
+            {
+                this.Amount = currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
+                this.CurrencyType = newCurrencyType;
+            }
         }
         public void ChangeMaxGoal(double objectiveAmount, Currency currency, DateTime timeLimit)
         {
