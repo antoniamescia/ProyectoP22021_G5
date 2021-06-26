@@ -4,6 +4,8 @@ using System.Collections.Generic;
 // La clase CurrencyExchanger cumple con patrón Expert y Creator debido a que es experta en información relacionada con el objeto Currency
 // y se encarga de crear instancias y almacenarlas. 
 // También cumple con el principio de OCP debido a que se encuentra abierta a la extensión y cerrada a la modificación.
+// A su vez la clase consta de un Singleton para asi no generar mas de una instancia del mismo ya que solo queremos almacenar
+// los objetos Currency creados en una lista global.
 
 namespace Library
 {
