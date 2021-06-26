@@ -9,7 +9,7 @@ namespace Library
 {
     public class CurrencyExchanger
     {
-        private List<Currency> currencyList;
+        public List<Currency> currencyList { get; set; }
         
         private static CurrencyExchanger instance;
         public static CurrencyExchanger Instance
