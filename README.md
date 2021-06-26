@@ -17,5 +17,5 @@ Luis Miguel dijo:
 Así nos tiene BankerBot. :cold_sweat: Pero te estamos agarrando cariño (¿mirá si terminamos extrañándote? :astonished:) 
 
 ### **Click en la foto para un recomendación de serie de parte del GRUPO 5** :movie_camera:
-[![Serión](/docs/67195573.jpeg)](https://www.netflix.com/uy/title/80191236) 
+[![Serión](/docs/Luis_Miguel,_la_serie_logo.png)](https://www.netflix.com/uy/title/80191236) 
 
