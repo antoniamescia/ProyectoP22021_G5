@@ -60,18 +60,18 @@ namespace Library
                 }
             }
             Account newAccount = new Account(name, currencyType, amount, maxGoal, minGoal);
-            this.Accounts.Add(newAccount);
+            this.accounts.Add(newAccount);
             return newAccount;
         }
         public void RemoveAccount(Account account)
         {
             if (this.Accounts.Contains(account))
             {
-                this.Accounts.Remove(account);
+                this.accounts.Remove(account);
             }
             else
             {
-                Console.WriteLine("No se ha encontrado la cuenta: " + account.Name);
+                Console.WriteLine("No se ha encontrado la cuenta");
             }
         }
         public string DisplayExpenseCategories()
