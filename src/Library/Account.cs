@@ -41,9 +41,11 @@ namespace Library
 
         public void Transfer(Currency currency, double amount, string description)
         {
+            //CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
             Transaction transaction = new Transaction(amount, description, currency, DateTime.Now);
             this.transactionsRecord.Add(transaction);
             this.Amount += amount;
+            //this.Amount += currencyExchanger.Convert(amount, currency, this.CurrencyType);
         }
         public void ChangeCurrencyType(Currency newCurrencyType)
         {
