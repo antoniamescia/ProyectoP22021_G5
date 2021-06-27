@@ -6,31 +6,35 @@ namespace Library.Test
 {
     public class CurrencyTests
     {
+        private CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
+    
 
         [SetUp]
         public void Setup()
         {
-
+            
         }
 
         [Test]
-        public void CreateCurrency()
+        public void CreateCurrency() //Prueba que se agrega una nueva divisa
         {
-           CurrencyExchanger.Instance.AddCurrency("type", 1);
-           Assert.IsTrue(CurrencyExchanger.Instance.ExistsCurrency("type"));
+        
+           currencyExchanger.AddCurrency("ARG", 0.5);
+           Assert.IsTrue(currencyExchanger.ExistsCurrency("ARG"));
         }
 
         [Test]
-        public void CurrencyExists()
+        public void CurrencyExists() //Prueba que no exista la divisa antes de agregarla
         {
-            CurrencyExchanger.Instance.AddCurrency("type", 1);
+            currencyExchanger.AddCurrency("ARG", 1);
             int count = 0;
-            foreach (var item in CurrencyExchanger.Instance.CurrencyList)
+            foreach (Currency currency in currencyExchanger.CurrencyList)
             {
-                if (item.Type == "type") count++;
+                if (currency.Type == "ARG") count++;
             }
             Assert.IsFalse(count == 2);
         }    
+
     }
 
 }
