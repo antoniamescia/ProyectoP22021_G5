@@ -38,7 +38,13 @@ namespace Library
                 return transactionsRecord.AsReadOnly();
             }
         }
-
+        /// <summary>
+        /// Realiza una transacción ya sea de ingreso o egreso.
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="amount"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
         public void Transfer(Currency currency, double amount, string description)
         {
             //CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
@@ -47,6 +53,12 @@ namespace Library
             this.Amount += amount;
             //this.Amount += currencyExchanger.Convert(amount, currency, this.CurrencyType);
         }
+
+        /// <summary>
+        /// Cambia el tipo de moneda de la cuenta.
+        /// </summary>
+        /// <param name="newCurrencyType"></param>
+        /// <returns></returns>
         public void ChangeCurrencyType(Currency newCurrencyType)
         {
             CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
@@ -56,11 +68,27 @@ namespace Library
                 this.CurrencyType = newCurrencyType;
             }
         }
+
+        /// <summary>
+        /// Cambia el objetivo de ahorro maximo de la cuenta.
+        /// </summary>
+        /// <param name="objetiveAmount"></param>
+        /// <param name="currency"></param>
+        /// <param name="timeLimit"></param>
+        /// <returns></returns>
         public void ChangeMaxGoal(double objectiveAmount, Currency currency, DateTime timeLimit)
         {
             SavingsGoal newGoal = new SavingsGoal(objectiveAmount, currency, timeLimit);
             this.MaxGoal = newGoal;
         }
+
+        /// <summary>
+        /// Cambia el objetivo de ahorro minimo de la cuenta.
+        /// </summary>
+        /// <param name="objetiveAmount"></param>
+        /// <param name="currency"></param>
+        /// <param name="timeLimit"></param>
+        /// <returns></returns>
         public void ChangeMinGoal(double objectiveAmount, Currency currency, DateTime timeLimit)
         {
             SavingsGoal newGoal = new SavingsGoal(objectiveAmount, currency, timeLimit);
