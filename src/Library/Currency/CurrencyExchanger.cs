@@ -47,7 +47,7 @@ namespace Library
         /// <param name="rate"></param>
         public void AddCurrency(string type, double rate)
         {
-            if (!ExistsCurrency(type))
+            if (ExistsCurrency(type) == false)
             {
                 Currency newCurrency = new Currency(type, rate);
                 currencyList.Add(newCurrency);

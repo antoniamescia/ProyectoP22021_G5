@@ -24,7 +24,7 @@ namespace Library.Test
         [Test]
         public void TimeLimitAlertIsCreatedWhenDifferenceIsLessThanSevenDays()
         {
-            string expectedAlert = "¡Atención! Tienes 4 días para llegar a tu objetivo máximo de ahorro. 💵🏃🏼";
+            string expectedAlert = "¡Atención! Tienes 3 días para llegar a tu objetivo máximo de ahorro. 💵🏃🏼";
             IAlert timeLimitAlert = new TimeLimitAlert();
             string actualAlert = timeLimitAlert.SendAlert(itauPesos);
 
