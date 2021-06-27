@@ -8,6 +8,7 @@ namespace Library.Test
     {
         private Currency currencyPesos;
         private Currency currencyDollars;
+        private Currency currencyInvented;
         private Account santander;
 
         [SetUp]
@@ -15,6 +16,7 @@ namespace Library.Test
         {
             this.currencyPesos = new Currency("UYU", 1);
             this.currencyDollars = new Currency("USD", 45.05);
+            this.currencyInvented = new Currency("FelipeCoin", 100);
             this.santander = new Account("Santander", currencyPesos, 300, new SavingsGoal(800, currencyPesos, new DateTime(2021,06,25)), new SavingsGoal(200, currencyPesos, new DateTime(2021,06,25)));
         }
 
@@ -41,6 +43,17 @@ namespace Library.Test
 
             Assert.IsTrue(initialAmount != santander.Amount && santander.Amount == expectedAmount);
             Assert.IsTrue(initialCurrency != santander.CurrencyType && santander.CurrencyType == this.currencyDollars);
+        }
+
+        [Test]
+        public void TestCantChangeToACurrencyThatDoesntExist() //Prueba que no permite cambiar la moneda a una inventada que no este en el sistema 
+        {
+            Currency initialCurrency = santander.CurrencyType;
+            double initialAmount = santander.Amount;
+            santander.ChangeCurrencyType(currencyInvented);
+ 
+            Assert.AreEqual(initialAmount, santander.Amount);
+            Assert.AreEqual(initialCurrency, santander.CurrencyType);
         }
     }
 }
