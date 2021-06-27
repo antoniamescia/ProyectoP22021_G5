@@ -19,14 +19,28 @@ namespace Library.Test
         }
 
         [Test]
-        public void Test1() //
+        public void TestTransferIsAddedToTransactionRecordAndAmountChanges() //Prueba que al realizar una transferencia que se agrega a transactionRecord y luego se modifica la cantidad de plata en la cuenta
         {
             double initailAmount = santander.Amount;
             int initialTransactionQuantity = santander.TransactionsRecord.Count;
 
-            santander.Transfer(currency)
+            santander.Transfer(currencyPesos, 100, "comida");
 
-            Assert.AreNotEqual()
+            Assert.AreNotEqual(initailAmount, santander.Amount);
+            Assert.AreNotEqual(initialTransactionQuantity, santander.TransactionsRecord.Count);
+        }
+
+        [Test]
+        public void TestChangeCurrencyTypeModifiesAmountAndCurrencyTypeAsExpected() //Prueba que ChangeCurrencyType modifica amount y currencyType, y que sea de la manera deseada 
+        {
+            Currency initialCurrency = santander.CurrencyType;
+            double initialAmount = santander.Amount;
+            santander.ChangeCurrencyType(currencyDollars);
+ 
+            double expectedAmount = 300 / 45.05;
+
+            Assert.IsTrue(initialAmount != santander.Amount && santander.Amount == expectedAmount);
+            Assert.IsTrue(initialCurrency != santander.CurrencyType && santander.CurrencyType == this.currencyDollars);
         }
     }
 }
