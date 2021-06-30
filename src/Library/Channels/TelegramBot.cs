@@ -18,8 +18,19 @@ namespace Library
         */
         
         private const string TELEBRAM_BOT_TOKEN = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
-        private static TelegramBot instance;
         private ITelegramBotClient bot;
+        private static TelegramBot instance;
+        public static TelegramBot Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TelegramBot();
+                }
+                return instance;
+            }
+        }
         
         private TelegramBot()
         {
@@ -56,23 +67,12 @@ namespace Library
                 return this.BotInfo.FirstName;
             }
         }
-
-        public static TelegramBot Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new TelegramBot();
-                }
-                return instance;
-            }
-        }
         
         
         public void StartCommunication()
         {
-
+            bot.OnMessage += OnMessage;
+            bot.StartReceiving();
         }
         public void ManageMessage(UserMessage message)
         {
@@ -81,6 +81,12 @@ namespace Library
 
         public void OnMessage(object sender, MessageEventArgs messageEventArgs)
         {
+            // Message message = messageEventArgs.Message;
+            // string chatId = message.Chat.Id.ToString();
+
+            // UserMessage msg = new UserMessage(chatId, message.Text);
+            // SetChannel(chatId, this);
+            // TelegramBot.Instance.HandleMessage(msg);
 
         }
         

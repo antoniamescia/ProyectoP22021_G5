@@ -2,7 +2,7 @@
 
 namespace Library
 {
-    public class SpreadsheetPrinter : IPrinter
+    public class HTMLPrinter : IPrinter
     {
         /*
         Patrones y principios:

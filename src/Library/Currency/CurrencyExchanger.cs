@@ -19,7 +19,10 @@ namespace Library
         {
             get
             {
-                if (instance == null) instance = new CurrencyExchanger();
+                if (instance == null) 
+                {
+                    instance = new CurrencyExchanger();
+                }
                 return instance;
             }
         }
