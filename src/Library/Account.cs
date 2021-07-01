@@ -15,6 +15,7 @@ namespace Library
     
 
         private List<Transaction> transactionsRecord;
+        private CurrencyExchanger currencyExchanger;
         public string Name { get; set; }
         public Currency CurrencyType { get; private set; }
         public double Amount { get; private set; }
@@ -24,11 +25,13 @@ namespace Library
         public Account(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
         {
             this.transactionsRecord = new List<Transaction>();
+            this.currencyExchanger = CurrencyExchanger.Instance;
             this.Name = name;
             this.CurrencyType = currencyType;
             this.Amount = amount;
             this.MaxGoal = maxGoal;
             this.MinGoal = minGoal;
+
         }
 
         public IList<Transaction> TransactionsRecord
@@ -47,11 +50,9 @@ namespace Library
         /// <returns></returns>
         public void Transfer(Currency currency, double amount, string description)
         {
-            //CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
             Transaction transaction = new Transaction(amount, description, currency, DateTime.Now);
             this.transactionsRecord.Add(transaction);
-            this.Amount += amount;
-            //this.Amount += currencyExchanger.Convert(amount, currency, this.CurrencyType);
+            this.Amount += this.currencyExchanger.Convert(amount, currency, this.CurrencyType);
         }
 
         /// <summary>
@@ -61,10 +62,9 @@ namespace Library
         /// <returns></returns>
         public void ChangeCurrencyType(Currency newCurrencyType)
         {
-            CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
             if (currencyExchanger.ExistsCurrency(newCurrencyType.Type))
             {
-                this.Amount = currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
+                this.Amount = this.currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
                 this.CurrencyType = newCurrencyType;
             }
         }
