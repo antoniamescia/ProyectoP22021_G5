@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-namespace Library
+namespace BankerBot
 {
     public class EndUser
     {

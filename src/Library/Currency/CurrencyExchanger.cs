@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace BankerBot
 {
     public class CurrencyExchanger
     {
