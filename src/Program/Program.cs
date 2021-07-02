@@ -15,14 +15,23 @@ namespace BankerBot
     {
         static void Main(string[] args)
         {
-            // Currency pesosUruguayos = new Currency("UYU", 1);
-            // DateTime limit = new DateTime(2021, 06, 20);
-            // SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, limit);
-            // SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, limit);    
-            // Account itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min);  
-            // IAlert maxAlert = new MaxSavingsGoalAlert();
-            // string actualAlert = maxAlert.SendAlert(itauPesos);
-            // Console.WriteLine(actualAlert);
+            Currency pesosUruguayos = new Currency("UYU", 1);
+            DateTime limit = new DateTime(2021, 06, 20);
+            SavingsGoal max = new SavingsGoal(36000, pesosUruguayos, limit);
+            SavingsGoal min = new SavingsGoal(25000, pesosUruguayos, limit);
+            Account itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min);
+            IAlert maxAlert = new MaxSavingsGoalAlert();
+            string actualAlert = maxAlert.SendAlert(itauPesos);
+            Console.WriteLine(actualAlert);
+            itauPesos.Transfer(pesosUruguayos, 10, "De mi amigo");
+            itauPesos.Transfer(pesosUruguayos, -10, "Para mi amigo");
+            itauPesos.Transfer(pesosUruguayos, 10, "De mi amigo");
+            itauPesos.Transfer(pesosUruguayos, 10, "De mi amigo");
+            itauPesos.Transfer(pesosUruguayos, 10, "De mi amigo");
+
+
+            IPrinter ver = new SpreadsheetPrinter();
+            ver.Print(itauPesos.TransactionsRecord, "PruebaHtml");
 
             //Obtengo una instancia de TelegramBot
             //     TelegramBot telegramBot = TelegramBot.Instance;
