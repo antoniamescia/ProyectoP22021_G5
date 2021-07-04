@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    // public enum State
-    // {
-    //     Init,
-    //     Dispatcher,
-    //     HandlingCommand
-    // }
+    public enum State
+    {
+        Init,
+        Dispatcher,
+        HandlingCommand
+    }
 
     /// <summary>
     /// Clase correspondiente al usuario que está hablandole al bot en determinado momento.
     /// </summary>
     public class UserInfo
     {
-        //public State State { get; set; }
+        public State State { get; set; }
         public string Command { get; set; }
         public EndUser User { get; set; }   
         public IComunicationChannel ComunicationChannel { get; set; }
         
         public UserInfo()
         {
-            //this.State = State.Init;
+            this.State = State.Init;
             this.Command = string.Empty;
             this.User = null;
             //this.Temp = new Dictionary<string, object>();
@@ -31,7 +31,7 @@ namespace Library
 
         public void ClearOperation()
         {
-            //this.State = State.Dispatcher;
+            this.State = State.Dispatcher;
             //this.Temp.Clear();
             this.Command = string.Empty;
         }

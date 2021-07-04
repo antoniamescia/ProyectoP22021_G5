@@ -11,6 +11,7 @@ namespace Library
         */
         void StartCommunication();
         void ManageMessage(UserMessage message);
-        void SendMessage(UserMessage message);
+        void SendMessage(string user, string message);
+        void SendFile(string user, string path);
     }
 }
