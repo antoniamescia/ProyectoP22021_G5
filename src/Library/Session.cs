@@ -27,6 +27,16 @@ namespace Library
 
         }
 
+        // agregué esto para poder utilizarlo en los handlers
+        public void AddUser(string username, string password)
+        {
+            foreach (var user in AllEndUsers)
+            {
+                if (user.Username == username) return;
+            }
+            AllEndUsers.Add(new EndUser(username, password));
+        }
+
         public EndUser GetEndUser(string username, string password)
         {
             foreach (EndUser endUser in AllEndUsers)
@@ -37,6 +47,17 @@ namespace Library
                 }
             }
             return null;
+        }
+
+        // agregué esto para poder utilizarlo en los handlers
+        public bool UsernameExists(string username)
+        {
+            string user = "";
+            foreach (var item in AllEndUsers)
+            {
+                if (item.Username == username) user = item.Username;
+            }
+            return user == username;
         }
 
         public UserInfo GetChatInfo(string id)

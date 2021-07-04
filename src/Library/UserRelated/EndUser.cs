@@ -58,12 +58,14 @@ namespace Library
         /// Despliega todas las cuentas disponibles del usuario.
         /// </summary>
         /// <returns></returns>
+        // agregué el index para poder utilizarlo en los handlers
         public string DisplayAccounts()
         {
             StringBuilder accountsList = new StringBuilder();
             foreach (Account account in Accounts)
             {
-                accountsList.Append(account.Name + "\n");
+                string index = (Accounts.IndexOf(account) + 1).ToString();
+                accountsList.Append(index + " - " + account.Name + "\n");
             }
             return accountsList.ToString();
         }
@@ -110,12 +112,15 @@ namespace Library
         /// Despliega todos los elementos de la lista de categorias disponibles del usuario.
         /// </summary>
         /// <returns></returns>
+
+        // agregué el index para poder utilizarlo en los handlers
         public string DisplayExpenseCategories()
         {
             StringBuilder categoriesList = new StringBuilder();
             foreach (string category in ExpenseCategories)
             {
-                categoriesList.Append(category + "\n");
+                string index = (ExpenseCategories.IndexOf(category) + 1).ToString();
+                categoriesList.Append(index + " - " + category + "\n");
             }
             return categoriesList.ToString();
 

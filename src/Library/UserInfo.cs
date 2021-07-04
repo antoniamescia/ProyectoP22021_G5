@@ -18,6 +18,9 @@ namespace Library
         public State State { get; set; }
         public string Command { get; set; }
         public EndUser User { get; set; }   
+
+        // agregué esto para poder utilizarlo en los handlers
+        public Dictionary<string, object> Temp { get; set; }
         public IComunicationChannel ComunicationChannel { get; set; }
         
         public UserInfo()
@@ -25,19 +28,19 @@ namespace Library
             this.State = State.Init;
             this.Command = string.Empty;
             this.User = null;
-            //this.Temp = new Dictionary<string, object>();
+            this.Temp = new Dictionary<string, object>();
             this.ComunicationChannel = null;
         }
 
         public void ClearOperation()
         {
             this.State = State.Dispatcher;
-            //this.Temp.Clear();
+            this.Temp.Clear();
             this.Command = string.Empty;
         }
-        // public T GetDictionaryValue<T>(string key)
-        // {
-        //     return (T)Temp[key];
-        // }
+        public T GetDictionaryValue<T>(string key)
+        {
+            return (T)Temp[key];
+        }
     }
 }

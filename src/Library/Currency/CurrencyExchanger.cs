@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace Library
@@ -105,6 +106,17 @@ namespace Library
                 if (currency.Type == type) return true;
             }
             return false;
+        }
+
+        // agregué esto para poder utilizarlo en los handlers
+        public string ShowCurrencyList()
+        {
+            StringBuilder currencies = new StringBuilder();
+            foreach (Currency currency in CurrencyExchanger.Instance.CurrencyList)
+            {
+                currencies.Append($"{CurrencyExchanger.Instance.CurrencyList.IndexOf(currency) + 1} - {currency.Type}\n");
+            }
+            return currencies.ToString();
         }
 
 
