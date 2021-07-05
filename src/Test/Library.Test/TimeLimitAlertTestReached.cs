@@ -24,7 +24,7 @@ namespace Library.Test
         [Test]
         public void TimeLimitReachedAlertIsCreatedWhenDateHasBeenReached()
         {
-            string expectedAlert = "¡Atención! Han pasado 17 días de tu tiempo límite de ahorro.";
+            string expectedAlert = $"¡Atención! Han pasado {(DateTime.Today - itauPesos.MaxGoal.TimeLimit).TotalDays} días de tu tiempo límite de ahorro.";
             IAlert timeLimitReachedAlert = new TimeLimitReachedAlert();
             string actualAlert = timeLimitReachedAlert.SendAlert(itauPesos);
 
