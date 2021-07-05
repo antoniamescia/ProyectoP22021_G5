@@ -15,7 +15,7 @@ namespace Library.Test
         public void Setup()
         {
             this.pesosUruguayos = new Currency("UYU", 1);
-            this.limit = new DateTime(2021, 06, 30);
+            this.limit = DateTime.Today.AddDays(3);
             this.max = new SavingsGoal(36000, pesosUruguayos, limit);
             this.min = new SavingsGoal(25000, pesosUruguayos, limit);    
             this.itauPesos = new Account("Itau Pesos", pesosUruguayos, 35990, max, min); 
@@ -34,7 +34,7 @@ namespace Library.Test
         [Test]
         public void TimeLimitAlertIsNotCreatedWhenDifferenceIsMoreThanSevenDays()
         {
-            DateTime newLimit = new DateTime(2021, 07, 08);
+            DateTime newLimit = DateTime.Today.AddDays(10);
             itauPesos.ChangeMaxGoal(36000, pesosUruguayos, newLimit);
             IAlert timeLimitAlert = new TimeLimitAlert();
             string actualAlert = timeLimitAlert.SendAlert(itauPesos);
