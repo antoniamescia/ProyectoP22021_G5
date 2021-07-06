@@ -27,7 +27,6 @@ namespace Library
 
         }
 
-        // agregué esto para poder utilizarlo en los handlers
         public void AddUser(string username, string password)
         {
             foreach (var user in AllEndUsers)
@@ -49,7 +48,6 @@ namespace Library
             return null;
         }
 
-        // agregué esto para poder utilizarlo en los handlers
         public bool UsernameExists(string username)
         {
             string user = "";

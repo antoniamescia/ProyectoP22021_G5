@@ -1,11 +1,10 @@
-
 namespace Library
 {
-    public class NoCondition : ICondition<UserMessage>
+    public class DefaultCondition : ICondition<UserMessage>
     {
         public bool ConditionIsMet(UserMessage request)
         {
-           return true;
+            return true;
         }
     }
 }

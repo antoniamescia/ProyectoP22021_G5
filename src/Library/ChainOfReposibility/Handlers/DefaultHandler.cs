@@ -3,12 +3,9 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    /// <summary>
-    /// Este Handler se ocupa de hacerle saber al usuario que no entendió su petición. Por esto, se encuentra al final de la cadena de responsabilidades.
-    /// </summary>
-    public class NoConditionHandler : AbstractHandler<UserMessage>
+    public class DefaultHandler : AbstractHandler<UserMessage>
     {
-        public NoConditionHandler(NoCondition condition) : base(condition)
+        public DefaultHandler(DefaultCondition condition) : base(condition)
         {
         }
 

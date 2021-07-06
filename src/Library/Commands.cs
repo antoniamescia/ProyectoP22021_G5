@@ -26,7 +26,7 @@ namespace Library
                 "/comandos",
                 "/iniciarsesion",
                 "/cerrarsesion",
-                "/borrarusuario",
+                //"/borrarusuario",
                 "/crearusuario",
                 "/crearcuenta",
                 "/borrarcuenta",

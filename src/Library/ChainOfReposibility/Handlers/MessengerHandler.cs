@@ -8,132 +8,132 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            var data = Session.Instance.GetChatInfo(request.User);
-            data.ConversationState = ConversationState.HandlingRequest;
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            info.ConversationState = ConversationState.HandlingRequest;
 
             switch (request.MessageText.ToLower())
             {
                 case "/Comandos":
-                    data.ComunicationChannel.SendMessage(request.User, Commands.Instance.CommandList(request.User));
-                    data.ConversationState = ConversationState.Messenger;
+                    info.ComunicationChannel.SendMessage(request.User, Commands.Instance.CommandList(request.User));
+                    info.ConversationState = ConversationState.Messenger;
                     break;
 
                 case "/CrearUsuario":
 
-                    if (data.User == null)
+                    if (info.User == null)
                     {
-                        data.Command = request.MessageText.ToLower();
-                        data.ComunicationChannel.SendMessage(request.User, "Ingresa tu nombre de usuario:");
+                        info.Command = request.MessageText.ToLower();
+                        info.ComunicationChannel.SendMessage(request.User, "Ingresa tu nombre de usuario:");
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar esta acción, por favor cierra sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar esta acción, por favor cierra sesión. 🙏🏼");
                     break;
 
                 case "/IniciarSesion":
-                    if (data.User == null)
+                    if (info.User == null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "Ingresa tu nombre de usuario:");
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "Ingresa tu nombre de usuario:");
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar esta acción, por favor cierra sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar esta acción, por favor cierra sesión. 🙏🏼");
                     break;
 
                 case "/CerrarSesion":
 
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.User = null;
-                        data.ComunicationChannel.SendMessage(request.User, "¡Desconectado con éxito!");
-                        data.ComunicationChannel.SendMessage(request.User, "¿Cómo deseas continuar?:\n" + Commands.Instance.CommandList((request.User)));
-                        data.ConversationState = ConversationState.Messenger;
+                        info.User = null;
+                        info.ComunicationChannel.SendMessage(request.User, "¡Desconectado con éxito!");
+                        info.ComunicationChannel.SendMessage(request.User, "¿Cómo deseas continuar?:\n" + Commands.Instance.CommandList((request.User)));
+                        info.ConversationState = ConversationState.Messenger;
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
-                    data.ConversationState = ConversationState.Messenger;
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ConversationState = ConversationState.Messenger;
                     break;
 
                 case "/CrearCuenta":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        // data.ComunicationChannel.SendMessage(request.User, "Ingrese el tipo de cuenta:\n" + Account.ShowAccountType());
+                        info.Command = request.MessageText;
+                        // info.ComunicationChannel.SendMessage(request.User, "Ingrese el tipo de cuenta:\n" + Account.ShowAccountType());
                         break;
                     }
 
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
 
                 case "/Convertir":
 
-                    data.Command = request.MessageText;
-                    data.ComunicationChannel.SendMessage(request.User, "¿Qué moneda deseas convertir? 🪙:\n" + CurrencyExchanger.Instance.ShowCurrencyList());
+                    info.Command = request.MessageText;
+                    info.ComunicationChannel.SendMessage(request.User, "¿Qué moneda deseas convertir? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                     break;
 
                 case "/BorrarUsuario":
 
-                    data.Command = request.MessageText;
-                    data.ComunicationChannel.SendMessage(request.User, "Ingresa el nombre de usuario que deseas eliminar:");
+                    info.Command = request.MessageText;
+                    info.ComunicationChannel.SendMessage(request.User, "Ingresa el nombre de usuario que deseas eliminar:");
                     break;
 
                 case "/BorrarCuenta":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "¿Qué cuenta deseas eliminar?:\n" + data.User.DisplayAccounts());
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "¿Qué cuenta deseas eliminar?:\n" + info.User.DisplayAccounts());
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
 
                 case "/Transaccion":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "¿Qué tipo de transacción quieres realizar?:\n1 - Ingreso🤑\n2 - Egreso👋🏼");
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "¿Qué tipo de transacción quieres realizar?:\n1 - Ingreso🤑\n2 - Egreso👋🏼");
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
 
                 case "/AgregarCategoriaDeGasto":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "Ingresa una nueva categoría de gasto: 💸");
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "Ingresa una nueva categoría de gasto: 💸");
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
 
                 case "/CambiarObjetivoDeAhorro":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta quieres cambiar el objetivo de ahorro?\n" + data.User.DisplayAccounts());
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta quieres cambiar el objetivo de ahorro?\n" + info.User.DisplayAccounts());
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
 
                 case "/AgregarMoneda":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "Ingresa el tipo de la nueva moneda:");
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "Ingresa el tipo de la nueva moneda:");
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
 
                 case "/balanceDeCuenta":
-                    if (data.User != null)
+                    if (info.User != null)
                     {
-                        data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas consultar el balance?\n" + data.User.DisplayAccounts());
+                        info.Command = request.MessageText;
+                        info.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas consultar el balance?\n" + info.User.DisplayAccounts());
                         break;
                     }
-                    data.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
+                    info.ComunicationChannel.SendMessage(request.User, "Para realizar está acción, por favor inicia sesión. 🙏🏼");
                     break;
             }
         }

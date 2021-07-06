@@ -6,7 +6,7 @@ using Telegram.Bot.Types.InputFiles;
 
 namespace Library
 {
-    public class TelegramBot : IComunicationChannel
+    public class TelegramBot : AbstractBot
     {
         /*
         Patrones y principios:
@@ -18,7 +18,7 @@ namespace Library
         */
         
         private const string TELEBRAM_BOT_TOKEN = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
-        private ITelegramBotClient bot;
+        private ITelegramBotClient Bot;
         private static TelegramBot instance;
         public static TelegramBot Instance
         {
@@ -34,13 +34,13 @@ namespace Library
         
         private TelegramBot()
         {
-            this.bot = new TelegramBotClient(TELEBRAM_BOT_TOKEN);
+            this.Bot = new TelegramBotClient(TELEBRAM_BOT_TOKEN);
         }
         public ITelegramBotClient Client
         {
             get
             {
-                return this.bot;
+                return this.Bot;
             }
         }
         
@@ -69,35 +69,34 @@ namespace Library
         }
         
         
-        public void StartCommunication()
+        public override void StartCommunication()
         {
-            bot.OnMessage += OnMessage;
-            bot.StartReceiving();
-        }
-        public void ManageMessage(UserMessage message)
-        {
-
+            Bot.OnMessage += OnMessage;
+            Bot.StartReceiving();
         }
 
         public void OnMessage(object sender, MessageEventArgs messageEventArgs)
         {
-            // Message message = messageEventArgs.Message;
-            // string chatId = message.Chat.Id.ToString();
+            Message message = messageEventArgs.Message;
+            string chatId = message.Chat.Id.ToString();
 
-            // UserMessage msg = new UserMessage(chatId, message.Text);
-            // SetChannel(chatId, this);
-            // TelegramBot.Instance.HandleMessage(msg);
-
-        }
-        
-        public void SendMessage(string user, string message)
-        {
+            UserMessage msg = new UserMessage(chatId, message.Text);
+            SetComunicationChannel(chatId, this);
+            TelegramBot.Instance.ManageMessage(msg);
 
         }
 
-        public void SendFile(string user, string path)
+        public override void SendMessage(string id, string message)
         {
-            
+            var chatId = long.Parse(id);
+            Bot.SendTextMessageAsync(chatId, message);
+        }
+
+        public override async void SendFile(string id, string path)
+        {
+            var chatId = long.Parse(id);
+            var fs = System.IO.File.OpenRead(path);
+            await Bot.SendDocumentAsync(chatId, new InputOnlineFile(fs, path));
         }
     }
 }

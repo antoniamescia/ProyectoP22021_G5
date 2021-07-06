@@ -5,7 +5,7 @@ namespace Library
 {
     /// <summary>
     /// Tipo enumerado. Conjunto de constantes de valores fijos que determinan el estado actual de la conversación.
-    /// 
+    /// Los tres estados posibles e invariantes son: Start (conversación se inicia), Messenger (conversación está en las manos del mensajero), y HandlingRequest (el Handler se está encargando de llevar a cabo la petición).
     /// </summary>
     public enum ConversationState
     {

@@ -11,16 +11,16 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
 
-            if (data.Command != string.Empty)
+            if (info.Command != string.Empty)
             {
-                data.ComunicationChannel.SendMessage(request.User, "¡Operación cancelada! ❌");
-                data.ClearOperation();
+                info.ComunicationChannel.SendMessage(request.User, "¡Operación cancelada! ❌");
+                info.ClearOperation();
             }
             else
             {
-                data.ComunicationChannel.SendMessage(request.User, "¡Lo siento! Esta operación no puede cancelarse pues no está dentro de los comandos.");
+                info.ComunicationChannel.SendMessage(request.User, "¡Lo siento! Esta operación no puede cancelarse pues no está dentro de los comandos.");
             }
         }
     }

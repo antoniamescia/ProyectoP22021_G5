@@ -10,61 +10,61 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
 
-            if (!data.ProvisionalInfo.ContainsKey("account"))
+            if (!info.ProvisionalInfo.ContainsKey("account"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= data.User.Accounts.Count)
+                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= info.User.Accounts.Count)
                 {
-                    data.ProvisionalInfo.Add("account", data.User.Accounts[index - 1]);
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro máximo: 💰");
+                    info.ProvisionalInfo.Add("account", info.User.Accounts[index - 1]);
+                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro máximo: 💰");
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    data.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas cambiar el objetivo?:\n" + data.User.DisplayAccounts());
+                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
+                    info.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas cambiar el objetivo?:\n" + info.User.DisplayAccounts());
                 }
                 return;
             }
-            else if (!data.ProvisionalInfo.ContainsKey("maxSavingsGoal")) 
+            else if (!info.ProvisionalInfo.ContainsKey("maxSavingsGoal")) 
             {
                 double amount;
                 if (double.TryParse(request.MessageText, out amount) && amount > 1)
                 {
-                    data.ProvisionalInfo.Add("maxSavingsGoal", amount);
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro mínimo: 💰");
+                    info.ProvisionalInfo.Add("maxSavingsGoal", amount);
+                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro mínimo: 💰");
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro máximo: 💰");
+                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
+                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro máximo: 💰");
                 }
             }
-            else if (!data.ProvisionalInfo.ContainsKey("minSavingsGoal"))
+            else if (!info.ProvisionalInfo.ContainsKey("minSavingsGoal"))
             {
                 double amount;
-                if (double.TryParse(request.MessageText, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("maxSavingsGoal"))
+                if (double.TryParse(request.MessageText, out amount) && amount > 0 && amount < info.GetDictionaryValue<double>("maxSavingsGoal"))
                 {
-                    data.ProvisionalInfo.Add("minSavingsGoal", amount);
+                    info.ProvisionalInfo.Add("minSavingsGoal", amount);
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro mínimo: 💰");
+                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
+                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro mínimo: 💰");
                 }
             }
 
-            if (data.ProvisionalInfo.ContainsKey("maxSavingsGoal") && data.ProvisionalInfo.ContainsKey("minSavingsGoal"))
+            if (info.ProvisionalInfo.ContainsKey("maxSavingsGoal") && info.ProvisionalInfo.ContainsKey("minSavingsGoal"))
             {
-                var account = data.GetDictionaryValue<Account>("account");
-                var maxSavingsGoal = data.GetDictionaryValue<double>("maxSavingsGoal");
-                var minSavingsGoal = data.GetDictionaryValue<double>("minSavingsGoal");
+                var account = info.GetDictionaryValue<Account>("account");
+                var maxSavingsGoal = info.GetDictionaryValue<double>("maxSavingsGoal");
+                var minSavingsGoal = info.GetDictionaryValue<double>("minSavingsGoal");
 
                 //account.ChangeMaxGoal(maxSavingsGoal, minSavingsGoal);
-                data.ComunicationChannel.SendMessage(request.User, "¡Objetivos actualizados con éxito!");
+                info.ComunicationChannel.SendMessage(request.User, "¡Objetivos actualizados con éxito!");
 
-                data.ClearOperation();
+                info.ClearOperation();
             }
         }
     }

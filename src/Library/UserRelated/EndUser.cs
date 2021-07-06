@@ -108,6 +108,22 @@ namespace Library
             }
         }
 
+        //Agregar documentación
+        public bool AccountExists(string name)
+        {
+            string accountName = String.Empty;
+
+            foreach (var item in Accounts)
+            {
+                if (item.Name == name)
+                {
+                    accountName = item.Name;
+                }
+            }
+
+            return accountName == name;
+        }
+
         /// <summary>
         /// Despliega todos los elementos de la lista de categorias disponibles del usuario.
         /// </summary>

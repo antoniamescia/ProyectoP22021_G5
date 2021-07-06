@@ -4,8 +4,8 @@ namespace Library
     {
         public bool ConditionIsMet(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
-            return data.ConversationState == ConversationState.HandlingRequest && data.Command.ToLower() == "/balance";
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            return info.ConversationState == ConversationState.HandlingRequest && info.Command.ToLower() == "/balance";
         }
     }
 }

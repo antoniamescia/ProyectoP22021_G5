@@ -11,68 +11,68 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
 
-            if (!data.ProvisionalInfo.ContainsKey("from"))
+            if (!info.ProvisionalInfo.ContainsKey("from"))
             {
                 int index;
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    data.ProvisionalInfo.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                    data.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙 \n" + CurrencyExchanger.Instance.ShowCurrencyList());
+                    info.ProvisionalInfo.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                    info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙 \n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "//");
-                    data.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙:\n" + CurrencyExchanger.Instance.ShowCurrencyList());
+                    info.ComunicationChannel.SendMessage(request.User, "//");
+                    info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!data.ProvisionalInfo.ContainsKey("to"))
+            else if (!info.ProvisionalInfo.ContainsKey("to"))
             {
                 int index;
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    if (CurrencyExchanger.Instance.CurrencyList[index - 1] != data.GetDictionaryValue<Currency>("from"))
+                    if (CurrencyExchanger.Instance.CurrencyList[index - 1] != info.GetDictionaryValue<Currency>("from"))
                     {
-                        data.ProvisionalInfo.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                        data.ComunicationChannel.SendMessage(request.User, "Monto a convertir:");
+                        info.ProvisionalInfo.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                        info.ComunicationChannel.SendMessage(request.User, "Monto a convertir:");
                     }
                     else
                     {
-                        data.ComunicationChannel.SendMessage(request.User, "Selecciona una moneda diferente, por favor.");
-                        data.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙:\n" + CurrencyExchanger.Instance.ShowCurrencyList());
+                        info.ComunicationChannel.SendMessage(request.User, "Selecciona una moneda diferente, por favor.");
+                        info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                     }
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "//");
-                    data.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.ShowCurrencyList());
+                    info.ComunicationChannel.SendMessage(request.User, "//");
+                    info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!data.ProvisionalInfo.ContainsKey("amount"))
+            else if (!info.ProvisionalInfo.ContainsKey("amount"))
             {
                 double amount;
                 if (double.TryParse(request.MessageText, out amount) && amount > 0)
                 {
-                    data.ProvisionalInfo.Add("amount", amount);
+                    info.ProvisionalInfo.Add("amount", amount);
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese un valor mayor a 0. ⚠️");
-                    data.ComunicationChannel.SendMessage(request.User, "Monto a convertir:");
+                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un valor mayor a 0. ⚠️");
+                    info.ComunicationChannel.SendMessage(request.User, "Monto a convertir:");
                 }
             }
 
-            if (data.ProvisionalInfo.ContainsKey("from") && data.ProvisionalInfo.ContainsKey("to") && data.ProvisionalInfo.ContainsKey("amount"))
+            if (info.ProvisionalInfo.ContainsKey("from") && info.ProvisionalInfo.ContainsKey("to") && info.ProvisionalInfo.ContainsKey("amount"))
             {
-                var amount = data.GetDictionaryValue<double>("amount");
-                var from = data.GetDictionaryValue<Currency>("from");
-                var to = data.GetDictionaryValue<Currency>("to");
+                var amount = info.GetDictionaryValue<double>("amount");
+                var from = info.GetDictionaryValue<Currency>("from");
+                var to = info.GetDictionaryValue<Currency>("to");
 
                 var newAmount = CurrencyExchanger.Instance.Convert(amount, from, to);
-                data.ComunicationChannel.SendMessage(request.User, $"{from.Type} {amount} equivalen a {to.Type} {newAmount}");
+                info.ComunicationChannel.SendMessage(request.User, $"{from.Type} {amount} equivalen a {to.Type} {newAmount}");
 
-                data.ClearOperation();
+                info.ClearOperation();
             }
         }
     }

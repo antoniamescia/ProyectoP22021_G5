@@ -109,7 +109,7 @@ namespace Library
         }
 
         // agregué esto para poder utilizarlo en los handlers
-        public string ShowCurrencyList()
+        public string DisplayCurrencyList()
         {
             StringBuilder currencies = new StringBuilder();
             foreach (Currency currency in CurrencyExchanger.Instance.CurrencyList)

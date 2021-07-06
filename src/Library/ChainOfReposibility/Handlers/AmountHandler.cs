@@ -10,22 +10,22 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            var data = Session.Instance.GetChatInfo(request.User);
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
 
-            if (!data.ProvisionalInfo.ContainsKey("account"))
+            if (!info.ProvisionalInfo.ContainsKey("account"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= data.User.Accounts.Count)
+                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= info.User.Accounts.Count)
                 {
-                    Account account = data.User.Accounts[index - 1];
-                    data.ComunicationChannel.SendMessage(request.User, $"El balance actual de esta cuenta es: {account.CurrencyType} {account.Amount}");
+                    Account account = info.User.Accounts[index - 1];
+                    info.ComunicationChannel.SendMessage(request.User, $"El balance actual de esta cuenta es: {account.CurrencyType} {account.Amount}");
 
-                    data.ClearOperation();
+                    info.ClearOperation();
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    data.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas consultar el balance? \n" + data.User.DisplayAccounts());
+                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
+                    info.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas consultar el balance? \n" + info.User.DisplayAccounts());
                 }
                 return;
             }

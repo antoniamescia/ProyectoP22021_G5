@@ -5,8 +5,8 @@ namespace Library
     {
         public bool ConditionIsMet(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
-            return data.ConversationState == ConversationState.Start;
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            return info.ConversationState == ConversationState.Start;
         }
     }
 }

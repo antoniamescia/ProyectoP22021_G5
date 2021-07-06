@@ -11,22 +11,22 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
 
-            if (!data.ProvisionalInfo.ContainsKey("username"))
+            if (!info.ProvisionalInfo.ContainsKey("username"))
             {
-                data.ProvisionalInfo.Add("username", request.MessageText);
-                data.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
+                info.ProvisionalInfo.Add("username", request.MessageText);
+                info.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
             }
-            else if (!data.ProvisionalInfo.ContainsKey("password"))
+            else if (!info.ProvisionalInfo.ContainsKey("password"))
             {
-                data.ProvisionalInfo.Add("password", request.MessageText);
+                info.ProvisionalInfo.Add("password", request.MessageText);
             }
 
-            if (data.ProvisionalInfo.ContainsKey("username") && data.ProvisionalInfo.ContainsKey("password"))
+            if (info.ProvisionalInfo.ContainsKey("username") && info.ProvisionalInfo.ContainsKey("password"))
             {
-                string username = data.GetDictionaryValue<string>("username");
-                string password = data.GetDictionaryValue<string>("password");
+                string username = info.GetDictionaryValue<string>("username");
+                string password = info.GetDictionaryValue<string>("password");
                 var user = Session.Instance.GetEndUser(username, password);
 
                 bool connected = false;
@@ -38,20 +38,20 @@ namespace Library
 
                 if (!connected && user != null)
                 {
-                    data.User = user;
-                    data.ComunicationChannel.SendMessage(request.User, "Se ha conectado correctamente.");
-                    data.ComunicationChannel.SendMessage(request.User, "Para continuar puedes ingresar los siguientes comandos:\n" + Commands.Instance.CommandList((request.User)));
+                    info.User = user;
+                    info.ComunicationChannel.SendMessage(request.User, "Se ha conectado correctamente.");
+                    info.ComunicationChannel.SendMessage(request.User, "Para continuar puedes ingresar los siguientes comandos:\n" + Commands.Instance.CommandList((request.User)));
                 }
                 else if (connected)
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Este usuario ya se encuentra conectado.");
+                    info.ComunicationChannel.SendMessage(request.User, "Este usuario ya se encuentra conectado.");
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Credenciales incorrectas, vuelva a intentarlo.");
+                    info.ComunicationChannel.SendMessage(request.User, "Credenciales incorrectas, vuelva a intentarlo.");
                 }
 
-                data.ClearOperation();
+                info.ClearOperation();
             }
         }
     }

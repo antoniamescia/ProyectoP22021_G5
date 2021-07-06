@@ -10,26 +10,26 @@ namespace Library
 
         protected override void handleRequest(UserMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            UserInfo info = Session.Instance.GetChatInfo(request.User);
 
             if (request.MessageText != string.Empty)
             {
-                if (!data.User.ContainsItem(request.MessageText))
+                if (!info.User.ContainsItem(request.MessageText))
                 {
-                    data.User.ExpenseCategories.Add(request.MessageText);
-                    data.ComunicationChannel.SendMessage(request.User, "¡Nueva categoría de gasto agregada exitosamente! 🙌");
-                    data.ClearOperation();
+                    info.User.ExpenseCategories.Add(request.MessageText);
+                    info.ComunicationChannel.SendMessage(request.User, "¡Nueva categoría de gasto agregada exitosamente! 🙌");
+                    info.ClearOperation();
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Ya existe una categoría de gasto con este nombre. 🙃");
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese una nueva categoría de gasto:");
+                    info.ComunicationChannel.SendMessage(request.User, "Ya existe una categoría de gasto con este nombre. 🙃");
+                    info.ComunicationChannel.SendMessage(request.User, "Ingrese una nueva categoría de gasto:");
                 }
             }
             else
             {
-                data.ComunicationChannel.SendMessage(request.User, "¡Debes ingresar una categoría de gasto!");
-                data.ComunicationChannel.SendMessage(request.User, "Ingrese una nueva categoría de gasto:");
+                info.ComunicationChannel.SendMessage(request.User, "¡Debes ingresar una categoría de gasto!");
+                info.ComunicationChannel.SendMessage(request.User, "Ingrese una nueva categoría de gasto:");
             }
         }
     }
