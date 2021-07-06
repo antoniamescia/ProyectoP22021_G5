@@ -4,7 +4,7 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
-namespace Library
+namespace BankerBot
 {
     public class TelegramBot : IComunicationChannel
     {

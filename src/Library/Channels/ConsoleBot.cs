@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Library
+namespace BankerBot
 {
     public class ConsoleBot : IComunicationChannel
     {

@@ -1,4 +1,4 @@
-namespace Library
+namespace BankerBot
 {
     public class AddExpenseCategoryCondition : ICondition<UserMessage>
     {

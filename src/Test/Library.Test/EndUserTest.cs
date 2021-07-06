@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace Library.Test
+namespace BankerBot.Test
 {
     public class EndUserTest
     {

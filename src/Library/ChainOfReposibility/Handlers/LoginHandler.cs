@@ -1,6 +1,6 @@
 using System;
 
-namespace Library
+namespace BankerBot
 {
     // ESTE HANDLER VER QUÉ ONDA, A VER SI REALMENTE LO NECESITAMOS! 
     public class LoginHandler : AbstractHandler<UserMessage>

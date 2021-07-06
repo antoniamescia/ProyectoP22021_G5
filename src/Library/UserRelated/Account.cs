@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace BankerBot
 {
     public class Account
     {
@@ -12,9 +12,9 @@ namespace Library
         Cumple con el patrón Expert pues es el experto en la información requerida para realizar las responsabilidades otorgadas. 
         Cumple con el patrón Creator al crear las transacciones pues usa de forma directa dichas instancias al ser el encargado de realizar las transacciones.
         */
-    
 
-        private List<Transaction> transactionsRecord;
+
+        public List<Transaction> TransactionsRecord { get; private set; }
         private CurrencyExchanger currencyExchanger;
         public string Name { get; set; }
         public Currency CurrencyType { get; private set; }
@@ -24,7 +24,7 @@ namespace Library
 
         public Account(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
         {
-            this.transactionsRecord = new List<Transaction>();
+            this.TransactionsRecord = new List<Transaction>();
             this.currencyExchanger = CurrencyExchanger.Instance;
             this.Name = name;
             this.CurrencyType = currencyType;
@@ -34,13 +34,6 @@ namespace Library
 
         }
 
-        public IList<Transaction> TransactionsRecord
-        {
-            get
-            {
-                return transactionsRecord.AsReadOnly();
-            }
-        }
         /// <summary>
         /// Realiza una transacción ya sea de ingreso o egreso.
         /// </summary>
@@ -51,7 +44,7 @@ namespace Library
         public void Transfer(Currency currency, double amount, string description)
         {
             Transaction transaction = new Transaction(amount, description, currency, DateTime.Now);
-            this.transactionsRecord.Add(transaction);
+            this.TransactionsRecord.Add(transaction);
             this.Amount += this.currencyExchanger.Convert(amount, currency, this.CurrencyType);
         }
 

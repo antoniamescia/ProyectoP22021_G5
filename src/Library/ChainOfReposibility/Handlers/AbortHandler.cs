@@ -1,7 +1,7 @@
 using System;
 
 
-namespace Library
+namespace BankerBot
 {
     public class AbortHandler : AbstractHandler<UserMessage>
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace BankerBot
 {
     /// <summary>
     /// Este Handler se encarga de dar la bienvenida al usuario, ofreciéndole opciones de acciones a realizar. Además, informa las maneras de finalizar cualquier acción y cómo ver la lista de comandos disponibles.

@@ -1,6 +1,6 @@
 using System;
 
-namespace Library
+namespace BankerBot
 {
     /// <summary>
     /// Este Handler se encarga de llevar a cabo las transacciones, tanto ingresos como egresos. 

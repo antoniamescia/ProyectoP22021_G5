@@ -3,6 +3,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Telegram.Bot" Version="15.7.1"/>
+    <PackageReference Include="Telegram.Bot" Version="15.7.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PII_HTML_API\src\Library\PII_HTML_API.csproj" />
   </ItemGroup>
 </Project>

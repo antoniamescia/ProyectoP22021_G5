@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Library
+namespace BankerBot
 {
     //Esta cumple con el patrón Expert ya que es la que posee toda la información sobre Currency.
     //Además también cumple con el patrón SRP por tener una unica razón de cambio.

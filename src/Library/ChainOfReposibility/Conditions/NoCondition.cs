@@ -13,7 +13,7 @@
 //     }
 // }
 
-namespace Library
+namespace BankerBot
 {
     public class NoCondition : ICondition<UserMessage>
     {

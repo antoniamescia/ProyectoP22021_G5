@@ -1,8 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
-using Library;
 
-namespace Library.Test
+namespace BankerBot.Test
 {
     public class CurrencyTests
     {

@@ -1,4 +1,4 @@
-namespace Library
+namespace BankerBot
 {
     public interface ICondition<UserMessage>
     {

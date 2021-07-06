@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace BankerBot
 {
     /// <summary>
     /// Tipo enumerado. Conjunto de constantes de valores fijos que determinan el estado actual de la conversación.
