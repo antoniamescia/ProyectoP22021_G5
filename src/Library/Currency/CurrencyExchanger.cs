@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace BankerBot
@@ -19,7 +20,10 @@ namespace BankerBot
         {
             get
             {
-                if (instance == null) instance = new CurrencyExchanger();
+                if (instance == null) 
+                {
+                    instance = new CurrencyExchanger();
+                }
                 return instance;
             }
         }
@@ -47,7 +51,7 @@ namespace BankerBot
         /// <param name="rate"></param>
         public void AddCurrency(string type, double rate)
         {
-            if (!ExistsCurrency(type))
+            if (ExistsCurrency(type) == false)
             {
                 Currency newCurrency = new Currency(type, rate);
                 currencyList.Add(newCurrency);
@@ -102,6 +106,17 @@ namespace BankerBot
                 if (currency.Type == type) return true;
             }
             return false;
+        }
+
+        // agregué esto para poder utilizarlo en los handlers
+        public string ShowCurrencyList()
+        {
+            StringBuilder currencies = new StringBuilder();
+            foreach (Currency currency in CurrencyExchanger.Instance.CurrencyList)
+            {
+                currencies.Append($"{CurrencyExchanger.Instance.CurrencyList.IndexOf(currency) + 1} - {currency.Type}\n");
+            }
+            return currencies.ToString();
         }
 
 

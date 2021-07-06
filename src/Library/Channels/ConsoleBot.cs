@@ -20,9 +20,13 @@ namespace BankerBot
         {
 
         }
-        public void SendMessage(UserMessage message)
+        public void SendMessage(string user, string message)
         {
 
+        }
+        public void SendFile(string user, string path)
+        {
+            
         }
 
     }

@@ -15,6 +15,7 @@ namespace BankerBot
 
 
         public List<Transaction> TransactionsRecord { get; private set; }
+        private CurrencyExchanger currencyExchanger;
         public string Name { get; set; }
         public Currency CurrencyType { get; private set; }
         public double Amount { get; private set; }
@@ -24,11 +25,13 @@ namespace BankerBot
         public Account(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
         {
             this.TransactionsRecord = new List<Transaction>();
+            this.currencyExchanger = CurrencyExchanger.Instance;
             this.Name = name;
             this.CurrencyType = currencyType;
             this.Amount = amount;
             this.MaxGoal = maxGoal;
             this.MinGoal = minGoal;
+
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace BankerBot
         {
             Transaction transaction = new Transaction(amount, description, currency, DateTime.Now);
             this.TransactionsRecord.Add(transaction);
-            this.Amount += amount;
+            this.Amount += this.currencyExchanger.Convert(amount, currency, this.CurrencyType);
         }
 
         /// <summary>
@@ -52,10 +55,9 @@ namespace BankerBot
         /// <returns></returns>
         public void ChangeCurrencyType(Currency newCurrencyType)
         {
-            CurrencyExchanger currencyExchanger = CurrencyExchanger.Instance;
             if (currencyExchanger.ExistsCurrency(newCurrencyType.Type))
             {
-                this.Amount = currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
+                this.Amount = this.currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
                 this.CurrencyType = newCurrencyType;
             }
         }

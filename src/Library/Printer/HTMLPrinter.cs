@@ -4,7 +4,7 @@ using PII_HTML_API;
 
 namespace BankerBot
 {
-    public class SpreadsheetPrinter : IPrinter
+    public class HTMLPrinter : IPrinter
     {
         /*
         Patrones y principios:
@@ -15,7 +15,7 @@ namespace BankerBot
         Cumple con Polymorphism porque usa los métodos polimórficos PrintAccountBalance, PrintTransactions y PrintSavingsGoal.
         */
 
-        public SpreadsheetPrinter()
+        public HTMLPrinter()
         {
         }
 

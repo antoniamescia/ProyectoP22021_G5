@@ -30,7 +30,7 @@ namespace BankerBot
             itauPesos.Transfer(pesosUruguayos, 10, "De mi amigo");
 
 
-            IPrinter ver = new SpreadsheetPrinter();
+            IPrinter ver = new HTMLPrinter();
             ver.Print(itauPesos.TransactionsRecord, "PruebaHtml");
 
             //Obtengo una instancia de TelegramBot
