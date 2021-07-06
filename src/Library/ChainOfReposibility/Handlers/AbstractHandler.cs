@@ -1,11 +1,5 @@
 namespace Library
 {
-    /*Cumple con ## SRP ## 
-    Cumple con ## EXPERT ##*/
-    /// <summary>
-    /// Handler abstracto.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public abstract class AbstractHandler<T>
     {
         protected abstract void handleRequest(UserMessage request);
@@ -17,7 +11,7 @@ namespace Library
         }
         public virtual void Handler(UserMessage request)
         {
-            if (this.condition.IsSatisfied(request))
+            if (this.condition.ConditionIsMet(request))
             {
                 this.handleRequest(request);
                 return;
