@@ -164,5 +164,19 @@ namespace Library
                 }
             }
         }
+
+        //AGREGAR DOCUMENTACIÓN
+        public bool ContainsItem(string newExpenseCategory)
+        {
+            string exists = string.Empty;
+            foreach (string item in ExpenseCategories)
+            {
+                if (item.ToLower() == newExpenseCategory.ToLower())
+                {
+                    exists = item;
+                }
+            }
+            return exists == newExpenseCategory;
+        }
     }
 }

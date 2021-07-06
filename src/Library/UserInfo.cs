@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace Library
 {
-    public enum State
+    /// <summary>
+    /// Tipo enumerado. Conjunto de constantes de valores fijos que determinan el estado actual de la conversación.
+    /// 
+    /// </summary>
+    public enum ConversationState
     {
-        Init,
-        Dispatcher,
-        HandlingCommand
+        Start,
+        Messenger,
+        HandlingRequest
     }
 
     /// <summary>
@@ -15,32 +19,30 @@ namespace Library
     /// </summary>
     public class UserInfo
     {
-        public State State { get; set; }
+        public ConversationState ConversationState { get; set; }
         public string Command { get; set; }
         public EndUser User { get; set; }   
-
-        // agregué esto para poder utilizarlo en los handlers
-        public Dictionary<string, object> Temp { get; set; }
+        public Dictionary<string, object> ProvisionalInfo { get; set; }
         public IComunicationChannel ComunicationChannel { get; set; }
         
         public UserInfo()
         {
-            this.State = State.Init;
+            this.ConversationState = ConversationState.Start;
             this.Command = string.Empty;
             this.User = null;
-            this.Temp = new Dictionary<string, object>();
+            this.ProvisionalInfo = new Dictionary<string, object>();
             this.ComunicationChannel = null;
         }
 
         public void ClearOperation()
         {
-            this.State = State.Dispatcher;
-            this.Temp.Clear();
+            this.ConversationState = ConversationState.Messenger;
+            this.ProvisionalInfo.Clear();
             this.Command = string.Empty;
         }
         public T GetDictionaryValue<T>(string key)
         {
-            return (T)Temp[key];
+            return (T)ProvisionalInfo[key];
         }
     }
 }

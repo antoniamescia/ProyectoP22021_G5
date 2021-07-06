@@ -2,35 +2,28 @@ using System;
 
 namespace Library
 {
+    // ESTE HANDLER VER QUÉ ONDA, A VER SI REALMENTE LO NECESITAMOS! 
     public class LoginHandler : AbstractHandler<UserMessage>
     {
-        /*Cumple con ## SRP ## 
-        Cumple con ## EXPERT ##*/
-
-        /// <summary>
-        /// Handler para loguearte con un usuario existente.
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <returns></returns>
         public LoginHandler(LoginCondition condition) : base(condition)
         {
         }
 
         protected override void handleRequest(UserMessage request)
         {
-            var data = Session.Instance.GetChatInfo(request.User);
+            UserInfo data = Session.Instance.GetChatInfo(request.User);
 
-            if (!data.Temp.ContainsKey("username"))
+            if (!data.ProvisionalInfo.ContainsKey("username"))
             {
-                data.Temp.Add("username", request.MessageText);
+                data.ProvisionalInfo.Add("username", request.MessageText);
                 data.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
             }
-            else if (!data.Temp.ContainsKey("password"))
+            else if (!data.ProvisionalInfo.ContainsKey("password"))
             {
-                data.Temp.Add("password", request.MessageText);
+                data.ProvisionalInfo.Add("password", request.MessageText);
             }
 
-            if (data.Temp.ContainsKey("username") && data.Temp.ContainsKey("password"))
+            if (data.ProvisionalInfo.ContainsKey("username") && data.ProvisionalInfo.ContainsKey("password"))
             {
                 string username = data.GetDictionaryValue<string>("username");
                 string password = data.GetDictionaryValue<string>("password");
