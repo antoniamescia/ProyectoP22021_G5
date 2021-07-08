@@ -1,19 +1,24 @@
 using System;
 using System.Collections.Generic;
 
-namespace Library
+namespace Bankbot
 {
-    public class DefaultHandler : AbstractHandler<UserMessage>
+    /*Cumple con ## SRP ## 
+    Cumple con ## EXPERT ##*/
+    /// <summary>
+    /// Handler por defecto en caso que no se den las otras posibilidades.
+    /// </summary>
+    public class DefaultHandler : AbstractHandler<IMessage>
     {
         public DefaultHandler(DefaultCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
-            data.ComunicationChannel.SendMessage(request.User, "No te entendi, vuelve a intentarlo.");
-            data.ConversationState = ConversationState.Messenger;
+            Data data = Session.Instance.GetChat(request.Id);
+            data.Channel.SendMessage(request.Id, "¡Lo siento! No te entendí. 🙃");
+            data.State = State.Messenger;
         }
     }
 }

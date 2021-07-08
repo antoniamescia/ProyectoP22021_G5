@@ -1,57 +1,58 @@
-using System;
+// using System;
 
-namespace Library
-{
-    public class AddCurrencyHandler : AbstractHandler<UserMessage>
-    {
-        public AddCurrencyHandler(AddCurrencyCondition condition) : base(condition)
-        {
-        }
+// namespace Bankbot
+// {
+//     public class AddCurrencyHandler : AbstractHandler<IMessage>
+//     {
+//         public AddCurrencyHandler(AddCurrencyCondition condition) : base(condition)
+//         {
+//         }
 
-        protected override void handleRequest(UserMessage request)
-        {
-            var info = Session.Instance.GetChatInfo(request.User);
+//         protected override void handleRequest(IMessage request)
+//         {
+//             Data data = Session.Instance.GetChat(request.Id);
 
-            if (!info.ProvisionalInfo.ContainsKey("")) //REVISAR
-            {
-                info.ProvisionalInfo.Add("", request.MessageText); //REVISAR
-                info.ComunicationChannel.SendMessage(request.User, "Ingresa el símbolo de la nueva moneda 💲: ");
-            }
-            else if (!info.ProvisionalInfo.ContainsKey("symbol")) //REVISAR
-            {
-                info.ProvisionalInfo.Add("symbol", request.MessageText); //REVISAR
-                info.ComunicationChannel.SendMessage(request.User, "Ingresa la taza de cambio basada en pesos uruguayos (UYU) 🇺🇾:");
-            }
-            else if (!info.ProvisionalInfo.ContainsKey("rate"))
-            {
-                double rate;
-                if (double.TryParse(request.MessageText, out rate) && rate > 0)
-                {
-                    info.ProvisionalInfo.Add("rate", rate);
-                }
-                else
-                {
-                    info.ComunicationChannel.SendMessage(request.User, "Ingresa un valor mayor a cero. ⚠️");
-                    info.ComunicationChannel.SendMessage(request.User, "Ingresa la taza de cambio basada en pesos uruguayos (UYU) 🇺🇾:");
-                }
-            }
+//             if (!data.Temp.ContainsKey("code"))
+//             {
+//                 data.Temp.Add("code", request.Text);
+//                 data.Channel.SendMessage(request.Id, "Ingresa el símbolo de la nueva moneda: 💲");
+//             }
+//             else if (!data.Temp.ContainsKey("symbol"))
+//             {
+//                 data.Temp.Add("symbol", request.Text);
+//                 data.Channel.SendMessage(request.Id, "Ingrese la taza de cambio basada en pesos uruguayos: 🇺🇾");
+//             }
+//             else if (!data.Temp.ContainsKey("rate"))
+//             {
+//                 double rate;
+//                 if (double.TryParse(request.Text, out rate) && rate > 0)
+//                 {
+//                     data.Temp.Add("rate", rate);
+//                 }
+//                 else
+//                 {
+//                     data.Channel.SendMessage(request.Id, "¡Atención! Ingrese un número mayor que 0.");
+//                     data.Channel.SendMessage(request.Id, "Ingrese la taza de cambio basada en pesos uruguayos: 🇺🇾");
+//                 }
+//             }
 
-            if (info.ProvisionalInfo.ContainsKey("iso") && info.ProvisionalInfo.ContainsKey("symbol") && info.ProvisionalInfo.ContainsKey("rate"))
-            {
-                var symbol = info.GetDictionaryValue<string>("symbol");
-                var rate = info.GetDictionaryValue<double>("rate");
+//             if (data.Temp.ContainsKey("iso") && data.Temp.ContainsKey("symbol") && data.Temp.ContainsKey("rate"))
+//             {
+//                 var iso = data.GetDictionaryValue<string>("iso");
+//                 var symbol = data.GetDictionaryValue<string>("symbol");
+//                 var rate = data.GetDictionaryValue<double>("rate");
 
-                if (!CurrencyExchanger.Instance.ExistsCurrency(symbol)) //REVISAR!
-                {
-                    CurrencyExchanger.Instance.AddCurrency(symbol, rate);
-                    info.ComunicationChannel.SendMessage(request.User, "¡Moneda agregada con éxito! 🙌");
-                }
-                else
-                {
-                    info.ComunicationChannel.SendMessage(request.User, "Esta moneda ya existe, pero puedes crear una nueva con el comando /agregarmoneda. 😉");
-                }
-                info.ClearOperation();
-            }
-        }
-    }
-}
+//                 if (!CurrencyExchanger.Instance.CurrencyExists(symbol))
+//                 {
+//                     CurrencyExchanger.Instance.AddCurrency(iso, symbol, rate);
+//                     data.Channel.SendMessage(request.Id, "¡Moneda agregada con éxito! 🙌");
+//                 }
+//                 else
+//                 {
+//                     data.Channel.SendMessage(request.Id, "¡Esta moneda ya existe! Puedes crear una nueva con el comando /AgregarMoneda.");
+//                 }
+//                 data.ClearOperation();
+//             }
+//         }
+//     }
+// }

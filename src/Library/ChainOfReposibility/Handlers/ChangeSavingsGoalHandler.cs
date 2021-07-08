@@ -1,70 +1,70 @@
 using System;
 
-namespace Library
+namespace Bankbot
 {
-    public class ChangeSavingsGoalHandler : AbstractHandler<UserMessage>
+    public class ChangeAccountObjectiveHandler : AbstractHandler<IMessage>
     {
-        public ChangeSavingsGoalHandler(ChangeSavingsGoalCondition condition) : base(condition)
+        public ChangeAccountObjectiveHandler(ChangeAccountObjectiveCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.Id);
 
-            if (!info.ProvisionalInfo.ContainsKey("account"))
+            if (!data.Temp.ContainsKey("account"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= info.User.Accounts.Count)
+                if (Int32.TryParse(request.Text, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
-                    info.ProvisionalInfo.Add("account", info.User.Accounts[index - 1]);
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro máximo: 💰");
+                    data.Temp.Add("account", data.User.Accounts[index - 1]);
+                    data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro máximo:");
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    info.ComunicationChannel.SendMessage(request.User, "¿De qué cuenta deseas cambiar el objetivo?:\n" + info.User.DisplayAccounts());
+                    data.Channel.SendMessage(request.Id, "¿Puedes seleccionar el número correspondiente? 😊");
+                    data.Channel.SendMessage(request.Id, "¿De qué cuenta deseas cambiar el objetivo de ahorro?:\n" + data.User.ShowAccountList());
                 }
                 return;
             }
-            else if (!info.ProvisionalInfo.ContainsKey("maxSavingsGoal")) 
+            else if (!data.Temp.ContainsKey("maxObjective"))
             {
                 double amount;
-                if (double.TryParse(request.MessageText, out amount) && amount > 1)
+                if (double.TryParse(request.Text, out amount) && amount > 1)
                 {
-                    info.ProvisionalInfo.Add("maxSavingsGoal", amount);
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro mínimo: 💰");
+                    data.Temp.Add("maxObjective", amount);
+                    data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro mínimo:");
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro máximo: 💰");
+                    data.Channel.SendMessage(request.Id, "¡El valor debe ser mayor a 0!");
+                    data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro máximo:");
                 }
             }
-            else if (!info.ProvisionalInfo.ContainsKey("minSavingsGoal"))
+            else if (!data.Temp.ContainsKey("minObjective"))
             {
                 double amount;
-                if (double.TryParse(request.MessageText, out amount) && amount > 0 && amount < info.GetDictionaryValue<double>("maxSavingsGoal"))
+                if (double.TryParse(request.Text, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("maxObjective"))
                 {
-                    info.ProvisionalInfo.Add("minSavingsGoal", amount);
+                    data.Temp.Add("minObjective", amount);
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "//"); //REVISAR!
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un nuevo objetivo de ahorro mínimo: 💰");
+                    data.Channel.SendMessage(request.Id, "¡El valor debe ser mayor a 0!");
+                    data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro mínimo:");
                 }
             }
 
-            if (info.ProvisionalInfo.ContainsKey("maxSavingsGoal") && info.ProvisionalInfo.ContainsKey("minSavingsGoal"))
+            if (data.Temp.ContainsKey("maxObjective") && data.Temp.ContainsKey("minObjective"))
             {
-                var account = info.GetDictionaryValue<Account>("account");
-                var maxSavingsGoal = info.GetDictionaryValue<double>("maxSavingsGoal");
-                var minSavingsGoal = info.GetDictionaryValue<double>("minSavingsGoal");
+                var account = data.GetDictionaryValue<Account>("account");
+                var maxObjective = data.GetDictionaryValue<double>("maxObjective");
+                var minObjective = data.GetDictionaryValue<double>("minObjective");
 
-                //account.ChangeMaxGoal(maxSavingsGoal, minSavingsGoal);
-                info.ComunicationChannel.SendMessage(request.User, "¡Objetivos actualizados con éxito!");
+                account.ChangeObjective(maxObjective, minObjective);
+                data.Channel.SendMessage(request.Id, "¡Objetivos cambiados con éxito!");
 
-                info.ClearOperation();
+                data.ClearOperation();
             }
         }
     }

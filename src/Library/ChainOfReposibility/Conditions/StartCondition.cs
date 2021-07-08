@@ -1,16 +1,15 @@
 namespace Bankbot
 {
     /*Cumple con EXPERT y SRP*/
-
     /// <summary>
-    /// Condición para loguearse.
+    /// Condición inicial.
     /// </summary>
-    public class LoginCondition : ICondition<IMessage>
+    public class StartConversationCondition : ICondition<IMessage>
     {
         public bool IsSatisfied(IMessage request)
         {
             var data = Session.Instance.GetChat(request.Id);
-            return data.State == State.HandlingRequest && data.Command.ToLower() == "/iniciarsesion";
+            return data.State == State.Start;
         }
     }
 }

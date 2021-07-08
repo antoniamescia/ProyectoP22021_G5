@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Library
+namespace Bankbot
 {
     public class MinSavingsGoalReachedAlert : IAlert
     {
@@ -22,9 +22,9 @@ namespace Library
 
         public string SendAlert(Account account)
         {
-           if (account.Amount <= account.MinGoal.ObjectiveAmount)
+           if (account.Balance <= account.SavingsGoal.Min)
             {
-            //double ammountLeft = account.Balance - account.MinGoal.ObjectiveAmount;
+            //double ammountLeft = account.Balance - account.SavingsGoal.Min;
              string alert = $"Has pasado tu objetivo mínimo de ahorro. 😮";  
              return alert; 
             }

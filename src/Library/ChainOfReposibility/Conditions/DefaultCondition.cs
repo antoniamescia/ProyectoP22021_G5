@@ -1,8 +1,12 @@
-namespace Library
+namespace Bankbot
 {
-    public class DefaultCondition : ICondition<UserMessage>
+    /*Cumple con EXPERT y SRP*/
+    /// <summary>
+    /// Condición por defecto.
+    /// </summary>
+    public class DefaultCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool IsSatisfied(IMessage request)
         {
             return true;
         }

@@ -1,54 +1,60 @@
 using System;
 
-namespace Library
+namespace Bankbot
 {
-    public class CreateUserHandler : AbstractHandler<UserMessage>
+    /*Cumple con ## SRP ## 
+    Cumple con ## EXPERT ##*/
+
+    /// <summary>
+    /// Handler para crearel usuario.
+    /// </summary>
+    public class CreateUserHandler : AbstractHandler<IMessage>
     {
         public CreateUserHandler(CreateUserCondition condition) : base(condition)
         {
         }
 
-    protected override void handleRequest(UserMessage request)
+    protected override void handleRequest(IMessage request)
     {
-        UserInfo info = Session.Instance.GetChatInfo(request.User);
+        Data data = Session.Instance.GetChat(request.Id);
 
 
-        if (!info.ProvisionalInfo.ContainsKey("username"))
+        if (!data.Temp.ContainsKey("username"))
         {
-            if (Session.Instance.UsernameExists(request.MessageText))
+            if (Session.Instance.UsernameExists(request.Text))
             {
-                info.ComunicationChannel.SendMessage(request.User, "Ya existe un usuario con este nombre 😟.\n Ingrese un nombre de usuario diferente:");
+                data.Channel.SendMessage(request.Id, "Ya existe un usuario con este nombre 😟.\nVuelva a ingresar un nombre de usuario:");
             }
             else
             {
-                info.ProvisionalInfo.Add("username", request.MessageText);
-                info.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
+                data.Temp.Add("username", request.Text);
+                data.Channel.SendMessage(request.Id, "Ingrese una contraseña:");
             }
         }
-        else if (!info.ProvisionalInfo.ContainsKey("password"))
+        else if (!data.Temp.ContainsKey("password"))
         {
-            info.ProvisionalInfo.Add("password", request.MessageText);
+            data.Temp.Add("password", request.Text);
         }
 
-        if (info.ProvisionalInfo.ContainsKey("username") && info.ProvisionalInfo.ContainsKey("password"))
+        if (data.Temp.ContainsKey("username") && data.Temp.ContainsKey("password"))
         {
-            string username = info.GetDictionaryValue<string>("username");
-            string password = info.GetDictionaryValue<string>("password");
+            string username = data.GetDictionaryValue<string>("username");
+            string password = data.GetDictionaryValue<string>("password");
 
             Session.Instance.AddUser(username, password);
-            EndUser user = Session.Instance.GetEndUser(username, password);
+            User user = Session.Instance.GetUser(username, password);
 
             if (user != null)
             {
-                info.ComunicationChannel.SendMessage(request.User, "¡Usuario creado exitosamente! 🥳");
-                info.ComunicationChannel.SendMessage(request.User, "¿Cómo quiere proceder?:\n" + Commands.Instance.CommandList(request.User));
+                data.Channel.SendMessage(request.Id, "¡Usuario creado con éxito! 🙌");
+                data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?\n" + Commands.Instance.CommandList(request.Id));
             }
-           
+            // Exception 
             else
             {
-                info.ComunicationChannel.SendMessage(request.User, "Ha ocurrido un error. 😔");
+                data.Channel.SendMessage(request.Id, "Lo sentimos, ha ocurrido un error. 🥲");
             }
-            info.ClearOperation();
+            data.ClearOperation();
         }
     }
 }

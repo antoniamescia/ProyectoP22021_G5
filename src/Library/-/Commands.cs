@@ -1,56 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Library
+namespace Bankbot
 {
     public class Commands
     {
         public List<string> CommandsList { get; set; }
         private static Commands instance;
+
         public static Commands Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new Commands();
-
-                }
+                if (instance == null) instance = new Commands();
                 return instance;
             }
         }
         private Commands()
         {
-            this.CommandsList = new List<string>() 
+            this.CommandsList = new List<string>()
             {
                 "/comandos",
                 "/iniciarsesion",
                 "/cerrarsesion",
-                //"/borrarusuario",
                 "/crearusuario",
                 "/crearcuenta",
-                "/borrarcuenta",
                 "/transaccion",
                 "/convertir",
-                "/agregarmoneda",
-                "/balance",
+                "/mostrarbalance",
                 "/agregarcategoriadegasto",
                 "/cambiarobjetivodeahorro",
                 "/salir"
             };
-            
         }
-
-
         public string CommandList(string id)
         {
-            var data = Session.Instance.GetChatInfo(id);
+            var data = Session.Instance.GetChat(id);
 
             string commandList = string.Empty;
 
             if (data.User == null)
             {
-                foreach (string command in UnloggedCommands())
+                foreach (string command in UnlogedCommandsList())
                 {
                     commandList += command + "\n";
                 }
@@ -58,55 +50,51 @@ namespace Library
             }
             else if (data.User.Accounts.Count == 0)
             {
-                foreach (string command in NoAccountsCommands())
+                foreach (string command in HasNoAccountsCommandsList())
                 {
                     commandList += command + "\n";
                 }
                 return commandList;
             }
 
-            foreach (string command in HasAccountCommands())
+            foreach (string command in HasAccountCommandsList())
             {
                 commandList += command + "\n";
             }
 
             return commandList;
         }
-        private static List<string> UnloggedCommands()
+        private static List<string> UnlogedCommandsList()
         {
-            List<string> unlogged = new List<string>();
-            unlogged.Add("/IniciarSesion");
-            unlogged.Add("/CrearUsuario");
-            return unlogged;
+            List<string> unlogedList = new List<string>();
+            unlogedList.Add("/IniciarSesion");
+            unlogedList.Add("/CrearUsuario");
+            return unlogedList;
         }
-        private static List<string> NoAccountsCommands()
+        private static List<string> HasNoAccountsCommandsList()
         {
-            List<string> noAccounts = new List<string>();
-            noAccounts.Add("/CerrarSesion");
-            // noAccounts.Add("/DeleteUser");
-            noAccounts.Add("/CrearCuenta");
-            noAccounts.Add("/Convertir");
-            noAccounts.Add("/CrearUsuario");
-            return noAccounts;
+            List<string> hasNoAccountsList = new List<string>();
+            hasNoAccountsList.Add("/CerrarSesion");
+            hasNoAccountsList.Add("/CrearCuenta");
+            hasNoAccountsList.Add("/Convertir");
+            hasNoAccountsList.Add("/CrearUsuario");
+            return hasNoAccountsList;
         }
-        private static List<string> HasAccountCommands()
+        private static List<string> HasAccountCommandsList()
         {
             List<string> hasAccountsList = new List<string>();
-            hasAccountsList.Add("/CerrarSesion");
-            // hasAccountsList.Add("/DeleteUser");
+            hasAccountsList.Add("/CerrasSesion");
             hasAccountsList.Add("/CrearCuenta");
             hasAccountsList.Add("/Convertir");
             hasAccountsList.Add("/CrearUsuario");
-            hasAccountsList.Add("/BorrarCuenta");
             hasAccountsList.Add("/MostrarBalance");
             hasAccountsList.Add("/Transaccion");
             hasAccountsList.Add("/AgregarCategoriaDeGasto");
-            hasAccountsList.Add("/CambiarObjetivoDeAhorro");
-            hasAccountsList.Add("/AgregarMoneda");
+            hasAccountsList.Add("/CambiarObjetivo");
             return hasAccountsList;
         }
 
-        public bool CommandExists(string command)
+        public bool CommandExist(string command)
         {
             return instance.CommandsList.Contains(command.ToLower());
         }

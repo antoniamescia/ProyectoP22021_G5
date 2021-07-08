@@ -1,57 +1,64 @@
 using System;
 
-namespace Library
+namespace Bankbot
 {
-    // ESTE HANDLER VER QUÉ ONDA, A VER SI REALMENTE LO NECESITAMOS! 
-    public class LoginHandler : AbstractHandler<UserMessage>
+    public class LoginHandler : AbstractHandler<IMessage>
     {
+        /*Cumple con ## SRP ## 
+        Cumple con ## EXPERT ##*/
+
+        /// <summary>
+        /// Handler para loguearte con un usuario existente.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public LoginHandler(LoginCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.Id);
 
-            if (!info.ProvisionalInfo.ContainsKey("username"))
+            if (!data.Temp.ContainsKey("username"))
             {
-                info.ProvisionalInfo.Add("username", request.MessageText);
-                info.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
+                data.Temp.Add("username", request.Text);
+                data.Channel.SendMessage(request.Id, "Ingrese una contraseña:");
             }
-            else if (!info.ProvisionalInfo.ContainsKey("password"))
+            else if (!data.Temp.ContainsKey("password"))
             {
-                info.ProvisionalInfo.Add("password", request.MessageText);
+                data.Temp.Add("password", request.Text);
             }
 
-            if (info.ProvisionalInfo.ContainsKey("username") && info.ProvisionalInfo.ContainsKey("password"))
+            if (data.Temp.ContainsKey("username") && data.Temp.ContainsKey("password"))
             {
-                string username = info.GetDictionaryValue<string>("username");
-                string password = info.GetDictionaryValue<string>("password");
-                var user = Session.Instance.GetEndUser(username, password);
+                string username = data.GetDictionaryValue<string>("username");
+                string password = data.GetDictionaryValue<string>("password");
+                var user = Session.Instance.GetUser(username, password);
 
                 bool connected = false;
 
-                foreach (var item in Session.Instance.UserInfoMap)
+                foreach (var item in Session.Instance.DataMap)
                 {
                     if (item.Value.User != null && item.Value.User == user) connected = true;
                 }
 
                 if (!connected && user != null)
                 {
-                    info.User = user;
-                    info.ComunicationChannel.SendMessage(request.User, "Se ha conectado correctamente.");
-                    info.ComunicationChannel.SendMessage(request.User, "Para continuar puedes ingresar los siguientes comandos:\n" + Commands.Instance.CommandList((request.User)));
+                    data.User = user;
+                    data.Channel.SendMessage(request.Id, "Se ha conectado correctamente.");
+                    data.Channel.SendMessage(request.Id, "Para continuar puedes ingresar los siguientes comandos:\n" + Commands.Instance.CommandList((request.Id)));
                 }
                 else if (connected)
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "Este usuario ya se encuentra conectado.");
+                    data.Channel.SendMessage(request.Id, "Este usuario ya se encuentra conectado.");
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "Credenciales incorrectas, vuelva a intentarlo.");
+                    data.Channel.SendMessage(request.Id, "Credenciales incorrectas, vuelva a intentarlo.");
                 }
 
-                info.ClearOperation();
+                data.ClearOperation();
             }
         }
     }

@@ -1,78 +1,83 @@
 using System;
 
-namespace Library
+namespace Bankbot
 {
+    /*Cumple con ## SRP ## 
+    Cumple con ## EXPERT ##*/
 
-    public class ConvertionHandler : AbstractHandler<UserMessage>
+    /// <summary>
+    /// Handler para convertir un tipo de moneda.
+    /// </summary>
+    public class ConvertionHandler : AbstractHandler<IMessage>
     {
         public ConvertionHandler(ConvertionCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.Id);
 
-            if (!info.ProvisionalInfo.ContainsKey("from"))
+            if (!data.Temp.ContainsKey("from"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
+                if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    info.ProvisionalInfo.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                    info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙 \n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Temp.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                    data.Channel.SendMessage(request.Id, "¿A qué moneda deseas convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "//");
-                    info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Channel.SendMessage(request.Id, "Selecciona el índice, por favor.");
+                    data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!info.ProvisionalInfo.ContainsKey("to"))
+            else if (!data.Temp.ContainsKey("to"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
+                if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    if (CurrencyExchanger.Instance.CurrencyList[index - 1] != info.GetDictionaryValue<Currency>("from"))
+                    if (CurrencyExchanger.Instance.CurrencyList[index - 1] != data.GetDictionaryValue<Currency>("from"))
                     {
-                        info.ProvisionalInfo.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                        info.ComunicationChannel.SendMessage(request.User, "Monto a convertir:");
+                        data.Temp.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                        data.Channel.SendMessage(request.Id, "Ingresa el monto que deseas convertir:");
                     }
                     else
                     {
-                        info.ComunicationChannel.SendMessage(request.User, "Selecciona una moneda diferente, por favor.");
-                        info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                        data.Channel.SendMessage(request.Id, "Selecciona una moneda diferente, por favor");
+                        data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                     }
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "//");
-                    info.ComunicationChannel.SendMessage(request.User, "¿A qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Channel.SendMessage(request.Id, "Selecciona el índice, por favor.");
+                    data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir?\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!info.ProvisionalInfo.ContainsKey("amount"))
+            else if (!data.Temp.ContainsKey("amount"))
             {
                 double amount;
-                if (double.TryParse(request.MessageText, out amount) && amount > 0)
+                if (double.TryParse(request.Text, out amount) && amount > 0)
                 {
-                    info.ProvisionalInfo.Add("amount", amount);
+                    data.Temp.Add("amount", amount);
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un valor mayor a 0. ⚠️");
-                    info.ComunicationChannel.SendMessage(request.User, "Monto a convertir:");
+                    data.Channel.SendMessage(request.Id, "¡Ingresa un valor mayor a 0!");
+                    data.Channel.SendMessage(request.Id, "Ingresa el monto que desea convertir:");
                 }
             }
 
-            if (info.ProvisionalInfo.ContainsKey("from") && info.ProvisionalInfo.ContainsKey("to") && info.ProvisionalInfo.ContainsKey("amount"))
+            if (data.Temp.ContainsKey("from") && data.Temp.ContainsKey("to") && data.Temp.ContainsKey("amount"))
             {
-                var amount = info.GetDictionaryValue<double>("amount");
-                var from = info.GetDictionaryValue<Currency>("from");
-                var to = info.GetDictionaryValue<Currency>("to");
+                var amount = data.GetDictionaryValue<double>("amount");
+                var from = data.GetDictionaryValue<Currency>("from");
+                var to = data.GetDictionaryValue<Currency>("to");
 
                 var newAmount = CurrencyExchanger.Instance.Convert(amount, from, to);
-                info.ComunicationChannel.SendMessage(request.User, $"{from.Type} {amount} equivalen a {to.Type} {newAmount}");
+                data.Channel.SendMessage(request.Id, $"¡Conversión exitosa! 🙌 {from.Code} {amount} equivalen a {to.Code} {newAmount}");
 
-                info.ClearOperation();
+                data.ClearOperation();
             }
         }
     }

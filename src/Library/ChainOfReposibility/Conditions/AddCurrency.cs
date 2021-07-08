@@ -1,11 +1,11 @@
-namespace Library
+namespace Bankbot
 {
-    public class AddCurrencyCondition : ICondition<UserMessage>
+    public class AddCurrencyCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool IsSatisfied(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
-            return info.ConversationState == ConversationState.HandlingRequest && info.Command.ToLower() == "/agregarmoneda";
+            var data = Session.Instance.GetChat(request.Id);
+            return data.State == State.HandlingRequest && data.Command.ToLower() == "/agregarmoneda";
         }
     }
 }

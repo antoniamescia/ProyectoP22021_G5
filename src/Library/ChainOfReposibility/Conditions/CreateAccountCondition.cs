@@ -1,11 +1,15 @@
-namespace Library
+namespace Bankbot
 {
-    public class CreateAccountCondition : ICondition<UserMessage>
+    /*Cumple con EXPERT y SRP*/
+    /// <summary>
+    /// Da la posibilidad al usuario de crear una cuenta con divisa a elección.
+    /// </summary>
+    public class CreateAccountCondition : Bankbot.ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool IsSatisfied(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
-            return info.ConversationState == ConversationState.HandlingRequest && info.Command.ToLower() == "/crearcuenta";
+            var data = Session.Instance.GetChat(request.Id);
+            return data.State == State.HandlingRequest && data.Command.ToLower() == "/crearcuenta";
         }
     }
 }

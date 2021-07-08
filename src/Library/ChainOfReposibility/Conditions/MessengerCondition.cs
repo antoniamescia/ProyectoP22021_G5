@@ -1,12 +1,12 @@
-namespace Library
+namespace Bankbot
 {
-    public class MessengerCondition : ICondition<UserMessage>
+    /*Cumple con EXPERT y SRP*/
+    public class MessengerCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool IsSatisfied(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
-            return info.ConversationState == ConversationState.Messenger && Commands.Instance.CommandExists(request.MessageText);
+            var data = Session.Instance.GetChat(request.Id);
+            return data.State == State.Messenger && Commands.Instance.CommandExist(request.Text);
         }
-
     }
 }

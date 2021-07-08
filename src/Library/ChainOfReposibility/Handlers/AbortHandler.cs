@@ -1,26 +1,26 @@
 using System;
 
 
-namespace Library
+namespace Bankbot
 {
-    public class AbortHandler : AbstractHandler<UserMessage>
+    /*Cumple con ## SRP ## 
+    Cumple con ## EXPERT ##*/
+    /// <summary>
+    /// Handler para cancelar una opción o salir.
+    /// </summary>
+    public class AbortHandler : AbstractHandler<IMessage>
     {
         public AbortHandler(AbortCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.Id);
 
-            if (info.Command != string.Empty)
+            if (data.Command != string.Empty)
             {
-                info.ComunicationChannel.SendMessage(request.User, "¡Operación cancelada! ❌");
-                info.ClearOperation();
-            }
-            else
-            {
-                info.ComunicationChannel.SendMessage(request.User, "¡Lo siento! Esta operación no puede cancelarse pues no está dentro de los comandos.");
+                data.Channel.SendMessage(request.Id, "¡Operación cancelada! ❌");
             }
         }
     }

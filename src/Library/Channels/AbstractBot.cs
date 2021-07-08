@@ -1,22 +1,29 @@
-namespace Library
+namespace Bankbot
 {
-    public abstract class AbstractBot : IComunicationChannel
+    /* Cumple con ## OCP ## ya que se pueden seguir agregando bots sin alterar código.*/
+    
+    /// <summary>
+    /// Implementa un bot que se le pase.
+    /// </summary>
+    public abstract class AbstractBot : IChannel
     {
-         private AbstractHandler<UserMessage> Handler;
+        private AbstractHandler<IMessage> Handler;
         protected AbstractBot()
         {
-            this.Handler = Configuration.ChainOfResponsibility();
+            this.Handler = Configuration.HandlerSetup();
         }
-         public void SetComunicationChannel(string id, IComunicationChannel channel)
-         {
-            Session.Instance.SetComunicationChannel(id, channel);
-         }
-        public abstract void SendMessage(string id, string message);
-        public abstract void SendFile(string id, string path);
-        public void ManageMessage(UserMessage message)
+        public abstract void Start();
+        public void HandleMessage(IMessage message)
         {
             Handler.Handler(message);
         }
-        public abstract void StartCommunication();
+        public void SetChannel(string id, IChannel channel)
+        {
+            Session.Instance.SetChannel(id, channel);
+        }
+        public abstract void SendMessage(string id, string message);
+        
+
+
     }
 }

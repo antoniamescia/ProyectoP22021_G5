@@ -1,7 +1,7 @@
-namespace Library
+namespace Bankbot
 {
-    public interface ICondition<UserMessage>
+    public interface ICondition<IMessage>
     {
-        bool ConditionIsMet(UserMessage request);
+        bool IsSatisfied(IMessage request);
     }
 }

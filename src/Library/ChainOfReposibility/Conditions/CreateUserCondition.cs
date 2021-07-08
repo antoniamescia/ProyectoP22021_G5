@@ -1,11 +1,15 @@
-namespace Library
+namespace Bankbot
 {
-    public class CreateUserCondition : ICondition<UserMessage>
+    /*Cumple con EXPERT y SRP*/
+    /// <summary>
+    /// Interactúa para que se pueda crear un nuevo usuario no existente.
+    /// </summary>
+    public class CreateUserCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool IsSatisfied(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
-            return info.ConversationState == ConversationState.HandlingRequest && info.Command.ToLower() == "/crearusuario";
+            var data = Session.Instance.GetChat(request.Id);
+            return data.State == State.HandlingRequest && data.Command.ToLower() == "/crearusuario";
         }
     }
 }

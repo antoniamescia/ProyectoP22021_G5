@@ -1,11 +1,12 @@
-namespace Library
+namespace Bankbot
 {
-    public class AbortCondition : ICondition<UserMessage>
+    /*Cumple con EXPERT y SRP*/
+    public class AbortCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool IsSatisfied(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
-            return info.ConversationState != ConversationState.Messenger && request.MessageText.ToLower() == "/salir";
+            var data = Session.Instance.GetChat(request.Id);
+            return data.State != State.Messenger && request.Text.ToLower() == "/salir";
         }
     }
 }

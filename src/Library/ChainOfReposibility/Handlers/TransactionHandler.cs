@@ -1,131 +1,139 @@
 using System;
 
-namespace Library
+namespace Bankbot
 {
-    /// <summary>
-    /// Este Handler se encarga de llevar a cabo las transacciones, tanto ingresos como egresos. 
-    /// </summary>
-       public class TransactionHandler : AbstractHandler<UserMessage>
+
+    public class TransactionHandler : AbstractHandler<IMessage>
     {
         public TransactionHandler(TransactionCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo info = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.Id);
 
-            if (!info.ProvisionalInfo.ContainsKey("type"))
+            if (!data.Temp.ContainsKey("type"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && (index == 1 || index == 2))
+                if (Int32.TryParse(request.Text, out index) && index > 0 && (index == 1 || index == 2))
                 {
-                    info.ProvisionalInfo.Add("type", index);
-                    info.ComunicationChannel.SendMessage(request.User, "¿En qué cuenta quieres realizar la transacción?:🤔\n" + info.User.DisplayAccounts());
+                    data.Temp.Add("type", index);
+                    data.Channel.SendMessage(request.Id, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.ShowAccountList());
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "VER QUE PONER ACÁ.");
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese el tipo de transacción:\n1 - Ingreso\n2 - Egreso");
+                    data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
+                    data.Channel.SendMessage(request.Id, "¿Qué tipo de transacción queires realizar? \n1 - Ingreso\n2 - Egreso");
                 }
             }
-            else if (!info.ProvisionalInfo.ContainsKey("account"))
+            else if (!data.Temp.ContainsKey("account"))
             {
                 int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= info.User.Accounts.Count)
+                if (Int32.TryParse(request.Text, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
-                    info.ProvisionalInfo.Add("account", info.User.Accounts[index - 1]);
-                    info.ComunicationChannel.SendMessage(request.User, "¿En qué moneda quieres realizar la transacción?🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Temp.Add("account", data.User.Accounts[index - 1]);
+                    data.Channel.SendMessage(request.Id, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "VER QUE PONER ACÁ.");
-                    info.ComunicationChannel.SendMessage(request.User, "¿En qué cuenta quieres realizar la transacción?:🤔\n" + info.User.DisplayAccounts());
-                }
-
-
-            }
-            else if (!info.ProvisionalInfo.ContainsKey("currency"))
-            {
-                int index;
-                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
-                {
-                    info.ProvisionalInfo.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese el monto de la transacción:");
-                }
-                else
-                {
-                    info.ComunicationChannel.SendMessage(request.User, "//");
-                    info.ComunicationChannel.SendMessage(request.User, "¿En qué moneda quieres realizar la transacción?🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
+                    data.Channel.SendMessage(request.Id, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.ShowAccountList());
                 }
 
 
             }
-            else if (!info.ProvisionalInfo.ContainsKey("amount"))
+            else if (!data.Temp.ContainsKey("currency"))
+            {
+                int index;
+                if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
+                {
+                    data.Temp.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                    data.Channel.SendMessage(request.Id, "¿Cuál es el monto de la transacción?");
+                }
+                else
+                {
+                    data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
+                    data.Channel.SendMessage(request.Id, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                }
+
+
+            }
+            else if (!data.Temp.ContainsKey("amount"))
             {
                 double amount;
-                if (double.TryParse(request.MessageText, out amount) && amount > 0)
+                if (double.TryParse(request.Text, out amount) && amount > 0)
                 {
-                    amount = info.GetDictionaryValue<int>("type") == 1 ? amount : -amount;
-                    info.ProvisionalInfo.Add("amount", amount);
+                    amount = data.GetDictionaryValue<int>("type") == 1 ? amount : -amount;
+                    data.Temp.Add("amount", amount);
 
-                    if (info.GetDictionaryValue<int>("type") == 1)
+                    if (data.GetDictionaryValue<int>("type") == 1)
                     {
-                        info.ComunicationChannel.SendMessage(request.User, "Describe la transacción:");
+                        data.Channel.SendMessage(request.Id, "Describe la transacción:");
                     }
                     else
                     {
-                        info.ComunicationChannel.SendMessage(request.User, "¿Qué tipo de gasto es?:\n" + info.User.DisplayExpenseCategories());
+                        data.Channel.SendMessage(request.Id, "¿A qué categoría de gasto pertenece?\n" + data.User.ShowItemList());
                     }
                 }
                 else
                 {
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese un valor mayor a 0. ⚠️");
-                    info.ComunicationChannel.SendMessage(request.User, "Ingrese el monto de la transacción:");
+                    data.Channel.SendMessage(request.Id, "¡Ingresa un valor mayor a 0!");
+                    data.Channel.SendMessage(request.Id, "¿Cuál es el monto de la transacción?");
                 }
 
 
             }
-            else if (!info.ProvisionalInfo.ContainsKey("description"))
+            else if (!data.Temp.ContainsKey("description"))
             {
-                if (info.GetDictionaryValue<int>("type") == 2)
+                if (data.GetDictionaryValue<int>("type") == 2)
                 {
                     int index;
-                    if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= info.User.ExpenseCategories.Count)
+                    if (Int32.TryParse(request.Text, out index) && index > 0 && index <= data.User.ExpenseCategories.Count)
                     {
-                        info.ProvisionalInfo.Add("description", info.User.ExpenseCategories[index - 1]);
+                        data.Temp.Add("description", data.User.ExpenseCategories[index - 1]);
                     }
                     else
                     {
-                        info.ComunicationChannel.SendMessage(request.User, "//");
-                        info.ComunicationChannel.SendMessage(request.User, "¿Qué tipo de gasto es?:\n" + info.User.DisplayExpenseCategories());
+                        data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
+                        data.Channel.SendMessage(request.Id, "¿A qué categoría de gasto pertenece?\n" + data.User.ShowItemList());
                         return;
                     }
 
                 }
-                else if (info.GetDictionaryValue<int>("type") == 1)
+                else if (data.GetDictionaryValue<int>("type") == 1)
                 {
-                    info.ProvisionalInfo.Add("description", request.MessageText);
+                    data.Temp.Add("description", request.Text);
                 }
             }
 
 
 
-            if (info.ProvisionalInfo.ContainsKey("type") && info.ProvisionalInfo.ContainsKey("account") && info.ProvisionalInfo.ContainsKey("currency") && info.ProvisionalInfo.ContainsKey("amount") && info.ProvisionalInfo.ContainsKey("description"))
+            if (data.Temp.ContainsKey("type") && data.Temp.ContainsKey("account") && data.Temp.ContainsKey("currency") && data.Temp.ContainsKey("amount") && data.Temp.ContainsKey("description"))
             {
-                var type = info.GetDictionaryValue<int>("type");
-                var account = info.GetDictionaryValue<Account>("account");
-                var currency = info.GetDictionaryValue<Currency>("currency");
-                var amount = info.GetDictionaryValue<double>("amount");
-                var description = info.GetDictionaryValue<string>("description");
+                var type = data.GetDictionaryValue<int>("type");
+                var account = data.GetDictionaryValue<Account>("account");
+                var currency = data.GetDictionaryValue<Currency>("currency");
+                var amount = data.GetDictionaryValue<double>("amount");
+                var description = data.GetDictionaryValue<string>("description");
 
-                account.Transfer(currency, amount, description);
+                account.AddTransaction(currency, amount, description);
 
-                info.ComunicationChannel.SendMessage(request.User, "¡Transacción exitosa! 🙌");
+                data.Channel.SendMessage(request.Id, "¡Transacción realizada con éxito! 🙌");
 
-                // AGREGAR LO DE LAS ALERTAS! 
+                if (account.SavingsGoal.Min > account.Balance)
+                {
+                    data.Channel.SendMessage(request.Id, "Ha sobrepasado su objetivo mínimo. Debe ahorrar más.");
+                }
+                else if (account.SavingsGoal.Max < account.Balance)
+                {
+                    data.Channel.SendMessage(request.Id, "Ha superado su objetivo máximo. Empiece a gastar.");
+                }
 
-                info.ClearOperation();
+
+
+
+                data.ClearOperation();
                 return;
             }
         }
