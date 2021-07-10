@@ -8,8 +8,8 @@ namespace BankerBot
     {
         public bool ConditionIsMet(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
-            return data.State == State.HandlingRequest && data.Command.ToLower() == "/crearusuario";
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
+            return data.ConversationState == ConversationState.HandlingRequest && data.Command.ToLower() == "/crearusuario";
         }
     }
 }

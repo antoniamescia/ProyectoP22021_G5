@@ -5,8 +5,8 @@ namespace BankerBot
     {
         public bool ConditionIsMet(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
-            return data.State != State.Messenger && request.MessageText.ToLower() == "/salir";
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
+            return data.ConversationState != ConversationState.Messenger && request.MessageText.ToLower() == "/salir";
         }
     }
 }

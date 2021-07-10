@@ -11,9 +11,9 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
-            data.Channel.SendMessage(request.UserID, "¡Lo siento! No te entendí. 🙃");
-            data.State = State.Messenger;
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
+            data.ComunicationChannel.SendMessage(request.UserID, "¡Lo siento! No te entendí. 🙃");
+            data.ConversationState = ConversationState.Messenger;
         }
     }
 }
