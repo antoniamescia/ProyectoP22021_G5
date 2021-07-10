@@ -1,7 +1,7 @@
 // using NUnit.Framework;
 // using System;
 
-// namespace Bankbot.Test
+// namespace BankerBot.Test
 // {
 //     public class MinSavingsGoalReachedAlertTest
 //     {

@@ -5,9 +5,9 @@ namespace BankerBot
     public class Session 
     {
         //SINGLETON
-        public Dictionary<string, Data> DataMap;
+        public Dictionary<string, UserInfo> UserInfoMap;
          public List<EndUser> AllUsers { get; set; }
-        //public IPrinter Printer { get; set; }
+        public IPrinter Printer { get; set; }
         private static Session instance;
         public static Session Instance
         {
@@ -23,8 +23,8 @@ namespace BankerBot
         private Session()
         {
             this.AllUsers = new List<EndUser>();
-            this.DataMap = new Dictionary<string, Data>();
-            //this.Printer = new HtmlPrinter();
+            this.UserInfoMap = new Dictionary<string, UserInfo>();
+            this.Printer = new HTMLPrinter();
         }
 
 
@@ -65,21 +65,21 @@ namespace BankerBot
             return null;
         }
 
-         public void SetChannel(string id, ICommunicationChannel newChannel)
+         public void SetComunicationChannel(string id, ICommunicationChannel newChannel)
         {
-            GetChat(id).Channel = newChannel;
+            GetChatInfo(id).ComunicationChannel = newChannel;
         }
 
-        public Data GetChat(string id)
+        public UserInfo GetChatInfo(string id)
         {
-            Data newChat;
-            if (DataMap.TryGetValue(id, out newChat))
+            UserInfo newChat;
+            if (UserInfoMap.TryGetValue(id, out newChat))
             {
                 return newChat;
             }
 
-            newChat = new Data();
-            DataMap.Add(id, newChat);
+            newChat = new UserInfo();
+            UserInfoMap.Add(id, newChat);
             return newChat;
 
         }

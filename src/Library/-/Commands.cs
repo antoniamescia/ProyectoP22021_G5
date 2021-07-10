@@ -7,7 +7,7 @@ namespace BankerBot
     public class Commands
     {
         // SINGLETON
-        public List<string> ListOfCommands { get; set; }
+        public List<string> CommandsList { get; set; }
         private static Commands instance;
 
         public static Commands Instance
@@ -24,7 +24,7 @@ namespace BankerBot
         }
         private Commands()
         {
-            this.ListOfCommands = new List<string>()
+            this.CommandsList = new List<string>()
             {
                 "/comandos",
                 "/iniciarsesion",
@@ -40,9 +40,9 @@ namespace BankerBot
                 "/salir"
             };
         }
-        public string ListCommands(string id)
+        public string CommandList(string id)
         {
-            Data data = Session.Instance.GetChat(id);
+            UserInfo data = Session.Instance.GetChatInfo(id);
 
             string commandList = string.Empty;
 
@@ -71,9 +71,9 @@ namespace BankerBot
             return commandList;
         }
 
-         public bool Exists(string command)
+         public bool CommandExists(string command)
         {
-            return instance.ListOfCommands.Contains(command.ToLower());
+            return instance.CommandsList.Contains(command.ToLower());
         }
         private static List<string> UnlogedCommandsList()
         {
@@ -94,7 +94,7 @@ namespace BankerBot
         private static List<string> HasAccountCommandsList()
         {
             List<string> hasAccountsList = new List<string>();
-            hasAccountsList.Add("/CerrasSesion");
+            hasAccountsList.Add("/CerrarSesion");
             hasAccountsList.Add("/CrearCuenta");
             hasAccountsList.Add("/Convertir");
             hasAccountsList.Add("/CrearUsuario");
