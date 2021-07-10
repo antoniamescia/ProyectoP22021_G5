@@ -12,7 +12,7 @@ namespace BankerBot
     {
         public State State { get; set; }
         public string Command { get; set; }
-        public User User { get; set; }
+        public EndUser User { get; set; }
         public Dictionary<string, object> ProvisionalInfo { get; set; }
         public ICommunicationChannel Channel { get; set; }
 

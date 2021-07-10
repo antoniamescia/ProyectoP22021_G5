@@ -6,7 +6,7 @@ namespace BankerBot
     {
         //SINGLETON
         public Dictionary<string, Data> DataMap;
-         public List<User> AllUsers { get; set; }
+         public List<EndUser> AllUsers { get; set; }
         //public IPrinter Printer { get; set; }
         private static Session instance;
         public static Session Instance
@@ -22,7 +22,7 @@ namespace BankerBot
         }
         private Session()
         {
-            this.AllUsers = new List<User>();
+            this.AllUsers = new List<EndUser>();
             this.DataMap = new Dictionary<string, Data>();
             //this.Printer = new HtmlPrinter();
         }
@@ -30,7 +30,7 @@ namespace BankerBot
 
         public void AddUser(string username, string password)
         {
-            foreach (User user in AllUsers)
+            foreach (EndUser user in AllUsers)
             {
                 
                 if (user.Username == username)
@@ -38,13 +38,13 @@ namespace BankerBot
                     return;
                 }
             }
-            AllUsers.Add(new User(username, password));
+            AllUsers.Add(new EndUser(username, password));
         }
 
         public bool UsernameExists(string username)
         {
             string u = "";
-            foreach (User user in AllUsers)
+            foreach (EndUser user in AllUsers)
             {
                 if (user.Username == username)
                 {
@@ -53,9 +53,9 @@ namespace BankerBot
             }
             return u == username;
         }
-        public User GetUser(string username, string password)
+        public EndUser GetUser(string username, string password)
         {
-            foreach (User user in AllUsers)
+            foreach (EndUser user in AllUsers)
             {
                 if (user.Username == username && user.Password == password)
                 {
