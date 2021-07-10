@@ -196,12 +196,5 @@ namespace BankerBot
             return exists == newExpenseCategory;
         }
 
-        // public bool Login(string password)
-        // {
-        //     return true;
-        // }
-
-
-
     }
 }
