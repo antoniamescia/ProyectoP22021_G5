@@ -2,27 +2,33 @@ using System;
 
 namespace BankerBot
 {
-    public class CreateUserHandler : AbstractHandler<UserMessage>
+    /*Cumple con ## SRP ## 
+    Cumple con ## EXPERT ##*/
+
+    /// <summary>
+    /// Handler para crearel usuario.
+    /// </summary>
+    public class CreateUserHandler : AbstractHandler<IMessage>
     {
         public CreateUserHandler(CreateUserCondition condition) : base(condition)
         {
         }
 
-    protected override void handleRequest(UserMessage request)
+    protected override void handleRequest(IMessage request)
     {
-        UserInfo data = Session.Instance.GetChatInfo(request.User);
+        Data data = Session.Instance.GetChat(request.UserID);
 
 
         if (!data.ProvisionalInfo.ContainsKey("username"))
         {
             if (Session.Instance.UsernameExists(request.MessageText))
             {
-                data.ComunicationChannel.SendMessage(request.User, "Ya existe un usuario con este nombre 😟.\n Ingrese un nombre de usuario diferente:");
+                data.Channel.SendMessage(request.UserID, "Ya existe un usuario con este nombre 😟.\nVuelva a ingresar un nombre de usuario:");
             }
             else
             {
                 data.ProvisionalInfo.Add("username", request.MessageText);
-                data.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
+                data.Channel.SendMessage(request.UserID, "Contraseña:");
             }
         }
         else if (!data.ProvisionalInfo.ContainsKey("password"))
@@ -36,17 +42,17 @@ namespace BankerBot
             string password = data.GetDictionaryValue<string>("password");
 
             Session.Instance.AddUser(username, password);
-            EndUser user = Session.Instance.GetEndUser(username, password);
+            User user = Session.Instance.GetUser(username, password);
 
             if (user != null)
             {
-                data.ComunicationChannel.SendMessage(request.User, "¡Usuario creado exitosamente! 🥳");
-                data.ComunicationChannel.SendMessage(request.User, "¿Cómo quiere proceder?:\n" + Commands.Instance.CommandList(request.User));
+                data.Channel.SendMessage(request.UserID, "¡Usuario creado con éxito! 🙌");
+                data.Channel.SendMessage(request.UserID, "¿Cómo quieres proceder?\n" + Commands.Instance.ListCommands(request.UserID));
             }
-           
+            // Exception 
             else
             {
-                data.ComunicationChannel.SendMessage(request.User, "Ha ocurrido un error. 😔");
+                data.Channel.SendMessage(request.UserID, "Lo sentimos, ha ocurrido un error. 🥲");
             }
             data.ClearOperation();
         }

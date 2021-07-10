@@ -1,33 +1,37 @@
-﻿using System;
-
-namespace BankerBot
+﻿namespace BankerBot
 {
-    public class ConsoleBot : IComunicationChannel
+    public class ConsoleBot : AbstractBot
     {
-        /*
-        Patrones y principios:
-        Cumple con SRP porque solo se identifica una razón de cambio.
-        Cumple con LSP porque el tipo implícito que define la clase puede ser sustiuido por ICommunicationChannel.
-        Cumple con ISP porque solo implementa una interfaz (ICommunicationChannel).
-        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con las responsabilidades otorgadas.
-        Cumple con Polymorphism porque usa los métodos polimórfico StatCommunication, ManageMessage y SendMessage.
-        */
-        public void StartCommunication()
+        //SINGLETON
+        private static ConsoleBot instance;
+        public static ConsoleBot Instance
         {
-            
-        }
-        public void ManageMessage(UserMessage message)
-        {
+            get
+            {
+                if (instance == null) instance = new ConsoleBot();
 
+                return instance;
+            }
         }
-        public void SendMessage(string user, string message)
+        private ConsoleBot() : base()
+        { }
+        public override void StartCommunication()
         {
-
+            System.Console.WriteLine("Recuerda que puedes escribir \"Salir\" en cualquier momento para finalizar la conversación. 👋🏼");
+            while (true)
+            {
+                string text = System.Console.ReadLine().ToString();
+                if (text == "Salir") return;
+                SetChannel("Console", this);
+                BotMessage message = new BotMessage("Console", text);
+                HandleMessage(message);
+            }
         }
-        public void SendFile(string user, string path)
+
+        public override void SendMessage(string id, string message)
         {
-            
+            System.Console.WriteLine(message);
         }
-
     }
 }
+

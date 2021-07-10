@@ -8,13 +8,13 @@
 //     /// </summary>
 //     public class NoConditionHandler : AbstractHandler<UserMessage>
 //     {
-//         public DefaultHandler(NoCondition condition) : base(condition)
+//         public NoConditionHandler(NoCondition condition) : base(condition)
 //         {
 //         }
 
 //         protected override void handleRequest(UserMessage request)
 //         {
-//             var data = Session.Instance.GetChatInfo(request.User);
+//             UserInfo data = Session.Instance.GetChatInfo(request.User);
 //             data.ComunicationChannel.SendMessage(request.User, "No te entendi, vuelve a intentarlo.");
 //             data.ConversationState = ConversationState.Messenger;
 //         }

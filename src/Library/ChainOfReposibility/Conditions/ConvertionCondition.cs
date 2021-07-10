@@ -1,11 +1,15 @@
 namespace BankerBot
 {
-    public class ConvertionCondition : ICondition<UserMessage>
+    /*Cumple con EXPERT y SRP*/
+    /// <summary>
+    /// Se encarga de dar la posibilidad de convertir al usuario.
+    /// </summary>
+    public class ConvertionCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool ConditionIsMet(IMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
-            return data.ConversationState == ConversationState.HandlingRequest && data.Command.ToLower() == "/convertir";
+            Data data = Session.Instance.GetChat(request.UserID);
+            return data.State == State.HandlingRequest && data.Command.ToLower() == "/convertir";
         }
     }
 }

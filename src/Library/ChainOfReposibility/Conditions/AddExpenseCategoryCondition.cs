@@ -1,11 +1,11 @@
 namespace BankerBot
 {
-    public class AddExpenseCategoryCondition : ICondition<UserMessage>
+    public class AddExpenseCategoryCondition : ICondition<IMessage>
     {
-        public bool ConditionIsMet(UserMessage request)
+        public bool ConditionIsMet(IMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
-            return data.ConversationState == ConversationState.HandlingRequest && data.Command.ToLower() == "/agregarcategoriadegasto";
+            Data data = Session.Instance.GetChat(request.UserID);
+            return data.State == State.HandlingRequest && data.Command.ToLower() == "/agregarcategoriadegasto";
         }
     }
 }

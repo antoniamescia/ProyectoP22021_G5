@@ -1,6 +1,6 @@
 using System;
 
-namespace BankerBot
+namespace BankerBot 
 {
     /*
     Patrones y principios:

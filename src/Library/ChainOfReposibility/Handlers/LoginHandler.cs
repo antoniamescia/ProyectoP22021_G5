@@ -2,21 +2,28 @@ using System;
 
 namespace BankerBot
 {
-    // ESTE HANDLER VER QUÉ ONDA, A VER SI REALMENTE LO NECESITAMOS! 
-    public class LoginHandler : AbstractHandler<UserMessage>
+    public class LoginHandler : AbstractHandler<IMessage>
     {
+        /*Cumple con ## SRP ## 
+        Cumple con ## EXPERT ##*/
+
+        /// <summary>
+        /// Handler para loguearte con un usuario existente.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public LoginHandler(LoginCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.UserID);
 
             if (!data.ProvisionalInfo.ContainsKey("username"))
             {
                 data.ProvisionalInfo.Add("username", request.MessageText);
-                data.ComunicationChannel.SendMessage(request.User, "Ingrese una contraseña:");
+                data.Channel.SendMessage(request.UserID, "Ingresa tu contraseña:");
             }
             else if (!data.ProvisionalInfo.ContainsKey("password"))
             {
@@ -27,11 +34,11 @@ namespace BankerBot
             {
                 string username = data.GetDictionaryValue<string>("username");
                 string password = data.GetDictionaryValue<string>("password");
-                var user = Session.Instance.GetEndUser(username, password);
+                var user = Session.Instance.GetUser(username, password);
 
                 bool connected = false;
 
-                foreach (var item in Session.Instance.UserInfoMap)
+                foreach (var item in Session.Instance.DataMap)
                 {
                     if (item.Value.User != null && item.Value.User == user) connected = true;
                 }
@@ -39,16 +46,16 @@ namespace BankerBot
                 if (!connected && user != null)
                 {
                     data.User = user;
-                    data.ComunicationChannel.SendMessage(request.User, "Se ha conectado correctamente.");
-                    data.ComunicationChannel.SendMessage(request.User, "Para continuar puedes ingresar los siguientes comandos:\n" + Commands.Instance.CommandList((request.User)));
+                    data.Channel.SendMessage(request.UserID, "¡Inicio de sesión exitoso! 💪🏼");
+                    data.Channel.SendMessage(request.UserID, "¿Cómo quieres proceder?:\n" + Commands.Instance.ListCommands((request.UserID)));
                 }
                 else if (connected)
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Este usuario ya se encuentra conectado.");
+                    data.Channel.SendMessage(request.UserID, "¡Ups! Ya estás conectado. 😆");
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Credenciales incorrectas, vuelva a intentarlo.");
+                    data.Channel.SendMessage(request.UserID, "Inicio de sesión falló. 😞 Vuelve a intentarlo.");
                 }
 
                 data.ClearOperation();

@@ -22,9 +22,8 @@ namespace BankerBot
 
         public string SendAlert(Account account)
         {
-           if (account.Amount <= account.MinGoal.ObjectiveAmount)
+           if (account.Amount <= account.SavingsGoal.Min)
             {
-            //double ammountLeft = account.Balance - account.MinGoal.ObjectiveAmount;
              string alert = $"Has pasado tu objetivo mínimo de ahorro. 😮";  
              return alert; 
             }

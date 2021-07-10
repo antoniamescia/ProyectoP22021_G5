@@ -2,34 +2,34 @@ using System;
 
 namespace BankerBot
 {
-    public class AddExpenseCategoryHandler : AbstractHandler<UserMessage>
+    public class AddExpenseCategoryHandler : AbstractHandler<IMessage>
     {
         public AddExpenseCategoryHandler(AddExpenseCategoryCondition condition) : base(condition)
         {
         }
 
-        protected override void handleRequest(UserMessage request)
+        protected override void handleRequest(IMessage request)
         {
-            UserInfo data = Session.Instance.GetChatInfo(request.User);
+            Data data = Session.Instance.GetChat(request.UserID);
 
             if (request.MessageText != string.Empty)
             {
-                if (!data.User.ContainsItem(request.MessageText))
+                if (!data.User.ContainsExpenseCategory(request.MessageText))
                 {
                     data.User.ExpenseCategories.Add(request.MessageText);
-                    data.ComunicationChannel.SendMessage(request.User, "¡Nueva categoría de gasto agregada exitosamente! 🙌");
+                    data.Channel.SendMessage(request.UserID, "¡Se ha agregado una nueva categoría de gasto con éxito! 🙌");
                     data.ClearOperation();
                 }
                 else
                 {
-                    data.ComunicationChannel.SendMessage(request.User, "Ya existe una categoría de gasto con este nombre. 🙃");
-                    data.ComunicationChannel.SendMessage(request.User, "Ingrese una nueva categoría de gasto:");
+                    data.Channel.SendMessage(request.UserID, "¡Atención! Ya existe una categoría de gasto con este nombre.");
+                    data.Channel.SendMessage(request.UserID, "Ingrese una nueva categoría de gasto: 💸");
                 }
             }
             else
             {
-                data.ComunicationChannel.SendMessage(request.User, "¡Debes ingresar una categoría de gasto!");
-                data.ComunicationChannel.SendMessage(request.User, "Ingrese una nueva categoría de gasto:");
+                data.Channel.SendMessage(request.UserID, "Debes ingresar una nueva categoría de gasto.");
+                data.Channel.SendMessage(request.UserID, "Ingrese una nueva categoría de gasto: 💸");
             }
         }
     }

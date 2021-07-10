@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BankerBot
+﻿namespace BankerBot
 {
     public class SavingsGoal
     {
@@ -9,14 +7,19 @@ namespace BankerBot
         Cumple con SRP pues no se halla más de una razón de cambio.
         Cumple con Expert pues es la experta en la información de los objetivos de ahorro.
         */ 
-        public SavingsGoal(double objectiveAmount, Currency currency, DateTime timeLimit)
+        public double Max { get; set; }
+        public double Min { get; set; }
+
+
+        /// <summary>
+        /// Crea los objetivos de ahorro de la cuenta
+        /// </summary>
+        /// <param name="max"></param>
+        /// <param name="min"></param>
+        public SavingsGoal(double max, double min)
         {
-            this.ObjectiveAmount = objectiveAmount;
-            this.Currency = currency;
-            this.TimeLimit = timeLimit;
+            this.Max = max;
+            this.Min = min;
         }
-        public double ObjectiveAmount { get; private set; }
-        public Currency Currency { get; private set; }
-        public DateTime TimeLimit { get; private set; }
     }
 }

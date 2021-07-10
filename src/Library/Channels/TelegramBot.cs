@@ -1,26 +1,18 @@
-﻿using System;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
 namespace BankerBot
 {
-    public class TelegramBot : IComunicationChannel
+    //SINGLETON
+    public class TelegramBot : AbstractBot
     {
-        /*
-        Patrones y principios:
-        Cumple con SRP porque solo se identifica una razón de cambio.
-        Cumple con LSP porque el tipo implícito que define la clase puede ser sustiuido por ICommunicationChannel.
-        Cumple con ISP porque solo implementa una interfaz (ICommunicationChannel).
-        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con las responsabilidades otorgadas.
-        Cumple con Polymorphism porque usa los métodos polimórfico StatCommunication, ManageMessage y SendMessage.
-        */
+        private ITelegramBotClient Bot;
+        private const string Token = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
+        private static TelegramBot instance;   
         
-        private const string TELEBRAM_BOT_TOKEN = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
-        private ITelegramBotClient bot;
-        private static TelegramBot instance;
-        public static TelegramBot Instance
+         public static TelegramBot Instance
         {
             get
             {
@@ -28,76 +20,54 @@ namespace BankerBot
                 {
                     instance = new TelegramBot();
                 }
+
                 return instance;
             }
         }
-        
-        private TelegramBot()
+        private TelegramBot() : base()
         {
-            this.bot = new TelegramBotClient(TELEBRAM_BOT_TOKEN);
+            this.Bot = new TelegramBotClient(Token);
         }
-        public ITelegramBotClient Client
+
+         public ITelegramBotClient Client
         {
             get
             {
-                return this.bot;
+                return this.Bot;
             }
         }
         
-        private User BotInfo
+        // private User BotInfo
+        // {
+        //     get
+        //     {
+        //         return this.Client.GetMeAsync().Result;
+        //     }
+        // }
+        public override void StartCommunication()
         {
-            get
-            {
-                return this.Client.GetMeAsync().Result;
-            }
-        }
+            Bot.OnMessage += OnMessage;
 
-        public int BotId
-        {
-            get
-            {
-                return this.BotInfo.Id;
-            }
-        }
-
-        public string BotName
-        {
-            get
-            {
-                return this.BotInfo.FirstName;
-            }
-        }
-        
-        
-        public void StartCommunication()
-        {
-            bot.OnMessage += OnMessage;
-            bot.StartReceiving();
-        }
-        public void ManageMessage(UserMessage message)
-        {
+            Bot.StartReceiving();
 
         }
-
-        public void OnMessage(object sender, MessageEventArgs messageEventArgs)
+        private void OnMessage(object sender, MessageEventArgs messageEventArgs)
         {
-            // Message message = messageEventArgs.Message;
-            // string chatId = message.Chat.Id.ToString();
+            Message message = messageEventArgs.Message;
+            string chatId = message.Chat.Id.ToString();
 
-            // UserMessage msg = new UserMessage(chatId, message.Text);
-            // SetChannel(chatId, this);
-            // TelegramBot.Instance.HandleMessage(msg);
-
+            IMessage msg = new BotMessage(chatId, message.Text);
+            SetChannel(chatId, this);
+            TelegramBot.Instance.HandleMessage(msg);
         }
-        
-        public void SendMessage(string user, string message)
-        {
-
-        }
-
-        public void SendFile(string user, string path)
+        public override void SendMessage(string id, string message)
         {
             
+            var chatId = long.Parse(id);
+            Bot.SendTextMessageAsync(chatId, message);
         }
+
+    
     }
 }
+

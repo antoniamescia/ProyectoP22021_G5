@@ -57,7 +57,7 @@ namespace BankerBot
             {
                 var cells = new List<Cell>();
 
-                cells.Add(new Cell(item.CurrencyType.Type));
+                cells.Add(new Cell(item.Currency.Type));
                 cells.Add(new Cell(item.Amount.ToString()));
                 cells.Add(new Cell(item.Date.ToString("dd/MM/yyyy")));
                 cells.Add(new Cell(item.Description));

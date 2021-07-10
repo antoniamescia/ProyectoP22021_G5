@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace BankerBot
 {
-    public class EndUser
+    public class User
     {
         /*
         Patrones y principos:
@@ -12,73 +13,72 @@ namespace BankerBot
         Cumple con SRP pues no se encuentra más de una razón de cambio para la clase. 
         Crea instancias de Account porque las usa de manera muy estrecha, por lo que cumple con el patrón Creator. 
         */
-        private List<Account> accounts;
-        public string Username { get; private set; }
-        public string Password { get; private set; }
-        public List<string> ExpenseCategories { get; set; }
+        public List<Account> Accounts { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public List<String> ExpenseCategories { get; set; }
 
-        public EndUser(string username, string password)
+        public User(string username, string password)
         {
-            this.accounts = new List<Account> { };
             this.Username = username;
             this.Password = password;
-            this.ExpenseCategories = new List<String> {/*agregar  categorias de gastos*/ };
-        }
-
-
-        public IList<Account> Accounts
-        {
-            get
-            {
-                return accounts.AsReadOnly();
-            }
+            this.Accounts = new List<Account> { };
+            this.ExpenseCategories = new List<String> { "Comida", 
+                                                        "Ropa", 
+                                                        "Alquiler", 
+                                                        "Pagos fijos", 
+                                                        "Tarjetas", 
+                                                        "Luz", 
+                                                        "Transporte", 
+                                                        "Agua", 
+                                                        "Mascota", 
+                                                        "Regalos", 
+                                                        "Diversión" };
         }
 
         /// <summary>
-        /// Cambia el nombre de usuario del usuario.
+        /// Cambia el nombre del usuario
         /// </summary>
-        /// <param name="mewUsername"></param>
-        /// <returns></returns>
+        /// <param name="newUsername"></param>
         public void ChangeUsername(string newUsername)
         {
             this.Username = newUsername;
         }
 
         /// <summary>
-        /// Cambia la contraseña del usuario.
+        /// Cambia la contraseña
         /// </summary>
-        /// <param name="mewPassword"></param>
-        /// <returns></returns>
+        /// <param name="newPassword"></param>
         public void ChangePassword(string newPassword)
         {
             this.Password = newPassword;
         }
 
         /// <summary>
-        /// Despliega todas las cuentas disponibles del usuario.
+        /// Muestra las cuentas
         /// </summary>
         /// <returns></returns>
-        // agregué el index para poder utilizarlo en los handlers
         public string DisplayAccounts()
         {
-            StringBuilder accountsList = new StringBuilder();
+            StringBuilder accountList = new StringBuilder();
             foreach (Account account in Accounts)
             {
                 string index = (Accounts.IndexOf(account) + 1).ToString();
-                accountsList.Append(index + " - " + account.Name + "\n");
+                accountList.Append(index + " - " + account.Name + "\n");
             }
-            return accountsList.ToString();
+            return accountList.ToString();
         }
+
         /// <summary>
         /// Añade una cuenta a la lista de cuentas de usuario, di dicha cuenta ya existe, no crea nada.
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="name"></param>
-        /// <param name="currencyType"></param>
-        /// <param name="amount"></param>
-        /// <param name="maxGoal"></param>
-        /// <param name="minGoal"></param>
+        /// <param name="currency"></param>
+        /// <param name="balance"></param>
+        /// <param name="savingsGoal"></param>
         /// <returns></returns>
-        public Account AddAccount(string name, Currency currencyType, double amount, SavingsGoal maxGoal, SavingsGoal minGoal)
+        public Account AddAccount(Type type, string name, Currency currency, double balance, SavingsGoal savingsGoal)
         {
             foreach (Account account in Accounts)
             {
@@ -87,24 +87,45 @@ namespace BankerBot
                     return null;
                 }
             }
-            Account newAccount = new Account(name, currencyType, amount, maxGoal, minGoal);
-            this.accounts.Add(newAccount);
+            Account newAccount = new Account(name, type, currency, balance, savingsGoal);
+            this.Accounts.Add(newAccount);
             return newAccount;
         }
+
+        /// <summary>
+        /// Comprueba que existe la cuenta
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool AccountExists(string name)
+        {
+            string accountName = String.Empty;
+
+            foreach (Account account in Accounts)
+            {
+                if (account.Name == name)
+                {
+                    accountName = account.Name;
+                }
+            }
+
+            return accountName == name;
+        }
+
+
         /// <summary>
         /// Remueve una cuenta de la lista de cuentas del usuario, si dicha cuenta no existe, no borra nada.
         /// </summary>
         /// <param name="account"></param>
-        /// <returns></returns>
-        public void RemoveAccount(Account account)
+        public void RemoveAcount(Account account)
         {
-            if (this.Accounts.Contains(account))
+             if (this.Accounts.Contains(account))
             {
-                this.accounts.Remove(account);
+                this.Accounts.Remove(account);
             }
             else
             {
-                Console.WriteLine("No se ha encontrado la cuenta");
+                Console.WriteLine("¡Disculpas! No hemos encontrado la cuenta que quieres remover. ");
             }
         }
 
@@ -112,8 +133,6 @@ namespace BankerBot
         /// Despliega todos los elementos de la lista de categorias disponibles del usuario.
         /// </summary>
         /// <returns></returns>
-
-        // agregué el index para poder utilizarlo en los handlers
         public string DisplayExpenseCategories()
         {
             StringBuilder categoriesList = new StringBuilder();
@@ -123,7 +142,6 @@ namespace BankerBot
                 categoriesList.Append(index + " - " + category + "\n");
             }
             return categoriesList.ToString();
-
         }
 
         /// <summary>
@@ -164,9 +182,8 @@ namespace BankerBot
                 }
             }
         }
-
-        //AGREGAR DOCUMENTACIÓN
-        public bool ContainsItem(string newExpenseCategory)
+        
+        public bool ContainsExpenseCategory(string newExpenseCategory)
         {
             string exists = string.Empty;
             foreach (string item in ExpenseCategories)
@@ -178,5 +195,12 @@ namespace BankerBot
             }
             return exists == newExpenseCategory;
         }
+
+        public bool Login(string password)
+        {
+            return true;
+        }
+
+
     }
 }

@@ -20,9 +20,9 @@ namespace BankerBot
         /// <returns></returns>
         public string SendAlert(Account account)
         {
-            if (account.MaxGoal.ObjectiveAmount - account.Amount <= 100 && account.MaxGoal.ObjectiveAmount > 0)
+            if (account.SavingsGoal.Max - account.Amount <= 100 && account.SavingsGoal.Max > 0)
             {
-             double ammountLeft = account.MaxGoal.ObjectiveAmount - account.Amount;
+             double ammountLeft = account.SavingsGoal.Max - account.Amount;
              string alert = $"¡Wohoo! Te restan ${ammountLeft} para llegar a tu objetivo máximo de ahorro. 🙌";  
              return alert; 
             }
