@@ -1,4 +1,4 @@
-namespace Bankbot
+namespace BankerBot
 {
     /*Cumple con EXPERT y SRP*/
     /// <summary>
@@ -6,7 +6,7 @@ namespace Bankbot
     /// </summary>
     public class DefaultCondition : ICondition<IMessage>
     {
-        public bool IsSatisfied(IMessage request)
+        public bool ConditionIsMet(IMessage request)
         {
             return true;
         }

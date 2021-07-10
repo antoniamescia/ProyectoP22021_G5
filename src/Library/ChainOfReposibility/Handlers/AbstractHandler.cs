@@ -1,4 +1,4 @@
-namespace Bankbot
+namespace BankerBot
 {
     /*Cumple con ## SRP ## 
     Cumple con ## EXPERT ##*/
@@ -17,7 +17,7 @@ namespace Bankbot
         }
         public virtual void Handler(IMessage request)
         {
-            if (this.condition.IsSatisfied(request)) 
+            if (this.condition.ConditionIsMet(request)) 
             {
                 this.handleRequest(request);
                 return;

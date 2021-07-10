@@ -1,16 +1,16 @@
 using System;
 
 
-namespace Bankbot
+namespace BankerBot
 {
     /*Cumple con ## SRP ## 
     Cumple con ## EXPERT ##*/
     /// <summary>
     /// Handler para cancelar una opción o salir.
     /// </summary>
-    public class AbortHandler : AbstractHandler<IMessage>
+    public class ExitHandler : AbstractHandler<IMessage>
     {
-        public AbortHandler(AbortCondition condition) : base(condition)
+        public ExitHandler(ExitCondition condition) : base(condition)
         {
         }
 

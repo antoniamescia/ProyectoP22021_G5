@@ -1,6 +1,6 @@
 using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class MaxSavingsGoalReachedAlert : IAlert
     {
@@ -21,7 +21,7 @@ namespace Bankbot
 
         public string SendAlert(Account account)
         {
-            if (account.Objective.Max <= account.Balance && account.Objective.Max > 0)
+            if (account.SavingsGoal.Max <= account.Amount)
             {
                 string alert = $"¡Haz alcanzando tu objetivo de ahorro máximo para la cuenta {account.Name}! ¡Felicitaciones! 🥳";  
                 return alert; 

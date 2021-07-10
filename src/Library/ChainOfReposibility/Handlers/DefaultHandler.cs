@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class DefaultHandler : AbstractHandler<IMessage>
     {

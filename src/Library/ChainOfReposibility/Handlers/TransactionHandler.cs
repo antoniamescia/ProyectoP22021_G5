@@ -1,6 +1,6 @@
 using System;
 
-namespace Bankbot
+namespace BankerBot
 {
 
     public class TransactionHandler : AbstractHandler<IMessage>
@@ -13,13 +13,13 @@ namespace Bankbot
         {
             Data data = Session.Instance.GetChat(request.Id);
 
-            if (!data.Temp.ContainsKey("type"))
+            if (!data.ProvisionalInfo.ContainsKey("type"))
             {
                 int index;
                 if (Int32.TryParse(request.Text, out index) && index > 0 && (index == 1 || index == 2))
                 {
-                    data.Temp.Add("type", index);
-                    data.Channel.SendMessage(request.Id, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.ShowAccountList());
+                    data.ProvisionalInfo.Add("type", index);
+                    data.Channel.SendMessage(request.Id, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
                 }
                 else
                 {
@@ -27,28 +27,28 @@ namespace Bankbot
                     data.Channel.SendMessage(request.Id, "¿Qué tipo de transacción queires realizar? \n1 - Ingreso\n2 - Egreso");
                 }
             }
-            else if (!data.Temp.ContainsKey("account"))
+            else if (!data.ProvisionalInfo.ContainsKey("account"))
             {
                 int index;
                 if (Int32.TryParse(request.Text, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
-                    data.Temp.Add("account", data.User.Accounts[index - 1]);
+                    data.ProvisionalInfo.Add("account", data.User.Accounts[index - 1]);
                     data.Channel.SendMessage(request.Id, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
                     data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.Id, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.ShowAccountList());
+                    data.Channel.SendMessage(request.Id, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
                 }
 
 
             }
-            else if (!data.Temp.ContainsKey("currency"))
+            else if (!data.ProvisionalInfo.ContainsKey("currency"))
             {
                 int index;
                 if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    data.Temp.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                    data.ProvisionalInfo.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
                     data.Channel.SendMessage(request.Id, "¿Cuál es el monto de la transacción?");
                 }
                 else
@@ -59,13 +59,13 @@ namespace Bankbot
 
 
             }
-            else if (!data.Temp.ContainsKey("amount"))
+            else if (!data.ProvisionalInfo.ContainsKey("amount"))
             {
                 double amount;
                 if (double.TryParse(request.Text, out amount) && amount > 0)
                 {
                     amount = data.GetDictionaryValue<int>("type") == 1 ? amount : -amount;
-                    data.Temp.Add("amount", amount);
+                    data.ProvisionalInfo.Add("amount", amount);
 
                     if (data.GetDictionaryValue<int>("type") == 1)
                     {
@@ -73,7 +73,7 @@ namespace Bankbot
                     }
                     else
                     {
-                        data.Channel.SendMessage(request.Id, "¿A qué corresponde este egreso?\n" + data.User.ShowItemList());
+                        data.Channel.SendMessage(request.Id, "¿A qué corresponde este egreso?\n" + data.User.DisplayExpenseCategories());
                     }
                 }
                 else
@@ -84,32 +84,32 @@ namespace Bankbot
 
 
             }
-            else if (!data.Temp.ContainsKey("description"))
+            else if (!data.ProvisionalInfo.ContainsKey("description"))
             {
                 if (data.GetDictionaryValue<int>("type") == 2)
                 {
                     int index;
                     if (Int32.TryParse(request.Text, out index) && index > 0 && index <= data.User.ExpenseCategories.Count)
                     {
-                        data.Temp.Add("description", data.User.ExpenseCategories[index - 1]);
+                        data.ProvisionalInfo.Add("description", data.User.ExpenseCategories[index - 1]);
                     }
                     else
                     {
                         data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
-                        data.Channel.SendMessage(request.Id, "¿A qué corresponde este egreso?\n" + data.User.ShowItemList());
+                        data.Channel.SendMessage(request.Id, "¿A qué corresponde este egreso?\n" + data.User.DisplayExpenseCategories());
                         return;
                     }
 
                 }
                 else if (data.GetDictionaryValue<int>("type") == 1)
                 {
-                    data.Temp.Add("description", request.Text);
+                    data.ProvisionalInfo.Add("description", request.Text);
                 }
             }
 
 
 
-            if (data.Temp.ContainsKey("type") && data.Temp.ContainsKey("account") && data.Temp.ContainsKey("currency") && data.Temp.ContainsKey("amount") && data.Temp.ContainsKey("description"))
+            if (data.ProvisionalInfo.ContainsKey("type") && data.ProvisionalInfo.ContainsKey("account") && data.ProvisionalInfo.ContainsKey("currency") && data.ProvisionalInfo.ContainsKey("amount") && data.ProvisionalInfo.ContainsKey("description"))
             {
                 var type = data.GetDictionaryValue<int>("type");
                 var account = data.GetDictionaryValue<Account>("account");
@@ -117,7 +117,7 @@ namespace Bankbot
                 var amount = data.GetDictionaryValue<double>("amount");
                 var description = data.GetDictionaryValue<string>("description");
 
-                account.AddTransaction(currency, amount, description);
+                account.Transfer(currency, amount, description);
 
                 data.Channel.SendMessage(request.Id, "¡Transacción realizada con éxito! 🙌");
 
@@ -126,7 +126,26 @@ namespace Bankbot
                 IAlert alert3 = new MinSavingsGoalAlert();
                 IAlert alert4 = new MinSavingsGoalReachedAlert();
 
-                data.Channel.SendMessage(request.Id, "ALERTA ⚠️:\n"+ alert1.SendAlert(account) + "\n" + alert2.SendAlert(account) + "\n" + alert3.SendAlert(account) + "\n" + alert4.SendAlert(account));
+                if (alert1 != null)
+                {
+                    data.Channel.SendMessage(request.Id, "ALERTA ⚠️:\n"+ alert1.SendAlert(account));
+                }
+                else if (alert2 != null)
+                {
+                    data.Channel.SendMessage(request.Id, "ALERTA ⚠️:\n"+ alert2.SendAlert(account));
+                }
+                else if (alert3 != null)
+                {
+                    data.Channel.SendMessage(request.Id, "ALERTA ⚠️:\n"+ alert3.SendAlert(account));
+                }
+                else if (alert4 != null)
+                {
+                    data.Channel.SendMessage(request.Id, "ALERTA ⚠️:\n"+ alert4.SendAlert(account));
+                }
+                else
+                {
+                    return;
+                }
 
                 data.ClearOperation();
                 return;

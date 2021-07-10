@@ -1,6 +1,6 @@
 using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     /*Cumple con ## SRP ## 
     Cumple con ## EXPERT ##*/
@@ -18,12 +18,12 @@ namespace Bankbot
         {
             Data data = Session.Instance.GetChat(request.Id);
 
-            if (!data.Temp.ContainsKey("from"))
+            if (!data.ProvisionalInfo.ContainsKey("from"))
             {
                 int index;
                 if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    data.Temp.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                    data.ProvisionalInfo.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
                     data.Channel.SendMessage(request.Id, "¿A qué moneda deseas convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
@@ -32,14 +32,14 @@ namespace Bankbot
                     data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!data.Temp.ContainsKey("to"))
+            else if (!data.ProvisionalInfo.ContainsKey("to"))
             {
                 int index;
                 if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
                     if (CurrencyExchanger.Instance.CurrencyList[index - 1] != data.GetDictionaryValue<Currency>("from"))
                     {
-                        data.Temp.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                        data.ProvisionalInfo.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
                         data.Channel.SendMessage(request.Id, "¿Cuánto es el monto a convertir? ❓");
                     }
                     else
@@ -54,12 +54,12 @@ namespace Bankbot
                     data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!data.Temp.ContainsKey("amount"))
+            else if (!data.ProvisionalInfo.ContainsKey("amount"))
             {
                 double amount;
                 if (double.TryParse(request.Text, out amount) && amount > 0)
                 {
-                    data.Temp.Add("amount", amount);
+                    data.ProvisionalInfo.Add("amount", amount);
                 }
                 else
                 {
@@ -68,7 +68,7 @@ namespace Bankbot
                 }
             }
 
-            if (data.Temp.ContainsKey("from") && data.Temp.ContainsKey("to") && data.Temp.ContainsKey("amount"))
+            if (data.ProvisionalInfo.ContainsKey("from") && data.ProvisionalInfo.ContainsKey("to") && data.ProvisionalInfo.ContainsKey("amount"))
             {
                 var amount = data.GetDictionaryValue<double>("amount");
                 var from = data.GetDictionaryValue<Currency>("from");

@@ -1,4 +1,4 @@
-﻿namespace Bankbot
+﻿namespace BankerBot
 {
     public interface IMessage
     {

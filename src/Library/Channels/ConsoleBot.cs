@@ -1,10 +1,8 @@
-﻿namespace Bankbot
+﻿namespace BankerBot
 {
-    /// <summary>
-    /// Implementa el bot por consola.
-    /// </summary>
     public class ConsoleBot : AbstractBot
     {
+        //SINGLETON
         private static ConsoleBot instance;
         public static ConsoleBot Instance
         {
@@ -17,7 +15,7 @@
         }
         private ConsoleBot() : base()
         { }
-        public override void Start()
+        public override void StartCommunication()
         {
             System.Console.WriteLine("Recuerda que puedes escribir \"Salir\" en cualquier momento para finalizar la conversación. 👋🏼");
             while (true)

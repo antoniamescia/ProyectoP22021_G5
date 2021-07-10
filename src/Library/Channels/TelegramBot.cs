@@ -3,8 +3,9 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
-namespace Bankbot
+namespace BankerBot
 {
+    //SINGLETON
     public class TelegramBot : AbstractBot
     {
         private ITelegramBotClient Bot;
@@ -15,7 +16,10 @@ namespace Bankbot
         {
             get
             {
-                if (instance == null) instance = new TelegramBot();
+                if (instance == null)
+                {
+                    instance = new TelegramBot();
+                }
 
                 return instance;
             }
@@ -25,7 +29,22 @@ namespace Bankbot
             this.Bot = new TelegramBotClient(Token);
         }
 
-        public override void Start()
+         public ITelegramBotClient Client
+        {
+            get
+            {
+                return this.Bot;
+            }
+        }
+        
+        // private User BotInfo
+        // {
+        //     get
+        //     {
+        //         return this.Client.GetMeAsync().Result;
+        //     }
+        // }
+        public override void StartCommunication()
         {
             Bot.OnMessage += OnMessage;
 

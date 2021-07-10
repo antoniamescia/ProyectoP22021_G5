@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class ConsolePrinter : IPrinter
     {
@@ -20,7 +20,7 @@ namespace Bankbot
         {
 
         }
-        public void PrintSavingsGoal(Objective savingsGoal)
+        public void PrintSavingsGoal(SavingsGoal savingsGoal)
         {
             
         }

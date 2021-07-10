@@ -1,10 +1,10 @@
-namespace Bankbot
+namespace BankerBot
 {
     public class TransactionCondition : ICondition<IMessage>
     {
-        public bool IsSatisfied(IMessage request)
+        public bool ConditionIsMet(IMessage request)
         {
-            var data = Session.Instance.GetChat(request.Id);
+            Data data = Session.Instance.GetChat(request.Id);
             return data.State == State.HandlingRequest && data.Command.ToLower() == "/transaccion";
         }
     }

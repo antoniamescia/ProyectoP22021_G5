@@ -1,6 +1,6 @@
 ﻿// using System;
 
-// namespace Bankbot
+// namespace BankerBot
 // {
 //     public class TimeLimitReachedAlert : IAlert
 //     { 

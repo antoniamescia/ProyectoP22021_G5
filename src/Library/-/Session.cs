@@ -1,18 +1,22 @@
 using System.Collections.Generic;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class Session 
     {
-        public List<User> AllUsers { get; set; }
+        //SINGLETON
         public Dictionary<string, Data> DataMap;
+         public List<User> AllUsers { get; set; }
         //public IPrinter Printer { get; set; }
         private static Session instance;
         public static Session Instance
         {
             get
             {
-                if (instance == null) instance = new Session();
+                if (instance == null) 
+                {
+                    instance = new Session();
+                }
                 return instance;
             }
         }
@@ -23,74 +27,61 @@ namespace Bankbot
             //this.Printer = new HtmlPrinter();
         }
 
-        /// <summary>
-        /// Agrega un usuario nuevo a la lista de usuarios en caso que no esté (para diferenciarlos).
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
+
         public void AddUser(string username, string password)
         {
-            foreach (var user in AllUsers)
+            foreach (User user in AllUsers)
             {
-                if (user.Username == username) return;
+                
+                if (user.Username == username)
+                {
+                    return;
+                }
             }
             AllUsers.Add(new User(username, password));
         }
 
-        /// <summary>
-        /// Remueve de la lista el usuario deseado.
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        public void RemoveUser(string username, string password)
+        public bool UsernameExists(string username)
         {
-            if (UsernameExists(username))
+            string u = "";
+            foreach (User user in AllUsers)
             {
-                AllUsers.Remove(GetUser(username, password));
+                if (user.Username == username)
+                {
+                    u = user.Username;
+                }
             }
+            return u == username;
         }
         public User GetUser(string username, string password)
         {
-            foreach (var item in AllUsers)
+            foreach (User user in AllUsers)
             {
-                if (item.Username == username && item.Password == password) return item;
+                if (user.Username == username && user.Password == password)
+                {
+                    return user;
+                }
             }
             return null;
         }
 
-        /// <summary>
-        ///     Chequea si existe o no el usuario.
-        /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
-
-        public bool UsernameExists(string username)
+         public void SetChannel(string id, ICommunicationChannel newChannel)
         {
-            string user = "";
-            foreach (var item in AllUsers)
-            {
-                if (item.Username == username) user = item.Username;
-            }
-            return user == username;
+            GetChat(id).Channel = newChannel;
         }
 
         public Data GetChat(string id)
         {
-            Data chat;
-            if (DataMap.TryGetValue(id, out chat))
+            Data newChat;
+            if (DataMap.TryGetValue(id, out newChat))
             {
-                return chat;
+                return newChat;
             }
 
-            chat = new Data();
-            DataMap.Add(id, chat);
-            return chat;
+            newChat = new Data();
+            DataMap.Add(id, newChat);
+            return newChat;
 
-        }
-
-        public void SetChannel(string id, IChannel newChannel)
-        {
-            GetChat(id).Channel = newChannel;
         }
     }
 }

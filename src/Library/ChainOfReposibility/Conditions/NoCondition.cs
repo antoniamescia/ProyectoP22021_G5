@@ -1,9 +1,9 @@
 
-namespace Bankbot
+namespace BankerBot
 {
     public class NoCondition : ICondition<IMessage>
     {
-        public bool IsSatisfied(IMessage request)
+        public bool ConditionIsMet(IMessage request)
         {
            return true;
         }

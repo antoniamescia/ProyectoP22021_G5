@@ -1,6 +1,6 @@
 using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class LoginHandler : AbstractHandler<IMessage>
     {
@@ -20,17 +20,17 @@ namespace Bankbot
         {
             Data data = Session.Instance.GetChat(request.Id);
 
-            if (!data.Temp.ContainsKey("username"))
+            if (!data.ProvisionalInfo.ContainsKey("username"))
             {
-                data.Temp.Add("username", request.Text);
+                data.ProvisionalInfo.Add("username", request.Text);
                 data.Channel.SendMessage(request.Id, "Ingresa tu contraseña:");
             }
-            else if (!data.Temp.ContainsKey("password"))
+            else if (!data.ProvisionalInfo.ContainsKey("password"))
             {
-                data.Temp.Add("password", request.Text);
+                data.ProvisionalInfo.Add("password", request.Text);
             }
 
-            if (data.Temp.ContainsKey("username") && data.Temp.ContainsKey("password"))
+            if (data.ProvisionalInfo.ContainsKey("username") && data.ProvisionalInfo.ContainsKey("password"))
             {
                 string username = data.GetDictionaryValue<string>("username");
                 string password = data.GetDictionaryValue<string>("password");
@@ -47,7 +47,7 @@ namespace Bankbot
                 {
                     data.User = user;
                     data.Channel.SendMessage(request.Id, "¡Inicio de sesión exitoso! 💪🏼");
-                    data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?:\n" + Commands.Instance.CommandList((request.Id)));
+                    data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?:\n" + Commands.Instance.ListCommands((request.Id)));
                 }
                 else if (connected)
                 {

@@ -1,7 +1,7 @@
-namespace Bankbot
+namespace BankerBot
 {
     public interface ICondition<IMessage>
     {
-        bool IsSatisfied(IMessage request);
+        bool ConditionIsMet(IMessage request);
     }
 }

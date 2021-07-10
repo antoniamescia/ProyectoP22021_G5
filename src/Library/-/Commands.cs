@@ -2,24 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class Commands
     {
-        public List<string> CommandsList { get; set; }
+        // SINGLETON
+        public List<string> ListOfCommands { get; set; }
         private static Commands instance;
 
         public static Commands Instance
         {
             get
             {
-                if (instance == null) instance = new Commands();
+               if (instance == null)
+                {
+                    instance = new Commands();
+
+                }
                 return instance;
             }
         }
         private Commands()
         {
-            this.CommandsList = new List<string>()
+            this.ListOfCommands = new List<string>()
             {
                 "/comandos",
                 "/iniciarsesion",
@@ -35,9 +40,9 @@ namespace Bankbot
                 "/salir"
             };
         }
-        public string CommandList(string id)
+        public string ListCommands(string id)
         {
-            var data = Session.Instance.GetChat(id);
+            Data data = Session.Instance.GetChat(id);
 
             string commandList = string.Empty;
 
@@ -64,6 +69,11 @@ namespace Bankbot
             }
 
             return commandList;
+        }
+
+         public bool Exists(string command)
+        {
+            return instance.ListOfCommands.Contains(command.ToLower());
         }
         private static List<string> UnlogedCommandsList()
         {
@@ -95,9 +105,5 @@ namespace Bankbot
             return hasAccountsList;
         }
 
-        public bool CommandExist(string command)
-        {
-            return instance.CommandsList.Contains(command.ToLower());
-        }
     }
 }

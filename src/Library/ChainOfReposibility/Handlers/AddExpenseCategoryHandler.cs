@@ -1,6 +1,6 @@
 using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class AddExpenseCategoryHandler : AbstractHandler<IMessage>
     {
@@ -14,7 +14,7 @@ namespace Bankbot
 
             if (request.Text != string.Empty)
             {
-                if (!data.User.ContainsItem(request.Text))
+                if (!data.User.ContainsExpenseCategory(request.Text))
                 {
                     data.User.ExpenseCategories.Add(request.Text);
                     data.Channel.SendMessage(request.Id, "¡Se ha agregado una nueva categoría de gasto con éxito! 🙌");

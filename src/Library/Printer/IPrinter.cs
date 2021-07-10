@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     public interface IPrinter
     {
@@ -11,6 +11,6 @@ namespace Bankbot
         */
         void PrintAccountBalance(Account account);
         void PrintTransactions(Transaction transaction, string limitDate);
-        void PrintSavingsGoal(Objective savingsGoal);
+        void PrintSavingsGoal(SavingsGoal savingsGoal);
     }
 }

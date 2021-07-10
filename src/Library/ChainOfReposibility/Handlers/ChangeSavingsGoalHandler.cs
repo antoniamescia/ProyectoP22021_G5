@@ -1,6 +1,6 @@
 using System;
 
-namespace Bankbot
+namespace BankerBot
 {
     public class ChangeAccountObjectiveHandler : AbstractHandler<IMessage>
     {
@@ -12,27 +12,27 @@ namespace Bankbot
         {
             Data data = Session.Instance.GetChat(request.Id);
 
-            if (!data.Temp.ContainsKey("account"))
+            if (!data.ProvisionalInfo.ContainsKey("account"))
             {
                 int index;
                 if (Int32.TryParse(request.Text, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
-                    data.Temp.Add("account", data.User.Accounts[index - 1]);
+                    data.ProvisionalInfo.Add("account", data.User.Accounts[index - 1]);
                     data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro máximo:");
                 }
                 else
                 {
                     data.Channel.SendMessage(request.Id, "¿Puedes seleccionar el número correspondiente? 😊");
-                    data.Channel.SendMessage(request.Id, "¿De qué cuenta deseas cambiar el objetivo de ahorro?:\n" + data.User.ShowAccountList());
+                    data.Channel.SendMessage(request.Id, "¿De qué cuenta deseas cambiar el objetivo de ahorro?:\n" + data.User.DisplayAccounts());
                 }
                 return;
             }
-            else if (!data.Temp.ContainsKey("maxObjective"))
+            else if (!data.ProvisionalInfo.ContainsKey("maxObjective"))
             {
                 double amount;
                 if (double.TryParse(request.Text, out amount) && amount > 1)
                 {
-                    data.Temp.Add("maxObjective", amount);
+                    data.ProvisionalInfo.Add("maxObjective", amount);
                     data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro mínimo:");
                 }
                 else
@@ -41,12 +41,12 @@ namespace Bankbot
                     data.Channel.SendMessage(request.Id, "Ingrese un nuevo objetivo de ahorro máximo:");
                 }
             }
-            else if (!data.Temp.ContainsKey("minObjective"))
+            else if (!data.ProvisionalInfo.ContainsKey("minObjective"))
             {
                 double amount;
                 if (double.TryParse(request.Text, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("maxObjective"))
                 {
-                    data.Temp.Add("minObjective", amount);
+                    data.ProvisionalInfo.Add("minObjective", amount);
                 }
                 else
                 {
@@ -55,7 +55,7 @@ namespace Bankbot
                 }
             }
 
-            if (data.Temp.ContainsKey("maxObjective") && data.Temp.ContainsKey("minObjective"))
+            if (data.ProvisionalInfo.ContainsKey("maxObjective") && data.ProvisionalInfo.ContainsKey("minObjective"))
             {
                 var account = data.GetDictionaryValue<Account>("account");
                 var maxObjective = data.GetDictionaryValue<double>("maxObjective");

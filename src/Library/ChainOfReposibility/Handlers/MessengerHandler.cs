@@ -1,4 +1,4 @@
-namespace Bankbot
+namespace BankerBot
 {
     public class MessengerHandler : AbstractHandler<IMessage>
     {
@@ -14,7 +14,7 @@ namespace Bankbot
             switch (request.Text.ToLower())
             {
                 case "/comandos":
-                    data.Channel.SendMessage(request.Id, Commands.Instance.CommandList(request.Id));
+                    data.Channel.SendMessage(request.Id, Commands.Instance.ListCommands(request.Id));
                     data.State = State.Messenger;
                     break;
 
@@ -39,35 +39,16 @@ namespace Bankbot
                     data.Channel.SendMessage(request.Id, "Para proceder, cierra sesión. 🙏🏼");
                     break;
 
-                case "/cerrarsesion":
-
-                    if (data.User != null)
-                    {
-                        data.User = null;
-                        data.Channel.SendMessage(request.Id, "¡Desconectado con éxito! 👏🏼");
-                        data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?:\n" + Commands.Instance.CommandList((request.Id)));
-                        data.State = State.Messenger;
-                        break;
-                    }
-                    data.Channel.SendMessage(request.Id, "Para proceder, cierra sesión. 🙏🏼");
-                    data.State = State.Messenger;
-                    break;
 
                 case "/crearcuenta":
                     if (data.User != null)
                     {
                         data.Command = request.Text;
-                        data.Channel.SendMessage(request.Id, "¿Qué tipo de cuenta es? 💳:\n" + Account.ShowAccountType());
+                        data.Channel.SendMessage(request.Id, "¿Qué tipo de cuenta es? 💳:\n" + Account.DisplayAccountType());
                         break;
                     }
 
                     data.Channel.SendMessage(request.Id, "Para proceder, inicia sesión. 🙏🏼");
-                    break;
-
-                case "/convertir":
-
-                    data.Command = request.Text;
-                    data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                     break;
 
                 case "/transaccion":
@@ -75,6 +56,16 @@ namespace Bankbot
                     {
                         data.Command = request.Text;
                         data.Channel.SendMessage(request.Id, "¿Qué tipo de transacción deseas realizar? :\n1 - Ingreso\n2 - Egreso");
+                        break;
+                    }
+                    data.Channel.SendMessage(request.Id, "Para proceder, inicia sesión. 🙏🏼");
+                    break;
+                
+                 case "/mostrarbalance":
+                    if (data.User != null)
+                    {
+                        data.Command = request.Text;
+                        data.Channel.SendMessage(request.Id, "¿De qué cuenta quieres consultar el balance?\n" + data.User.DisplayAccounts());
                         break;
                     }
                     data.Channel.SendMessage(request.Id, "Para proceder, inicia sesión. 🙏🏼");
@@ -95,20 +86,31 @@ namespace Bankbot
                     if (data.User != null)
                     {
                         data.Command = request.Text;
-                        data.Channel.SendMessage(request.Id, "¿De qué cuenta quieres cambiar el objetivo de ahorro?\n" + data.User.ShowAccountList());
+                        data.Channel.SendMessage(request.Id, "¿De qué cuenta quieres cambiar el objetivo de ahorro?\n" + data.User.DisplayAccounts());
                         break;
                     }
                     data.Channel.SendMessage(request.Id, "Para proceder, inicia sesión. 🙏🏼");
                     break;
+                
+                case "/convertir":
 
-                case "/mostrarbalance":
+                    data.Command = request.Text;
+                    data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    break;
+
+
+                 case "/cerrarsesion":
+
                     if (data.User != null)
                     {
-                        data.Command = request.Text;
-                        data.Channel.SendMessage(request.Id, "¿De qué cuenta quieres consultar el balance?\n" + data.User.ShowAccountList());
+                        data.User = null;
+                        data.Channel.SendMessage(request.Id, "¡Desconectado con éxito! 👏🏼");
+                        data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?:\n" + Commands.Instance.ListCommands((request.Id)));
+                        data.State = State.Messenger;
                         break;
                     }
-                    data.Channel.SendMessage(request.Id, "Para proceder, inicia sesión. 🙏🏼");
+                    data.Channel.SendMessage(request.Id, "Para proceder, cierra sesión. 🙏🏼");
+                    data.State = State.Messenger;
                     break;
             }
         }

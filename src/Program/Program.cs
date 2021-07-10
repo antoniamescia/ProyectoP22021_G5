@@ -2,18 +2,17 @@
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
-using Bankbot;
 using Telegram.Bot.Types.Enums;
 using System.IO;
 using System.Text;
 
-namespace Bankbot
+namespace BankerBot
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Configuration.Start();
+            Configuration.StartCommunication();
             // //Configuration.Start();
             // //Obtengo una instancia de TelegramBot
             // TelegramBot telegramBot = TelegramBot.Instance;
