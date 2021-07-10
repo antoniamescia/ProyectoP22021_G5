@@ -34,6 +34,15 @@ namespace BankerBot
         public double Amount { get; set; }
         public SavingsGoal SavingsGoal { get; set; }
 
+        
+        /// <summary>
+        /// Constructor de la cuenta
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="currency"></param>
+        /// <param name="amount"></param>
+        /// <param name="savingsGoal"></param>
         public Account(string name, Type type, Currency currency, double amount, SavingsGoal savingsGoal)
         {
             this.TransactionsRecord = new List<Transaction>();
@@ -46,11 +55,12 @@ namespace BankerBot
         }
 
 
-        public void ChangeObjective(SavingsGoal newObjective)
-        {
-            this.SavingsGoal = newObjective;
-        }
-
+        /// <summary>
+        /// Realiza una transacción ya sea de ingreso o egreso.
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="amount"></param>
+        /// <param name="description"></param>
         public void Transfer(Currency currency, double amount, string description)
         {
             Transaction transaction = new Transaction(amount, currency, DateTime.Now, description);
@@ -65,14 +75,19 @@ namespace BankerBot
         /// <returns></returns>
         public void ChangeCurrencyType(Currency newCurrencyType)
         {
-            if (currencyExchanger.CurrencyExists(newCurrencyType.Type))
+            if (currencyExchanger.ExistsCurrency(newCurrencyType.Type))
             {
                 this.Amount = this.currencyExchanger.Convert(this.Amount, this.CurrencyType, newCurrencyType);
                 this.CurrencyType = newCurrencyType;
             }
         }
 
-        public void ChangeObjective(double newMax, double newMin)
+        /// <summary>
+        /// Cambia objetivo maximo y minimo
+        /// </summary>
+        /// <param name="newMax"></param>
+        /// <param name="newMin"></param>
+        public void ChangeSavingsGoal(double newMax, double newMin)
         {
             this.SavingsGoal.Max = newMax;
             this.SavingsGoal.Min = newMin;

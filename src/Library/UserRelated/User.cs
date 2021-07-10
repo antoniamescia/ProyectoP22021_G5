@@ -36,17 +36,29 @@ namespace BankerBot
                                                         "Diversión" };
         }
 
-         public void ChangeUsername(string newUsername)
+        /// <summary>
+        /// Cambia el nombre del usuario
+        /// </summary>
+        /// <param name="newUsername"></param>
+        public void ChangeUsername(string newUsername)
         {
             this.Username = newUsername;
         }
 
+        /// <summary>
+        /// Cambia la contraseña
+        /// </summary>
+        /// <param name="newPassword"></param>
         public void ChangePassword(string newPassword)
         {
             this.Password = newPassword;
         }
 
-         public string DisplayAccounts()
+        /// <summary>
+        /// Muestra las cuentas
+        /// </summary>
+        /// <returns></returns>
+        public string DisplayAccounts()
         {
             StringBuilder accountList = new StringBuilder();
             foreach (Account account in Accounts)
@@ -57,12 +69,17 @@ namespace BankerBot
             return accountList.ToString();
         }
 
+        /// <summary>
+        /// Añade una cuenta a la lista de cuentas de usuario, di dicha cuenta ya existe, no crea nada.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <param name="currency"></param>
+        /// <param name="balance"></param>
+        /// <param name="savingsGoal"></param>
+        /// <returns></returns>
         public Account AddAccount(Type type, string name, Currency currency, double balance, SavingsGoal savingsGoal)
         {
-            if (this.Accounts == null)
-            {
-                this.Accounts = new List<Account> { };
-            }
             foreach (Account account in Accounts)
             {
                 if (account.Name == name)
@@ -75,6 +92,11 @@ namespace BankerBot
             return newAccount;
         }
 
+        /// <summary>
+        /// Comprueba que existe la cuenta
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool AccountExists(string name)
         {
             string accountName = String.Empty;
@@ -90,6 +112,11 @@ namespace BankerBot
             return accountName == name;
         }
 
+
+        /// <summary>
+        /// Remueve una cuenta de la lista de cuentas del usuario, si dicha cuenta no existe, no borra nada.
+        /// </summary>
+        /// <param name="account"></param>
         public void RemoveAcount(Account account)
         {
              if (this.Accounts.Contains(account))
@@ -102,6 +129,10 @@ namespace BankerBot
             }
         }
 
+        /// <summary>
+        /// Despliega todos los elementos de la lista de categorias disponibles del usuario.
+        /// </summary>
+        /// <returns></returns>
         public string DisplayExpenseCategories()
         {
             StringBuilder categoriesList = new StringBuilder();
@@ -151,7 +182,7 @@ namespace BankerBot
                 }
             }
         }
-
+        
         public bool ContainsExpenseCategory(string newExpenseCategory)
         {
             string exists = string.Empty;

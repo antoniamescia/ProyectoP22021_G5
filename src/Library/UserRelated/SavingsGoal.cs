@@ -10,6 +10,12 @@
         public double Max { get; set; }
         public double Min { get; set; }
 
+
+        /// <summary>
+        /// Crea los objetivos de ahorro de la cuenta
+        /// </summary>
+        /// <param name="max"></param>
+        /// <param name="min"></param>
         public SavingsGoal(double max, double min)
         {
             this.Max = max;

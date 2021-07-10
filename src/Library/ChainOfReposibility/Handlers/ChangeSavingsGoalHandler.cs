@@ -61,7 +61,7 @@ namespace BankerBot
                 var maxObjective = data.GetDictionaryValue<double>("maxObjective");
                 var minObjective = data.GetDictionaryValue<double>("minObjective");
 
-                account.ChangeObjective(maxObjective, minObjective);
+                account.ChangeSavingsGoal(maxObjective, minObjective);
                 data.Channel.SendMessage(request.Id, "¡Objetivos cambiados con éxito! 👏🏼");
 
                 data.ClearOperation();
