@@ -21,7 +21,7 @@ namespace Bankbot
         {
 
         }
-        public void PrintSavingsGoal(SavingsGoal savingsGoal)
+        public void PrintSavingsGoal(Objective savingsGoal)
         {
 
         }

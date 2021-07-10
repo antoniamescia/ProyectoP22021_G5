@@ -73,7 +73,7 @@ namespace Bankbot
                     }
                     else
                     {
-                        data.Channel.SendMessage(request.Id, "¿A qué categoría de gasto pertenece?\n" + data.User.ShowItemList());
+                        data.Channel.SendMessage(request.Id, "¿A qué corresponde este egreso?\n" + data.User.ShowItemList());
                     }
                 }
                 else
@@ -96,7 +96,7 @@ namespace Bankbot
                     else
                     {
                         data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
-                        data.Channel.SendMessage(request.Id, "¿A qué categoría de gasto pertenece?\n" + data.User.ShowItemList());
+                        data.Channel.SendMessage(request.Id, "¿A qué corresponde este egreso?\n" + data.User.ShowItemList());
                         return;
                     }
 
@@ -121,17 +121,12 @@ namespace Bankbot
 
                 data.Channel.SendMessage(request.Id, "¡Transacción realizada con éxito! 🙌");
 
-                if (account.SavingsGoal.Min > account.Balance)
-                {
-                    data.Channel.SendMessage(request.Id, "Ha sobrepasado su objetivo mínimo. Debe ahorrar más.");
-                }
-                else if (account.SavingsGoal.Max < account.Balance)
-                {
-                    data.Channel.SendMessage(request.Id, "Ha superado su objetivo máximo. Empiece a gastar.");
-                }
+                IAlert alert1 = new MaxSavingsGoalAlert();
+                IAlert alert2 = new MaxSavingsGoalReachedAlert();
+                IAlert alert3 = new MinSavingsGoalAlert();
+                IAlert alert4 = new MinSavingsGoalReachedAlert();
 
-
-
+                data.Channel.SendMessage(request.Id, "ALERTA ⚠️:\n"+ alert1.SendAlert(account) + "\n" + alert2.SendAlert(account) + "\n" + alert3.SendAlert(account) + "\n" + alert4.SendAlert(account));
 
                 data.ClearOperation();
                 return;

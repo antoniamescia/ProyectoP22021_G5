@@ -24,7 +24,7 @@ namespace Bankbot
         }
 
         /// <summary>
-        /// Agrega un usuario nuevo a la lista de usuarios en caso que no esté(para diferenciarlos).
+        /// Agrega un usuario nuevo a la lista de usuarios en caso que no esté (para diferenciarlos).
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>

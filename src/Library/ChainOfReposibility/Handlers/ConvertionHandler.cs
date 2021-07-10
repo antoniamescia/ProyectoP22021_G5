@@ -40,18 +40,18 @@ namespace Bankbot
                     if (CurrencyExchanger.Instance.CurrencyList[index - 1] != data.GetDictionaryValue<Currency>("from"))
                     {
                         data.Temp.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                        data.Channel.SendMessage(request.Id, "Ingresa el monto que deseas convertir:");
+                        data.Channel.SendMessage(request.Id, "¿Cuánto es el monto a convertir? ❓");
                     }
                     else
                     {
-                        data.Channel.SendMessage(request.Id, "Selecciona una moneda diferente, por favor");
+                        data.Channel.SendMessage(request.Id, "¡Selecciona otra moneda! 🪙");
                         data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                     }
                 }
                 else
                 {
                     data.Channel.SendMessage(request.Id, "Selecciona el índice, por favor.");
-                    data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir?\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Channel.SendMessage(request.Id, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
             else if (!data.Temp.ContainsKey("amount"))
@@ -64,7 +64,7 @@ namespace Bankbot
                 else
                 {
                     data.Channel.SendMessage(request.Id, "¡Ingresa un valor mayor a 0!");
-                    data.Channel.SendMessage(request.Id, "Ingresa el monto que desea convertir:");
+                    data.Channel.SendMessage(request.Id, "¿Cuánto es el monto a convertir? ❓");
                 }
             }
 
@@ -75,7 +75,7 @@ namespace Bankbot
                 var to = data.GetDictionaryValue<Currency>("to");
 
                 var newAmount = CurrencyExchanger.Instance.Convert(amount, from, to);
-                data.Channel.SendMessage(request.Id, $"¡Conversión exitosa! 🙌 {from.Code} {amount} equivalen a {to.Code} {newAmount}");
+                data.Channel.SendMessage(request.Id, $"¡Conversión exitosa! 🙌 {from.Code} {amount} equivalen a {to.Code} {newAmount}. 🤑");
 
                 data.ClearOperation();
             }

@@ -103,11 +103,20 @@ using System.Collections.Generic;
 
 namespace Bankbot
 {
+   /*
+    Patrones y principios:
+    Cumple con SRP porque no se identifica más de un razón de cambio.
+    Cumple con el patrón Expert pues es el experto en la información requerida para realizar las responsabilidades otorgadas. 
+    Cumple con el patrón Creator al crear las transacciones pues usa de forma directa dichas instancias al ser el encargado de realizar las transacciones.
+     */
+
+     /// <summary>
+     /// 
+     /// </summary>
     public enum AccountType
     {
-        Ahorro = 1,
-        Debito = 2,
-        Credito = 3
+        Debito = 1,
+        Credito = 2
     }
  
     public class Account
@@ -117,30 +126,39 @@ namespace Bankbot
         public AccountType AccountType { get; set; }
         public Currency Currency { get; set; }
         public double Balance { get; set; }
-        public SavingsGoal SavingsGoal { get; set; }
+        public Objective Objective { get; set; }
 
-        public Account(string name, AccountType type, Currency currency, double balance, SavingsGoal savingsGoal)
+
+        /// <summary>
+        /// Constructor de cuenta. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="currency"></param>
+        /// <param name="balance"></param>
+        /// <param name="objective"></param>
+        public Account(string name, AccountType type, Currency currency, double balance, Objective objective)
         {
             this.Name = name;
             this.History = new List<Transaction>();
             this.AccountType = type;
             this.Currency = currency;
             this.Balance = balance;
-            this.SavingsGoal = savingsGoal;
+            this.Objective = objective;
         }
 
         /// <summary>
-        /// Cambiar el objetivo de una cuenta.
+        /// Cambia el objetivo de ahorro de una cuenta.
         /// </summary>
         /// <param name="newObjective"></param>
 
-        public void ChangeSavingsGoal(SavingsGoal newSavingsGoal)
+        public void ChangeObjective(Objective newObjective)
         {
-            this.SavingsGoal = newSavingsGoal;
+            this.Objective = newObjective;
         }
 
         /// <summary>
-        /// Añadir una transacción a una cuenta.
+        /// Realiza una transacción, ya sea de egreso o de ingreso.
         /// </summary>
         /// <param name="currency"></param>
         /// <param name="amount"></param>
@@ -153,12 +171,21 @@ namespace Bankbot
             this.Balance += amount;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newMax"></param>
+        /// <param name="newMin"></param>
         public void ChangeObjective(double newMax, double newMin)
         {
-            this.SavingsGoal.Max = newMax;
-            this.SavingsGoal.Min = newMin;
+            this.Objective.Max = newMax;
+            this.Objective.Min = newMin;
         }
 
+        /// <summary>
+        /// Muestra los tipos de cuenta a crear. En este caso, pueden ser solo Débito o Crédito por los definidos en el tipo enumerable. 
+        /// </summary>
+        /// <returns></returns>
         public static string ShowAccountType()
         {
             StringBuilder enumToText = new StringBuilder();

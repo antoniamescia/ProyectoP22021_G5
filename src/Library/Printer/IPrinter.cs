@@ -11,6 +11,6 @@ namespace Bankbot
         */
         void PrintAccountBalance(Account account);
         void PrintTransactions(Transaction transaction, string limitDate);
-        void PrintSavingsGoal(SavingsGoal savingsGoal);
+        void PrintSavingsGoal(Objective savingsGoal);
     }
 }

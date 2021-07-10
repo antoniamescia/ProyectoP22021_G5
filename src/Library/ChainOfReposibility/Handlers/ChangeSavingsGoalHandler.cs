@@ -62,7 +62,7 @@ namespace Bankbot
                 var minObjective = data.GetDictionaryValue<double>("minObjective");
 
                 account.ChangeObjective(maxObjective, minObjective);
-                data.Channel.SendMessage(request.Id, "¡Objetivos cambiados con éxito!");
+                data.Channel.SendMessage(request.Id, "¡Objetivos cambiados con éxito! 👏🏼");
 
                 data.ClearOperation();
             }

@@ -23,7 +23,7 @@ namespace Bankbot
             if (!data.Temp.ContainsKey("username"))
             {
                 data.Temp.Add("username", request.Text);
-                data.Channel.SendMessage(request.Id, "Ingrese una contraseña:");
+                data.Channel.SendMessage(request.Id, "Ingresa tu contraseña:");
             }
             else if (!data.Temp.ContainsKey("password"))
             {
@@ -46,16 +46,16 @@ namespace Bankbot
                 if (!connected && user != null)
                 {
                     data.User = user;
-                    data.Channel.SendMessage(request.Id, "Se ha conectado correctamente.");
-                    data.Channel.SendMessage(request.Id, "Para continuar puedes ingresar los siguientes comandos:\n" + Commands.Instance.CommandList((request.Id)));
+                    data.Channel.SendMessage(request.Id, "¡Inicio de sesión exitoso! 💪🏼");
+                    data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?:\n" + Commands.Instance.CommandList((request.Id)));
                 }
                 else if (connected)
                 {
-                    data.Channel.SendMessage(request.Id, "Este usuario ya se encuentra conectado.");
+                    data.Channel.SendMessage(request.Id, "¡Ups! Ya estás conectado. 😆");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Credenciales incorrectas, vuelva a intentarlo.");
+                    data.Channel.SendMessage(request.Id, "Inicio de sesión falló. 😞 Vuelve a intentarlo.");
                 }
 
                 data.ClearOperation();

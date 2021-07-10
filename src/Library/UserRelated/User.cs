@@ -28,7 +28,7 @@ namespace Bankbot
         /// Agregar un objeto Account a la la lista List<Account>
         /// </summary>
         /// <param name="account"></param>
-        public Account AddAccount(AccountType type, string name, Currency currency, double balance, SavingsGoal savingsGoal)
+        public Account AddAccount(AccountType type, string name, Currency currency, double balance, Objective savingsGoal)
         {
             if (this.Accounts == null)
             {

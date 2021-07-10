@@ -68,56 +68,56 @@ namespace Bankbot
                 if (double.TryParse(request.Text, out amount) && amount > 0)
                 {
                     data.Temp.Add("amount", amount);
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo máximo de ahorro de la cuenta?");
+                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Ingresa un valor válido.");
+                    data.Channel.SendMessage(request.Id, "¡Ingresa otro valor!");
                     data.Channel.SendMessage(request.Id, "¿Cuál es el balance inicial de la cuenta?");
                 }
             }
-            else if (!data.Temp.ContainsKey("minSavingsGoal"))
+            else if (!data.Temp.ContainsKey("maxObjective"))
             {
                 double amount;
                 if (double.TryParse(request.Text, out amount) && amount > 1)
                 {
-                    data.Temp.Add("minSavingsGoal", amount);
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
+                    data.Temp.Add("maxObjective", amount);
+                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo mínimo de ahorro de la cuenta? ");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Ingresa un valor válido.");
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo máximo de ahorro de la cuenta?");
+                    data.Channel.SendMessage(request.Id, "¡Ingresa otro valor!");
+                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
                 }
             }
-            else if (!data.Temp.ContainsKey("minSavingsGoal"))
+            else if (!data.Temp.ContainsKey("minObjective"))
             {
                 double amount;
-                if (double.TryParse(request.Text, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("minSavingsGoal"))
+                if (double.TryParse(request.Text, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("maxObjective"))
                 {
-                    data.Temp.Add("minSavingsGoal", amount);
+                    data.Temp.Add("minObjective", amount);
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Ingresa un valor válido.");
+                    data.Channel.SendMessage(request.Id, "¡Ingresa otro valor!");
                     data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
                 }
             }
 
-            if (data.Temp.ContainsKey("type") && data.Temp.ContainsKey("name") && data.Temp.ContainsKey("currency") && data.Temp.ContainsKey("amount") && data.Temp.ContainsKey("maxSavingsGoal") && data.Temp.ContainsKey("minSavingsGoal"))
+            if (data.Temp.ContainsKey("type") && data.Temp.ContainsKey("name") && data.Temp.ContainsKey("currency") && data.Temp.ContainsKey("amount") && data.Temp.ContainsKey("maxObjective") && data.Temp.ContainsKey("minObjective"))
             {
                 var type = data.GetDictionaryValue<AccountType>("type");
                 var name = data.GetDictionaryValue<string>("name");
                 var currency = data.GetDictionaryValue<Currency>("currency");
                 var amount = data.GetDictionaryValue<double>("amount");
-                var maxSavingsGoal = data.GetDictionaryValue<double>("maxSavingsGoal");
-                var minSavingsGoal = data.GetDictionaryValue<double>("minSavingsGoal");
+                var maxObjective = data.GetDictionaryValue<double>("maxObjective");
+                var minObjective = data.GetDictionaryValue<double>("minObjective");
 
-                var account = data.User.AddAccount(type, name, currency, amount, new SavingsGoal(maxSavingsGoal, minSavingsGoal));
+                var account = data.User.AddAccount(type, name, currency, amount, new Objective(maxObjective, minObjective));
 
                 if (account != null)
                 {
-                    data.Channel.SendMessage(request.Id, "¡Cuenta creada con éxito! 🙌");
+                    data.Channel.SendMessage(request.Id, "¡Wohoo! ¡Cuenta creada con éxito! 🙌");
                 }
                 else
                 {

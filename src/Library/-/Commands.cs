@@ -28,6 +28,7 @@ namespace Bankbot
                 "/crearcuenta",
                 "/transaccion",
                 "/convertir",
+                "/agregarmoneda",
                 "/mostrarbalance",
                 "/agregarcategoriadegasto",
                 "/cambiarobjetivodeahorro",
@@ -90,7 +91,7 @@ namespace Bankbot
             hasAccountsList.Add("/MostrarBalance");
             hasAccountsList.Add("/Transaccion");
             hasAccountsList.Add("/AgregarCategoriaDeGasto");
-            hasAccountsList.Add("/CambiarObjetivo");
+            hasAccountsList.Add("/CambiarObjetivoDeAhorro");
             return hasAccountsList;
         }
 
