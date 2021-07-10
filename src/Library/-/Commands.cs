@@ -94,7 +94,7 @@ namespace BankerBot
         private static List<string> HasAccountCommandsList()
         {
             List<string> hasAccountsList = new List<string>();
-            hasAccountsList.Add("/CerrasSesion");
+            hasAccountsList.Add("/CerrarSesion");
             hasAccountsList.Add("/CrearCuenta");
             hasAccountsList.Add("/Convertir");
             hasAccountsList.Add("/CrearUsuario");

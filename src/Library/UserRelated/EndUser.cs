@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace BankerBot
 {
-    public class User
+    public class EndUser
     {
         /*
         Patrones y principos:
@@ -18,7 +18,7 @@ namespace BankerBot
         public string Password { get; set; }
         public List<String> ExpenseCategories { get; set; }
 
-        public User(string username, string password)
+        public EndUser(string username, string password)
         {
             this.Username = username;
             this.Password = password;
@@ -60,13 +60,13 @@ namespace BankerBot
         /// <returns></returns>
         public string DisplayAccounts()
         {
-            StringBuilder accountList = new StringBuilder();
+            StringBuilder accountsList = new StringBuilder();
             foreach (Account account in Accounts)
             {
                 string index = (Accounts.IndexOf(account) + 1).ToString();
-                accountList.Append(index + " - " + account.Name + "\n");
+                accountsList.Append(index + " - " + account.Name + "\n");
             }
-            return accountList.ToString();
+            return accountsList.ToString();
         }
 
         /// <summary>
@@ -195,12 +195,6 @@ namespace BankerBot
             }
             return exists == newExpenseCategory;
         }
-
-        public bool Login(string password)
-        {
-            return true;
-        }
-
 
     }
 }

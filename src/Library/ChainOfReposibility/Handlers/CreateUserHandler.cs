@@ -42,7 +42,7 @@ namespace BankerBot
             string password = data.GetDictionaryValue<string>("password");
 
             Session.Instance.AddUser(username, password);
-            User user = Session.Instance.GetUser(username, password);
+            EndUser user = Session.Instance.GetUser(username, password);
 
             if (user != null)
             {

@@ -6,14 +6,22 @@ namespace BankerBot.Test
 {
     public class EndUserTest
     {
+<<<<<<< HEAD
+        private EndUser facundo;
+=======
         private User facundo;
+>>>>>>> main
         private Currency currency;
         private Type type;
 
         [SetUp]
         public void Setup()
         {
+<<<<<<< HEAD
+            facundo = new EndUser("Facundo", "1234");
+=======
             facundo = new User("Facundo", "1234");
+>>>>>>> main
             currency = new Currency("UYU", "UY$", 1);
             this.type = new Type ();
             facundo.AddAccount(type, "BBVA", currency, 300, new SavingsGoal(800, 200));
