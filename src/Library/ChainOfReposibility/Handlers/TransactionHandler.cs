@@ -11,7 +11,7 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
 
             if (!data.ProvisionalInfo.ContainsKey("type"))
             {
@@ -19,12 +19,12 @@ namespace BankerBot
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && (index == 1 || index == 2))
                 {
                     data.ProvisionalInfo.Add("type", index);
-                    data.Channel.SendMessage(request.UserID, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.UserID, "¿Qué tipo de transacción queires realizar? \n1 - Ingreso\n2 - Egreso");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de transacción queires realizar? \n1 - Ingreso\n2 - Egreso");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("account"))
@@ -33,12 +33,12 @@ namespace BankerBot
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
                     data.ProvisionalInfo.Add("account", data.User.Accounts[index - 1]);
-                    data.Channel.SendMessage(request.UserID, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.UserID, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
                 }
 
 
@@ -49,12 +49,12 @@ namespace BankerBot
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
                     data.ProvisionalInfo.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el monto de la transacción?");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el monto de la transacción?");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.UserID, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
 
 
@@ -69,17 +69,17 @@ namespace BankerBot
 
                     if (data.GetDictionaryValue<int>("type") == 1)
                     {
-                        data.Channel.SendMessage(request.UserID, "Describe la transacción:");
+                        data.ComunicationChannel.SendMessage(request.UserID, "Describe la transacción:");
                     }
                     else
                     {
-                        data.Channel.SendMessage(request.UserID, "¿A qué corresponde este egreso?\n" + data.User.DisplayExpenseCategories());
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿A qué corresponde este egreso?\n" + data.User.DisplayExpenseCategories());
                     }
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Ingresa un valor mayor a 0!");
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el monto de la transacción?");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Ingresa un valor mayor a 0!");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el monto de la transacción?");
                 }
 
 
@@ -95,8 +95,8 @@ namespace BankerBot
                     }
                     else
                     {
-                        data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                        data.Channel.SendMessage(request.UserID, "¿A qué corresponde este egreso?\n" + data.User.DisplayExpenseCategories());
+                        data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿A qué corresponde este egreso?\n" + data.User.DisplayExpenseCategories());
                         return;
                     }
 
@@ -119,7 +119,7 @@ namespace BankerBot
 
                 account.Transfer(currency, amount, description);
 
-                data.Channel.SendMessage(request.UserID, "¡Transacción realizada con éxito! 🙌");
+                data.ComunicationChannel.SendMessage(request.UserID, "¡Transacción realizada con éxito! 🙌");
 
                 IAlert alert1 = new MaxSavingsGoalAlert();
                 IAlert alert2 = new MaxSavingsGoalReachedAlert();
@@ -128,19 +128,19 @@ namespace BankerBot
 
                 if (alert1 != null)
                 {
-                    data.Channel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert1.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert1.SendAlert(account));
                 }
                 else if (alert2 != null)
                 {
-                    data.Channel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert2.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert2.SendAlert(account));
                 }
                 else if (alert3 != null)
                 {
-                    data.Channel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert3.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert3.SendAlert(account));
                 }
                 else if (alert4 != null)
                 {
-                    data.Channel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert4.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert4.SendAlert(account));
                 }
                 else
                 {

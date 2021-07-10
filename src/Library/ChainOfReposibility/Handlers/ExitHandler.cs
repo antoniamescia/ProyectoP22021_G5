@@ -16,11 +16,11 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
 
             if (data.Command != string.Empty)
             {
-                data.Channel.SendMessage(request.UserID, "¡Operación cancelada! ❌");
+                data.ComunicationChannel.SendMessage(request.UserID, "¡Operación cancelada! ❌");
             }
         }
     }

@@ -19,7 +19,7 @@ namespace BankerBot
         }
         public void SetChannel(string id, ICommunicationChannel channel)
         {
-            Session.Instance.SetChannel(id, channel);
+            Session.Instance.SetComunicationChannel(id, channel);
         }
         public abstract void SendMessage(string id, string message);
         
