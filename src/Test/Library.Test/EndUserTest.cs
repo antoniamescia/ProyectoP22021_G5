@@ -2,7 +2,7 @@
 // using System;
 // using System.Collections.Generic;
 
-// namespace Bankbot.Test
+// namespace BankerBot.Test
 // {
 //     public class EndUserTest
 //     {

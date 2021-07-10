@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BankerBot
 {
@@ -12,17 +13,9 @@ namespace BankerBot
         Cumple con Expert porque tiene toda la información necesaria para poder cumplir con las responsabilidades otorgadas.
         Cumple con Polymorphism porque usa los métodos polimórficos PrintAccountBalance, PrintTransactions y PrintSavingsGoal.
         */
-        public void PrintAccountBalance(Account account)
-        {
-
-        }
-        public void PrintTransactions(Transaction transaction, string limitDate)
-        {
-
-        }
-        public void PrintSavingsGoal(SavingsGoal savingsGoal)
-        {
-            
+        public string Print(List<Transaction> list, string path)
+        {       
+            return null;
         }
     }
 }

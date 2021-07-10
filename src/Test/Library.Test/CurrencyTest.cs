@@ -2,7 +2,7 @@
 // using System.Collections.Generic;
 // using Bankbot
 
-// namespace Bankbot.Test
+// namespace BankerBot.Test
 // {
 //     public class CurrencyTests
 //     {

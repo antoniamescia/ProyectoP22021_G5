@@ -25,8 +25,9 @@ namespace BankerBot
         Cumple con el patrón Expert pues es el experto en la información requerida para realizar las responsabilidades otorgadas. 
         Cumple con el patrón Creator al crear las transacciones pues usa de forma directa dichas instancias al ser el encargado de realizar las transacciones.
         */
-    
-        public List<Transaction> TransactionsRecord { get;  private set; }
+
+
+        public List<Transaction> TransactionsRecord { get; private set; }
         private CurrencyExchanger currencyExchanger;
         public Type AccountType { get; set; }
         public string Name { get; set; }
@@ -53,7 +54,6 @@ namespace BankerBot
             this.Amount = amount;
             this.SavingsGoal = savingsGoal;
         }
-
 
         /// <summary>
         /// Realiza una transacción ya sea de ingreso o egreso.
