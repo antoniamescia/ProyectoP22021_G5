@@ -18,16 +18,16 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.Id);
+            Data data = Session.Instance.GetChat(request.UserID);
 
             if (!data.ProvisionalInfo.ContainsKey("username"))
             {
-                data.ProvisionalInfo.Add("username", request.Text);
-                data.Channel.SendMessage(request.Id, "Ingresa tu contraseña:");
+                data.ProvisionalInfo.Add("username", request.MessageText);
+                data.Channel.SendMessage(request.UserID, "Ingresa tu contraseña:");
             }
             else if (!data.ProvisionalInfo.ContainsKey("password"))
             {
-                data.ProvisionalInfo.Add("password", request.Text);
+                data.ProvisionalInfo.Add("password", request.MessageText);
             }
 
             if (data.ProvisionalInfo.ContainsKey("username") && data.ProvisionalInfo.ContainsKey("password"))
@@ -46,16 +46,16 @@ namespace BankerBot
                 if (!connected && user != null)
                 {
                     data.User = user;
-                    data.Channel.SendMessage(request.Id, "¡Inicio de sesión exitoso! 💪🏼");
-                    data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?:\n" + Commands.Instance.ListCommands((request.Id)));
+                    data.Channel.SendMessage(request.UserID, "¡Inicio de sesión exitoso! 💪🏼");
+                    data.Channel.SendMessage(request.UserID, "¿Cómo quieres proceder?:\n" + Commands.Instance.ListCommands((request.UserID)));
                 }
                 else if (connected)
                 {
-                    data.Channel.SendMessage(request.Id, "¡Ups! Ya estás conectado. 😆");
+                    data.Channel.SendMessage(request.UserID, "¡Ups! Ya estás conectado. 😆");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Inicio de sesión falló. 😞 Vuelve a intentarlo.");
+                    data.Channel.SendMessage(request.UserID, "Inicio de sesión falló. 😞 Vuelve a intentarlo.");
                 }
 
                 data.ClearOperation();

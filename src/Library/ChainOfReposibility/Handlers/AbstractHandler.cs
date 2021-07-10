@@ -1,20 +1,16 @@
 namespace BankerBot
 {
-    /*Cumple con ## SRP ## 
-    Cumple con ## EXPERT ##*/
-    /// <summary>
-    /// Handler abstracto.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
+
     public abstract class AbstractHandler<T>
     {
         protected abstract void handleRequest(IMessage request);
-        public AbstractHandler<T> Succesor { get; set; }
         private ICondition<IMessage> condition;
+        public AbstractHandler<T> Succesor { get; set; }
         protected AbstractHandler(ICondition<IMessage> condition)
         {
             this.condition = condition;
         }
+
         public virtual void Handler(IMessage request)
         {
             if (this.condition.ConditionIsMet(request)) 

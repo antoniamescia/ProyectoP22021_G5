@@ -20,87 +20,87 @@ namespace BankerBot
         protected override void handleRequest(IMessage request)
         {
 
-            Data data = Session.Instance.GetChat(request.Id);
+            Data data = Session.Instance.GetChat(request.UserID);
 
             if (!data.ProvisionalInfo.ContainsKey("type"))
             {
                 int index;
-                if (Int32.TryParse(request.Text, out index) && index > 0 && index > 0 && index <= Enum.GetNames(typeof(Type)).Length)
+                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index > 0 && index <= Enum.GetNames(typeof(Type)).Length)
                 {
                     data.ProvisionalInfo.Add("type", (Type)index - 1);
-                    data.Channel.SendMessage(request.Id, "Ingresa el nombre de la nueva cuenta.");
+                    data.Channel.SendMessage(request.UserID, "Ingresa el nombre de la nueva cuenta.");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.Id, "¿Qué tipo de cuenta es?\n" + Account.DisplayAccountType());
+                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.Channel.SendMessage(request.UserID, "¿Qué tipo de cuenta es?\n" + Account.DisplayAccountType());
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("name"))
             {
-                if (!data.User.AccountExists(request.Text))
+                if (!data.User.AccountExists(request.MessageText))
                 {
-                    data.ProvisionalInfo.Add("name", request.Text);
-                    data.Channel.SendMessage(request.Id, "¿Qué moneda tiene la cuenta? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.ProvisionalInfo.Add("name", request.MessageText);
+                    data.Channel.SendMessage(request.UserID, "¿Qué moneda tiene la cuenta? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "¡Ya existe una cuenta con ese nombre! Vuelve a ingresar un nombre de cuenta, por favor.");
+                    data.Channel.SendMessage(request.UserID, "¡Ya existe una cuenta con ese nombre! Vuelve a ingresar un nombre de cuenta, por favor.");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("currency"))
             {
                 int index;
-                if (Int32.TryParse(request.Text, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
+                if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
                     data.ProvisionalInfo.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el balance inicial de la cuenta?");
+                    data.Channel.SendMessage(request.UserID, "¿Cuál es el balance inicial de la cuenta?");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.Id, "¿Qué moneda tiene la cuenta? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.Channel.SendMessage(request.UserID, "¿Qué moneda tiene la cuenta? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("amount"))
             {
                 double amount;
-                if (double.TryParse(request.Text, out amount) && amount > 0)
+                if (double.TryParse(request.MessageText, out amount) && amount > 0)
                 {
                     data.ProvisionalInfo.Add("amount", amount);
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
+                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "¡Ingresa otro valor!");
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el balance inicial de la cuenta?");
+                    data.Channel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+                    data.Channel.SendMessage(request.UserID, "¿Cuál es el balance inicial de la cuenta?");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("maxObjective"))
             {
                 double amount;
-                if (double.TryParse(request.Text, out amount) && amount > 1)
+                if (double.TryParse(request.MessageText, out amount) && amount > 1)
                 {
                     data.ProvisionalInfo.Add("maxObjective", amount);
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo mínimo de ahorro de la cuenta? ");
+                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta? ");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "¡Ingresa otro valor!");
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
+                    data.Channel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("minObjective"))
             {
                 double amount;
-                if (double.TryParse(request.Text, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("maxObjective"))
+                if (double.TryParse(request.MessageText, out amount) && amount > 0 && amount < data.GetDictionaryValue<double>("maxObjective"))
                 {
                     data.ProvisionalInfo.Add("minObjective", amount);
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "¡Ingresa otro valor!");
-                    data.Channel.SendMessage(request.Id, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
+                    data.Channel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
                 }
             }
 
@@ -117,11 +117,11 @@ namespace BankerBot
 
                 if (account != null)
                 {
-                    data.Channel.SendMessage(request.Id, "¡Wohoo! ¡Cuenta creada con éxito! 🙌");
+                    data.Channel.SendMessage(request.UserID, "¡Wohoo! ¡Cuenta creada con éxito! 🙌");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.Id, "¡Ha ocurrido un error! 🥲");
+                    data.Channel.SendMessage(request.UserID, "¡Ha ocurrido un error! 🥲");
                 }
 
                 data.ClearOperation();

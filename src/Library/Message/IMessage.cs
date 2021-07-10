@@ -2,7 +2,7 @@
 {
     public interface IMessage
     {
-        string Id { get; set; }
-        string Text { get; set; }
+        string UserID { get; set; }
+        string MessageText { get; set; }
     }
 }

@@ -16,24 +16,24 @@ namespace BankerBot
 
     protected override void handleRequest(IMessage request)
     {
-        Data data = Session.Instance.GetChat(request.Id);
+        Data data = Session.Instance.GetChat(request.UserID);
 
 
         if (!data.ProvisionalInfo.ContainsKey("username"))
         {
-            if (Session.Instance.UsernameExists(request.Text))
+            if (Session.Instance.UsernameExists(request.MessageText))
             {
-                data.Channel.SendMessage(request.Id, "Ya existe un usuario con este nombre 😟.\nVuelva a ingresar un nombre de usuario:");
+                data.Channel.SendMessage(request.UserID, "Ya existe un usuario con este nombre 😟.\nVuelva a ingresar un nombre de usuario:");
             }
             else
             {
-                data.ProvisionalInfo.Add("username", request.Text);
-                data.Channel.SendMessage(request.Id, "Contraseña:");
+                data.ProvisionalInfo.Add("username", request.MessageText);
+                data.Channel.SendMessage(request.UserID, "Contraseña:");
             }
         }
         else if (!data.ProvisionalInfo.ContainsKey("password"))
         {
-            data.ProvisionalInfo.Add("password", request.Text);
+            data.ProvisionalInfo.Add("password", request.MessageText);
         }
 
         if (data.ProvisionalInfo.ContainsKey("username") && data.ProvisionalInfo.ContainsKey("password"))
@@ -46,13 +46,13 @@ namespace BankerBot
 
             if (user != null)
             {
-                data.Channel.SendMessage(request.Id, "¡Usuario creado con éxito! 🙌");
-                data.Channel.SendMessage(request.Id, "¿Cómo quieres proceder?\n" + Commands.Instance.ListCommands(request.Id));
+                data.Channel.SendMessage(request.UserID, "¡Usuario creado con éxito! 🙌");
+                data.Channel.SendMessage(request.UserID, "¿Cómo quieres proceder?\n" + Commands.Instance.ListCommands(request.UserID));
             }
             // Exception 
             else
             {
-                data.Channel.SendMessage(request.Id, "Lo sentimos, ha ocurrido un error. 🥲");
+                data.Channel.SendMessage(request.UserID, "Lo sentimos, ha ocurrido un error. 🥲");
             }
             data.ClearOperation();
         }
