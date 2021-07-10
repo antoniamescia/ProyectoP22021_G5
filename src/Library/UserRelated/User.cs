@@ -108,7 +108,6 @@ namespace BankerBot
                     accountName = account.Name;
                 }
             }
-
             return accountName == name;
         }
 
@@ -195,12 +194,5 @@ namespace BankerBot
             }
             return exists == newExpenseCategory;
         }
-
-        public bool Login(string password)
-        {
-            return true;
-        }
-
-
     }
 }
