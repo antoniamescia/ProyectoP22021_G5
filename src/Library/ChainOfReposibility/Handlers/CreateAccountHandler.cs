@@ -5,11 +5,9 @@ using System.Text;
 
 namespace BankerBot
 {
-    /*Cumple con ## SRP ## 
-    Cumple con ## EXPERT ##*/
 
     /// <summary>
-    /// Handler para crear la cuenta.
+    /// Handler que se encargará de crear una nueva cuenta. 
     /// </summary>
     public class CreateAccountHandler : AbstractHandler<IMessage>
     {
@@ -79,7 +77,7 @@ namespace BankerBot
             else if (!data.ProvisionalInfo.ContainsKey("maxObjective"))
             {
                 double amount;
-                if (double.TryParse(request.MessageText, out amount) && amount > 1)
+                if (double.TryParse(request.MessageText, out amount)) 
                 {
                     data.ProvisionalInfo.Add("maxObjective", amount);
                     data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta? ");
@@ -103,6 +101,20 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
                 }
             }
+            // else if (!data.ProvisionalInfo.ContainsKey("timeLimit"))
+            // {
+            //     DateTime timeLimit;
+            //     if (DateTime.TryParse(request.MessageText, out timeLimit))
+            //     {
+            //         data.ProvisionalInfo.Add("timeLimit", request.MessageText);
+            //         data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el tiempo límite para llegar a tu meta de ahorro? ⌛️\n Ingrésalo de esta forma: MM/dd/yyyy");
+            //     }
+            //     else
+            //     {
+            //         // data.ComunicationChannel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+            //         // data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
+            //     }
+            // }
 
             if (data.ProvisionalInfo.ContainsKey("type") && data.ProvisionalInfo.ContainsKey("name") && data.ProvisionalInfo.ContainsKey("currency") && data.ProvisionalInfo.ContainsKey("amount") && data.ProvisionalInfo.ContainsKey("maxObjective") && data.ProvisionalInfo.ContainsKey("minObjective"))
             {
@@ -112,6 +124,8 @@ namespace BankerBot
                 double amount = data.GetDictionaryValue<double>("amount");
                 double maxObjective = data.GetDictionaryValue<double>("maxObjective");
                 double minObjective = data.GetDictionaryValue<double>("minObjective");
+                //string timeLimit = data.GetDictionaryValue<string>("timeLimit");
+                //DateTime limit = Convert.ToDateTime(timeLimit);
 
                 Account account = data.User.AddAccount(type, name, currency, amount, new SavingsGoal(maxObjective, minObjective));
 

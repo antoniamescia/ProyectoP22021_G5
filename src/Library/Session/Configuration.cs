@@ -18,8 +18,8 @@ namespace BankerBot
             AbstractHandler<IMessage> convertion = new ConvertionHandler(new ConvertionCondition());
             AbstractHandler<IMessage> createAccount = new CreateAccountHandler(new CreateAccountCondition());
             AbstractHandler<IMessage> addExpenseCategory = new AddExpenseCategoryHandler(new AddExpenseCategoryCondition());
-            AbstractHandler<IMessage> changeObjective = new ChangeAccountObjectiveHandler(new ChangeAccountObjectiveCondition());
-            AbstractHandler<IMessage> balance = new BalanceHandler(new BalanceCondition());
+            AbstractHandler<IMessage> changeObjective = new ChangeSavingsGoalHandler(new ChangeSavingsGoalCondition());
+            AbstractHandler<IMessage> balance = new ShowBalanceHandler(new ShowBalanceCondition());
             AbstractHandler<IMessage> transaction = new TransactionHandler(new TransactionCondition());
             AbstractHandler<IMessage> def = new DefaultHandler(new DefaultCondition());
             AbstractHandler<IMessage> exit = new ExitHandler(new ExitCondition());

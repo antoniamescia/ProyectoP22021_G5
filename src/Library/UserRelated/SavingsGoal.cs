@@ -1,4 +1,6 @@
-﻿namespace BankerBot
+﻿using System;
+
+namespace BankerBot
 {
     public class SavingsGoal
     {
@@ -10,6 +12,8 @@
         public double Max { get; set; }
         public double Min { get; set; }
 
+        public DateTime TimeLimit {get; set; }
+
 
         /// <summary>
         /// Crea los objetivos de ahorro de la cuenta
@@ -20,6 +24,7 @@
         {
             this.Max = max;
             this.Min = min;
+            //this.TimeLimit = timeLimit;
         }
     }
 }

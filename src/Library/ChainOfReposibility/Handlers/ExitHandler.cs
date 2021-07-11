@@ -3,13 +3,13 @@ using System;
 
 namespace BankerBot
 {
-    /*Cumple con ## SRP ## 
-    Cumple con ## EXPERT ##*/
-    /// <summary>
-    /// Handler para cancelar una opción o salir.
-    /// </summary>
     public class ExitHandler : AbstractHandler<IMessage>
     {
+        /// <summary>
+        /// Handler que se encargará de finalizar una acción cuando se le indica.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public ExitHandler(ExitCondition condition) : base(condition)
         {
         }

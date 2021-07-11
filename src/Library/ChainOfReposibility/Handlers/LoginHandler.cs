@@ -4,11 +4,8 @@ namespace BankerBot
 {
     public class LoginHandler : AbstractHandler<IMessage>
     {
-        /*Cumple con ## SRP ## 
-        Cumple con ## EXPERT ##*/
-
         /// <summary>
-        /// Handler para loguearte con un usuario existente.
+        /// Handler que se encargará de logear al usuario.
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>

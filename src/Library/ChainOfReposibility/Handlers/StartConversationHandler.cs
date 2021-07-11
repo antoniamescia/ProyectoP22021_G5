@@ -5,6 +5,7 @@ namespace BankerBot
 {
     public class StartConversationHandler : AbstractHandler<IMessage>
     {
+        
         public StartConversationHandler(StartConversationCondition condition) : base(condition)
         {
         }

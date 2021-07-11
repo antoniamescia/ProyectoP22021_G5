@@ -5,6 +5,11 @@ namespace BankerBot
 {
     public class DefaultHandler : AbstractHandler<IMessage>
     {
+        /// <summary>
+        /// Handler por "default" que se encarga de indicarle al usuario que no comprendió su petición.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public DefaultHandler(DefaultCondition condition) : base(condition)
         {
         }

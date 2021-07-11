@@ -1,8 +1,7 @@
 namespace BankerBot
 {
-    /*Cumple con EXPERT y SRP*/
     /// <summary>
-    /// Condición por defecto.
+    /// Condición que siempre será verdadera.
     /// </summary>
     public class DefaultCondition : ICondition<IMessage>
     {

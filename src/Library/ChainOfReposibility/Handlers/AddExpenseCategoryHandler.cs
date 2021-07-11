@@ -4,6 +4,11 @@ namespace BankerBot
 {
     public class AddExpenseCategoryHandler : AbstractHandler<IMessage>
     {
+        /// <summary>
+        /// Handler que se encargará de agregar nuevas categorías de gasto.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public AddExpenseCategoryHandler(AddExpenseCategoryCondition condition) : base(condition)
         {
         }
