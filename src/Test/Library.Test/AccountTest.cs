@@ -6,20 +6,19 @@ namespace BankerBot.Test
 {
     public class AccountTest
     {
-        private Currency currencyPesos;
-        private Currency currencyDollars;
         private Currency currencyInvented;
         private Account santander;
         private Type type;
+        private CurrencyExchanger currencyExchanger;
+
 
         [SetUp]
         public void Setup()
         {
-            this.currencyPesos = new Currency("UYU", "U$", 1);
-            this.currencyDollars = new Currency("USD", "US$",45.05);
+            this.currencyExchanger = CurrencyExchanger.Instance;
             this.currencyInvented = new Currency("FelipeCoin", "F$", 100);
-            this.type = new Type ();
-            this.santander = new Account("Santander", type, currencyPesos, 300, new SavingsGoal(800, 200));
+            this.type = new Type();
+            this.santander = new Account("Santander", type, currencyExchanger.CurrencyList[0], 300, new SavingsGoal(800, 200));
         }
 
         [Test]
@@ -28,7 +27,7 @@ namespace BankerBot.Test
             double initailAmount = santander.Amount;
             int initialTransactionQuantity = santander.TransactionsRecord.Count;
 
-            santander.Transfer(currencyPesos, 100, "comida");
+            santander.Transfer(currencyExchanger.CurrencyList[0], 100, "comida");
 
             Assert.AreNotEqual(initailAmount, santander.Amount);
             Assert.AreNotEqual(initialTransactionQuantity, santander.TransactionsRecord.Count);
@@ -39,12 +38,12 @@ namespace BankerBot.Test
         {
             Currency initialCurrency = santander.CurrencyType;
             double initialAmount = santander.Amount;
-            santander.ChangeCurrencyType(currencyDollars);
- 
-            double expectedAmount = 300 / 45.05;
+            santander.ChangeCurrencyType(currencyExchanger.CurrencyList[1]);
+
+            double expectedAmount = 300 / 43.9;
 
             Assert.IsTrue(initialAmount != santander.Amount && santander.Amount == expectedAmount);
-            Assert.IsTrue(initialCurrency != santander.CurrencyType && santander.CurrencyType == this.currencyDollars);
+            Assert.IsTrue(initialCurrency != santander.CurrencyType && santander.CurrencyType == currencyExchanger.CurrencyList[1]);
         }
 
         [Test]
@@ -53,9 +52,29 @@ namespace BankerBot.Test
             Currency initialCurrency = santander.CurrencyType;
             double initialAmount = santander.Amount;
             santander.ChangeCurrencyType(currencyInvented);
- 
+
             Assert.AreEqual(initialAmount, santander.Amount);
             Assert.AreEqual(initialCurrency, santander.CurrencyType);
+
+        }
+
+        [Test]
+        public void TestTransferAutoConvertTypeOfCurrency() //Prueba que el metodo transfer aplica el cambio de moneda si se añade dolares a una cuenta de pesos(por ejemplo)
+        {
+            santander.Transfer(currencyExchanger.CurrencyList[1], 5, "comida");
+
+            double convert = 300 + (5 * 43.9);
+            
+            Assert.AreEqual(santander.Amount, convert);
+
+        }
+
+        [Test]
+        public void TestDisplayAccountType() //Prueba que funciona correctamente
+        {
+            string expectedResult = "1 - Debito\n2 - Credito\n";
+            
+            Assert.AreEqual(expectedResult, Account.DisplayAccountType());
         }
     }
 }

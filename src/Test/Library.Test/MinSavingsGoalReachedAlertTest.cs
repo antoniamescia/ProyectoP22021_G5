@@ -14,7 +14,7 @@ namespace BankerBot.Test
         {
             this.pesosUruguayos = new Currency("UYU", "U$", 1);
             this.limit = new DateTime(2021, 06, 20);
-            this.itauPesos = new Account("Itau Pesos", Type.CajaDeAhorros, pesosUruguayos, 25200, new SavingsGoal(36000, 25000)); 
+            this.itauPesos = new Account("Itau Pesos", Type.Debito, pesosUruguayos, 25200, new SavingsGoal(36000, 25000)); 
         }
 
         [Test]
