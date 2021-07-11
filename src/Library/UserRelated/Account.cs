@@ -5,15 +5,10 @@ using System.Collections.Generic;
 namespace BankerBot
 {
 
-     /// <summary>
-     /// 
-     /// </summary>
     public enum Type
     {
         Debito = 1,
         Credito = 2
-
-
     }
  
     public class Account

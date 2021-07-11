@@ -62,9 +62,9 @@ namespace BankerBot
 
             if (data.ProvisionalInfo.ContainsKey("maxObjective") && data.ProvisionalInfo.ContainsKey("minObjective"))
             {
-                var account = data.GetDictionaryValue<Account>("account");
-                var maxObjective = data.GetDictionaryValue<double>("maxObjective");
-                var minObjective = data.GetDictionaryValue<double>("minObjective");
+                Account account = data.GetDictionaryValue<Account>("account");
+                double maxObjective = data.GetDictionaryValue<double>("maxObjective");
+                double minObjective = data.GetDictionaryValue<double>("minObjective");
 
                 account.ChangeSavingsGoal(maxObjective, minObjective);
                 data.ComunicationChannel.SendMessage(request.UserID, "¡Objetivos cambiados con éxito! 👏🏼");

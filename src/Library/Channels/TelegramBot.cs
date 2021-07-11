@@ -12,7 +12,7 @@ namespace BankerBot
         private const string Token = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
         private static TelegramBot instance;   
         
-         public static TelegramBot Instance
+        public static TelegramBot Instance
         {
             get
             {
@@ -20,16 +20,16 @@ namespace BankerBot
                 {
                     instance = new TelegramBot();
                 }
-
                 return instance;
             }
         }
+
         private TelegramBot() : base()
         {
             this.Bot = new TelegramBotClient(Token);
         }
 
-         public ITelegramBotClient Client
+        public ITelegramBotClient Client
         {
             get
             {
@@ -37,20 +37,12 @@ namespace BankerBot
             }
         }
         
-        // private User BotInfo
-        // {
-        //     get
-        //     {
-        //         return this.Client.GetMeAsync().Result;
-        //     }
-        // }
         public override void StartCommunication()
         {
             Bot.OnMessage += OnMessage;
-
             Bot.StartReceiving();
-
         }
+
         private void OnMessage(object sender, MessageEventArgs messageEventArgs)
         {
             Message message = messageEventArgs.Message;
@@ -60,14 +52,12 @@ namespace BankerBot
             SetChannel(chatId, this);
             TelegramBot.Instance.HandleMessage(msg);
         }
+
         public override void SendMessage(string id, string message)
         {
-            
             var chatId = long.Parse(id);
             Bot.SendTextMessageAsync(chatId, message);
         }
-
-    
     }
 }
 

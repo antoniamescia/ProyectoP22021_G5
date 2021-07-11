@@ -67,7 +67,7 @@ namespace BankerBot
         /// <param name="initialCurrency"></param>
         /// <param name="finalCurrency"></param>
         /// <returns></returns>
-         public double Convert(double amount, Currency initialCurrency, Currency finalCurrency)
+        public double Convert(double amount, Currency initialCurrency, Currency finalCurrency)
         {
             if (initialCurrency.Code != "UYU")
             {
