@@ -1,8 +1,10 @@
 ﻿namespace BankerBot
 {
-    //Esta cumple con el patrón Expert ya que es la que posee toda la información sobre Currency.
-    //Además también cumple con el patrón SRP por tener una unica razón de cambio.
-    
+    /*
+    Patrones y principios: 
+    Cumple con SRP pues solo se identifica una razón de cambio. 
+    Cumple con Expert pues es el experto en la información sobre las monedas.
+    */
     public class Currency
     {
         public string Code { get; set; }

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 namespace BankerBot
 {
-
+    /// <summary>
+    /// Tipo enumerado que define dos tipos de cuentas (constantes).
+    /// </summary>
     public enum Type
     {
         Debito = 1,

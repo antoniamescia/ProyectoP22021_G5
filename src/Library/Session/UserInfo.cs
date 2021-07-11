@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace BankerBot
 {
+    /// <summary>
+    /// Tipo enumerado que define estados constantes de la conversación.
+    /// </summary>
     public enum ConversationState
     {
         Start,
@@ -10,6 +13,11 @@ namespace BankerBot
     }
     public class UserInfo
     {
+        /*
+        Patrones y principios:
+        Cumple con SRP pues no se identifica más de una razón de cambio. 
+        Cumple con Expert pues el experto en la informació necesaria para llevar a cabo las responsabilidades asignadas. 
+        */
         public ConversationState ConversationState { get; set; }
         public string Command { get; set; }
         public EndUser User { get; set; }
