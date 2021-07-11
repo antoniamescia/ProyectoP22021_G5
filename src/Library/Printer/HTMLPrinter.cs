@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using PII_HTML_API;
+using Aspose.Html;
+using System.IO;
 
 namespace BankerBot
 {
@@ -19,27 +21,9 @@ namespace BankerBot
         {
         }
 
-        public string Print(List<Transaction> list, string fileName)
+        private HeaderRow Header(List<Transaction> list)
         {
-            var path = $@".\..\..\docs\{fileName}.html";
-            HtmlDocument doc = new HtmlDocument(path, "Transaction Record");
-            doc.AddContent(new Span("Transaction Record"));
-            doc.AddContent(new Table(
-
-                RenderHeader(list),
-
-                RenderRows(list),
-
-                new FooterRow(
-                new List<FooterCell>() {
-                    new FooterCell("")
-                })
-            ));
-            return path;
-        }
-        private HeaderRow RenderHeader(List<Transaction> list)
-        {
-            var header = new HeaderRow(
+            HeaderRow header = new HeaderRow(
                     new List<HeaderCell>()
                     {
                         new HeaderCell("CurrencyType"),
@@ -50,12 +34,12 @@ namespace BankerBot
 
             return header;
         }
-        private List<Row> RenderRows(List<Transaction> list)
+        private List<Row> Rows(List<Transaction> list)
         {
-            var rows = new List<Row>();
-            foreach (var item in list)
+            List<Row> rows = new List<Row>();
+            foreach (Transaction item in list)
             {
-                var cells = new List<Cell>();
+                List<Cell> cells = new List<Cell>();
 
                 cells.Add(new Cell(item.Currency.Type));
                 cells.Add(new Cell(item.Amount.ToString()));
@@ -66,6 +50,31 @@ namespace BankerBot
             }
 
             return rows;
+        }
+
+        public string Print(List<Transaction> list, string fileName)
+        {
+
+            string path = $@".\..\..\docs\{fileName}.html";
+            //Con esto se borra el archivo anterior pero hay que cerrar la ventana del archivo antes de crear uno nuevo, sino se rompe todo
+            // if (File.Exists(path))
+            // {
+            //     File.Delete(path);
+            // }
+            HtmlDocument doc = new HtmlDocument(path, "Transaction Record");
+            doc.AddContent(new Span("Transaction Record"));
+            doc.AddContent(new Table(
+
+                Header(list),
+
+                Rows(list),
+
+                new FooterRow(
+                new List<FooterCell>() {
+                    new FooterCell("")
+                })
+            ));
+            return path;
         }
     }
 }

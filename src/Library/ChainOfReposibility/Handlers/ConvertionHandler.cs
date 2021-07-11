@@ -7,6 +7,12 @@ namespace BankerBot
     /// </summary>
     public class ConvertionHandler : AbstractHandler<IMessage>
     {
+        /*
+        Cumple con SRP porque solo se identifica una razón de cambio: algún cambio en la lógica del método HandleRequest.
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa el método polimórfico handleRequest.
+        Cumple con el patrón Chain of Responsibility.
+        */
         public ConvertionHandler(ConvertionCondition condition) : base(condition)
         {
         }
@@ -15,12 +21,12 @@ namespace BankerBot
         {
             UserInfo data = Session.Instance.GetChatInfo(request.UserID);
 
-            if (!data.ProvisionalInfo.ContainsKey("from"))
+            if (!data.ProvisionalInfo.ContainsKey("initialCurrency"))
             {
                 int index;
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    data.ProvisionalInfo.Add("from", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                    data.ProvisionalInfo.Add("initialCurrency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
                     data.ComunicationChannel.SendMessage(request.UserID, "¿A qué moneda deseas convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
@@ -29,14 +35,14 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
-            else if (!data.ProvisionalInfo.ContainsKey("to"))
+            else if (!data.ProvisionalInfo.ContainsKey("finalCurrency"))
             {
                 int index;
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
-                    if (CurrencyExchanger.Instance.CurrencyList[index - 1] != data.GetDictionaryValue<Currency>("from"))
+                    if (CurrencyExchanger.Instance.CurrencyList[index - 1] != data.GetDictionaryValue<Currency>("initialCurrency"))
                     {
-                        data.ProvisionalInfo.Add("to", CurrencyExchanger.Instance.CurrencyList[index - 1]);
+                        data.ProvisionalInfo.Add("finalCurrency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
                         data.ComunicationChannel.SendMessage(request.UserID, "¿Cuánto es el monto a convertir? ❓");
                     }
                     else
@@ -65,14 +71,14 @@ namespace BankerBot
                 }
             }
 
-            if (data.ProvisionalInfo.ContainsKey("from") && data.ProvisionalInfo.ContainsKey("to") && data.ProvisionalInfo.ContainsKey("amount"))
+            if (data.ProvisionalInfo.ContainsKey("initialCurrency") && data.ProvisionalInfo.ContainsKey("finalCurrency") && data.ProvisionalInfo.ContainsKey("amount"))
             {
-                var amount = data.GetDictionaryValue<double>("amount");
-                var from = data.GetDictionaryValue<Currency>("from");
-                var to = data.GetDictionaryValue<Currency>("to");
+                double amount = data.GetDictionaryValue<double>("amount");
+                Currency initialCurrency = data.GetDictionaryValue<Currency>("initialCurrency");
+                Currency finalCurrency = data.GetDictionaryValue<Currency>("finalCurrency");
 
-                var newAmount = CurrencyExchanger.Instance.Convert(amount, from, to);
-                data.ComunicationChannel.SendMessage(request.UserID, $"¡Conversión exitosa! 🙌 {from.Code} {amount} equivalen a {to.Code} {newAmount}. 🤑");
+                double newAmount = CurrencyExchanger.Instance.Convert(amount, initialCurrency, finalCurrency);
+                data.ComunicationChannel.SendMessage(request.UserID, $"¡Conversión exitosa! 🙌 {initialCurrency.Code} {amount} equivalen a {finalCurrency.Code} {newAmount}. 🤑");
 
                 data.ClearOperation();
             }

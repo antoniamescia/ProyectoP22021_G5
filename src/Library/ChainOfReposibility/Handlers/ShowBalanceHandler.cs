@@ -9,6 +9,13 @@ namespace BankerBot
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
+        
+        /*
+        Cumple con SRP porque solo se identifica una razón de cambio: algún cambio en la lógica del método HandleRequest.
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa el método polimórfico handleRequest.
+        Cumple con el patrón Chain of Responsibility.
+        */
         public ShowBalanceHandler(ShowBalanceCondition condition) : base(condition)
         {
         }
@@ -22,9 +29,8 @@ namespace BankerBot
                 int index;
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
-                    var account = data.User.Accounts[index - 1];
+                    Account account = data.User.Accounts[index - 1];
                     data.ComunicationChannel.SendMessage(request.UserID, $"El balance actual de la cuenta es: {account.CurrencyType.Code} {account.Amount}");
-
                     data.ClearOperation();
                 }
                 else

@@ -2,13 +2,25 @@ namespace BankerBot
 {
     public class MessengerHandler : AbstractHandler<IMessage>
     {
+        /// <summary>
+        /// Handler que segun que opcion se eliga de los comandos da su respetivo mensaje y acción.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        
+        /*
+        Cumple con SRP porque solo se identifica una razón de cambio: algún cambio en la lógica del método HandleRequest.
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa el método polimórfico handleRequest.
+        Cumple con el patrón Chain of Responsibility.
+        */
         public MessengerHandler(MessengerCondition condition) : base(condition)
         {
         }
 
         protected override void handleRequest(IMessage request)
         {
-            var data = Session.Instance.GetChatInfo(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
             data.ConversationState = ConversationState.HandlingRequest;
 
             switch (request.MessageText.ToLower())
@@ -39,7 +51,6 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
                     break;
 
-
                 case "/crearcuenta":
                     if (data.User != null)
                     {
@@ -47,7 +58,6 @@ namespace BankerBot
                         data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de cuenta es? 💳:\n" + Account.DisplayAccountType());
                         break;
                     }
-
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
 
@@ -60,8 +70,8 @@ namespace BankerBot
                     }
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
-                
-                 case "/mostrarbalance":
+
+                case "/mostrarbalance":
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
@@ -70,7 +80,6 @@ namespace BankerBot
                     }
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
-
 
                 case "/agregarcategoriadegasto":
                     if (data.User != null)
@@ -91,7 +100,7 @@ namespace BankerBot
                     }
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
-                
+
                 case "/convertir":
 
                     data.Command = request.MessageText;
@@ -99,7 +108,7 @@ namespace BankerBot
                     break;
 
 
-                 case "/cerrarsesion":
+                case "/cerrarsesion":
 
                     if (data.User != null)
                     {
@@ -112,6 +121,18 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
                     data.ConversationState = ConversationState.Messenger;
                     break;
+
+                case "/verhistorialdetransacciones":
+
+                    if (data.User != null)
+                    {
+                        data.Command = request.MessageText;
+                        data.ComunicationChannel.SendMessage(request.UserID, "Seleccione una cuenta para ver el historial:\n" + data.User.DisplayAccounts());
+                        break;
+                    }
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicie sesión. 🙏🏼");
+                    break;
+
             }
         }
     }

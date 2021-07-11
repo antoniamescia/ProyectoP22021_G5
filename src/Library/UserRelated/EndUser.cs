@@ -18,6 +18,11 @@ namespace BankerBot
         public string Password { get; set; }
         public List<String> ExpenseCategories { get; set; }
 
+        /// <summary>
+        /// Constructor de EndUser
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         public EndUser(string username, string password)
         {
             this.Username = username;
@@ -183,6 +188,11 @@ namespace BankerBot
             }
         }
         
+        /// <summary>
+        /// Se fija si existe una categoria en la lista de categorias del usuario
+        /// </summary>
+        /// <param name="newExpenseCategory"></param>
+        /// <returns></returns>
         public bool ContainsExpenseCategory(string newExpenseCategory)
         {
             string exists = string.Empty;
