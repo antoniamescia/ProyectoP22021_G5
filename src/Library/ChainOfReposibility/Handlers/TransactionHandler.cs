@@ -130,25 +130,21 @@ namespace BankerBot
                 IAlert alert3 = new MinSavingsGoalAlert();
                 IAlert alert4 = new MinSavingsGoalReachedAlert();
 
-                if (alert1 != null)
+                if (alert1.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert1.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA1 ⚠️:\n"+ alert1.SendAlert(account));
                 }
-                else if (alert2 != null)
+                else if (alert2.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert2.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA2 ⚠️:\n"+ alert2.SendAlert(account));
                 }
-                else if (alert3 != null)
+                else if (alert3.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert3.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA3 ⚠️:\n"+ alert3.SendAlert(account));
                 }
-                else if (alert4 != null)
+                else if (alert4.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert4.SendAlert(account));
-                }
-                else
-                {
-                    return;
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA4 ⚠️:\n"+ alert4.SendAlert(account));
                 }
                 data.ClearOperation();
                 return;
