@@ -14,7 +14,7 @@ namespace BankerBot
         {
             get
             {
-               if (instance == null)
+                if (instance == null)
                 {
                     instance = new Commands();
 
@@ -39,10 +39,48 @@ namespace BankerBot
                 "/agregarmoneda",
                 "/mostrarbalance",
                 "/agregarcategoriadegasto",
-                "/cambiarobjetivodeahorro",
+                "/cambiarobjetivo",
                 "/salir",
                 "/verhistorialdetransacciones"
             };
+        }
+
+        public bool CommandExists(string command)
+        {
+            return instance.CommandsList.Contains(command.ToLower());
+        }
+
+        private static List<string> HasNoAccountsCommandsList()
+        {
+            List<string> hasNoAccountsList = new List<string>();
+            hasNoAccountsList.Add("/CerrarSesion");
+            hasNoAccountsList.Add("/CrearCuenta");
+            hasNoAccountsList.Add("/Convertir");
+            hasNoAccountsList.Add("/CrearUsuario");
+            return hasNoAccountsList;
+        }
+
+        private static List<string> HasAccountCommandsList()
+        {
+            List<string> hasAccountsList = new List<string>();
+            hasAccountsList.Add("/CerrarSesion");
+            hasAccountsList.Add("/CrearCuenta");
+            hasAccountsList.Add("/Convertir");
+            hasAccountsList.Add("/CrearUsuario");
+            hasAccountsList.Add("/MostrarBalance");
+            hasAccountsList.Add("/Transaccion");
+            hasAccountsList.Add("/AgregarCategoriaDeGasto");
+            hasAccountsList.Add("/CambiarObjetivo");
+            hasAccountsList.Add("/VerHistorialDeTransacciones");
+            return hasAccountsList;
+        }
+
+        private static List<string> UnlogedCommandsList()
+        {
+            List<string> unlogedList = new List<string>();
+            unlogedList.Add("/IniciarSesion");
+            unlogedList.Add("/CrearUsuario");
+            return unlogedList;
         }
 
         public string CommandList(string id)
@@ -73,44 +111,6 @@ namespace BankerBot
                 commandList += command + "\n";
             }
             return commandList;
-        }
-
-        public bool CommandExists(string command)
-        {
-            return instance.CommandsList.Contains(command.ToLower());
-        }
-
-        private static List<string> HasNoAccountsCommandsList()
-        {
-            List<string> hasNoAccountsList = new List<string>();
-            hasNoAccountsList.Add("/CerrarSesion");
-            hasNoAccountsList.Add("/CrearCuenta");
-            hasNoAccountsList.Add("/Convertir");
-            hasNoAccountsList.Add("/CrearUsuario");
-            return hasNoAccountsList;
-        }
-
-        private static List<string> HasAccountCommandsList()
-        {
-            List<string> hasAccountsList = new List<string>();
-            hasAccountsList.Add("/CerrarSesion");
-            hasAccountsList.Add("/CrearCuenta");
-            hasAccountsList.Add("/Convertir");
-            hasAccountsList.Add("/CrearUsuario");
-            hasAccountsList.Add("/MostrarBalance");
-            hasAccountsList.Add("/Transaccion");
-            hasAccountsList.Add("/AgregarCategoriaDeGasto");
-            hasAccountsList.Add("/CambiarObjetivoDeAhorro");
-            hasAccountsList.Add("/VerHistorialDeTransacciones");
-            return hasAccountsList;
-        }
-
-        private static List<string> UnlogedCommandsList()
-        {
-            List<string> unlogedList = new List<string>();
-            unlogedList.Add("/IniciarSesion");
-            unlogedList.Add("/CrearUsuario");
-            return unlogedList;
         }
     }
 }

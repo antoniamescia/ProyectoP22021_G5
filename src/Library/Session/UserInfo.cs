@@ -27,17 +27,16 @@ namespace BankerBot
             this.ProvisionalInfo = new Dictionary<string, object>();
             this.ComunicationChannel = null;
         }
-
+        public T GetDictionaryValue<T>(string key)
+        {
+            return (T)ProvisionalInfo[key];
+        }
         public void ClearOperation()
         {
             this.ConversationState = ConversationState.Messenger;
             this.ProvisionalInfo.Clear();
             this.Command = string.Empty;
         }
-        
-        public T GetDictionaryValue<T>(string key)
-        {
-            return (T)ProvisionalInfo[key];
-        }
+
     }
 }
