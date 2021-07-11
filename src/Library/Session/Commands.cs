@@ -22,6 +22,9 @@ namespace BankerBot
                 return instance;
             }
         }
+        /// <summary>
+        /// Crea lista de comandos
+        /// </summary>
         private Commands()
         {
             this.CommandsList = new List<string>()
@@ -40,6 +43,7 @@ namespace BankerBot
                 "/salir"
             };
         }
+
         public string CommandList(string id)
         {
             UserInfo data = Session.Instance.GetChatInfo(id);
@@ -67,21 +71,14 @@ namespace BankerBot
             {
                 commandList += command + "\n";
             }
-
             return commandList;
         }
 
-         public bool CommandExists(string command)
+        public bool CommandExists(string command)
         {
             return instance.CommandsList.Contains(command.ToLower());
         }
-        private static List<string> UnlogedCommandsList()
-        {
-            List<string> unlogedList = new List<string>();
-            unlogedList.Add("/IniciarSesion");
-            unlogedList.Add("/CrearUsuario");
-            return unlogedList;
-        }
+
         private static List<string> HasNoAccountsCommandsList()
         {
             List<string> hasNoAccountsList = new List<string>();
@@ -91,6 +88,7 @@ namespace BankerBot
             hasNoAccountsList.Add("/CrearUsuario");
             return hasNoAccountsList;
         }
+
         private static List<string> HasAccountCommandsList()
         {
             List<string> hasAccountsList = new List<string>();
@@ -105,5 +103,12 @@ namespace BankerBot
             return hasAccountsList;
         }
 
+        private static List<string> UnlogedCommandsList()
+        {
+            List<string> unlogedList = new List<string>();
+            unlogedList.Add("/IniciarSesion");
+            unlogedList.Add("/CrearUsuario");
+            return unlogedList;
+        }
     }
 }

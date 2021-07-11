@@ -5,7 +5,11 @@ namespace BankerBot
 {
     public class StartConversationHandler : AbstractHandler<IMessage>
     {
-        
+        /// <summary>
+        /// Handler que se encatga de iniciar la conversación
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public StartConversationHandler(StartConversationCondition condition) : base(condition)
         {
         }
@@ -17,7 +21,6 @@ namespace BankerBot
             data.ComunicationChannel.SendMessage(request.UserID, "¡Bienvenido a BankerBot! 💰");
             data.ComunicationChannel.SendMessage(request.UserID, "¿Qué deseas hacer?:\n" + Commands.Instance.CommandList(request.UserID));
             data.ComunicationChannel.SendMessage(request.UserID, "Recuerda que puedes escribir /Salir en cualquier momento para finalizar la acción o /Comandos para ver los comandos disponibles. 😉");
-
             data.ConversationState = ConversationState.Messenger;
         }
     }

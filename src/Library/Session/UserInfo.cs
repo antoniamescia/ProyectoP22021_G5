@@ -16,6 +16,9 @@ namespace BankerBot
         public Dictionary<string, object> ProvisionalInfo { get; set; }
         public ICommunicationChannel ComunicationChannel { get; set; }
 
+        /// <summary>
+        /// Constructor de UserInfo
+        /// </summary>
         public UserInfo()
         {
             this.ConversationState = ConversationState.Start;
@@ -23,7 +26,6 @@ namespace BankerBot
             this.User = null;
             this.ProvisionalInfo = new Dictionary<string, object>();
             this.ComunicationChannel = null;
-            
         }
 
         public void ClearOperation()
@@ -32,6 +34,7 @@ namespace BankerBot
             this.ProvisionalInfo.Clear();
             this.Command = string.Empty;
         }
+        
         public T GetDictionaryValue<T>(string key)
         {
             return (T)ProvisionalInfo[key];

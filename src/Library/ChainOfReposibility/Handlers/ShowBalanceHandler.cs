@@ -22,9 +22,8 @@ namespace BankerBot
                 int index;
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
-                    var account = data.User.Accounts[index - 1];
+                    Account account = data.User.Accounts[index - 1];
                     data.ComunicationChannel.SendMessage(request.UserID, $"El balance actual de la cuenta es: {account.CurrencyType.Code} {account.Amount}");
-
                     data.ClearOperation();
                 }
                 else
