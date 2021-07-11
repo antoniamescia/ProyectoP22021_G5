@@ -108,7 +108,6 @@ namespace BankerBot
                     accountName = account.Name;
                 }
             }
-
             return accountName == name;
         }
 
@@ -195,6 +194,5 @@ namespace BankerBot
             }
             return exists == newExpenseCategory;
         }
-
     }
 }
