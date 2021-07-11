@@ -2,11 +2,8 @@ using System;
 
 namespace BankerBot
 {
-    /*Cumple con ## SRP ## 
-    Cumple con ## EXPERT ##*/
-
     /// <summary>
-    /// Handler para convertir un tipo de moneda.
+    /// Handler que se encargará de hacer la conversión de monedas.
     /// </summary>
     public class ConvertionHandler : AbstractHandler<IMessage>
     {

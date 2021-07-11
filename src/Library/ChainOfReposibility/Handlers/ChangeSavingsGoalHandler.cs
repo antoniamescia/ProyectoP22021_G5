@@ -2,9 +2,14 @@ using System;
 
 namespace BankerBot
 {
-    public class ChangeAccountObjectiveHandler : AbstractHandler<IMessage>
+    public class ChangeSavingsGoalHandler : AbstractHandler<IMessage>
     {
-        public ChangeAccountObjectiveHandler(ChangeAccountObjectiveCondition condition) : base(condition)
+        /// <summary>
+        /// Handler que se encargará de cambiar el objetivo de ahorro de una cuenta particular. 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public ChangeSavingsGoalHandler(ChangeSavingsGoalCondition condition) : base(condition)
         {
         }
 

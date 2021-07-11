@@ -1,6 +1,6 @@
 namespace BankerBot
 {
-    public class ChangeAccountObjectiveCondition : ICondition<IMessage>
+    public class ChangeSavingsGoalCondition : ICondition<IMessage>
     {
         public bool ConditionIsMet(IMessage request)
         {

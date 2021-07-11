@@ -2,11 +2,9 @@ using System;
 
 namespace BankerBot
 {
-    /*Cumple con ## SRP ## 
-    Cumple con ## EXPERT ##*/
-
+    
     /// <summary>
-    /// Handler para crearel usuario.
+    /// Handler que se encargará de crear un nuevo usuario.
     /// </summary>
     public class CreateUserHandler : AbstractHandler<IMessage>
     {

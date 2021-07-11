@@ -2,9 +2,14 @@ using System;
 
 namespace BankerBot
 {
-    public class BalanceHandler : AbstractHandler<IMessage>
+    public class ShowBalanceHandler : AbstractHandler<IMessage>
     {
-        public BalanceHandler(BalanceCondition condition) : base(condition)
+        /// <summary>
+        /// Handler que se encargará de mostrar el balance actual de cuenta particular.
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public ShowBalanceHandler(ShowBalanceCondition condition) : base(condition)
         {
         }
 
