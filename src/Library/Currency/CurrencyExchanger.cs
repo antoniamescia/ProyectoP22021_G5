@@ -3,13 +3,13 @@ using System.Text;
 
 namespace BankerBot
 {
-     /*
-        Patrones y principios:
-        Cumple con el patrón Expert pues es la experta en la información necesaria para realizar las responsabilidades otorgadas.
-        Cumple con el patrón Creator pues al usar muy estrechamente instancias de Currency, se encarga de crearlas. 
-        Cumple con SRP porque no se identifica más de una razón de cambio.
-        Cumple con el patrón Singleton. Al tener un constructor privado nos aseguramos que no puedan crearse instancias de esta clase. La propiedad Instance nos provee un único punto de acceso al convertor.
-        */
+    /*
+       Patrones y principios:
+       Cumple con el patrón Expert pues es la experta en la información necesaria para realizar las responsabilidades otorgadas.
+       Cumple con el patrón Creator pues al usar muy estrechamente instancias de Currency, se encarga de crearlas. 
+       Cumple con SRP porque no se identifica más de una razón de cambio.
+       Cumple con el patrón Singleton. Al tener un constructor privado nos aseguramos que no puedan crearse instancias de esta clase. La propiedad Instance nos provee un único punto de acceso al convertor.
+       */
 
     public class CurrencyExchanger
     {
@@ -28,7 +28,7 @@ namespace BankerBot
         {
             this.CurrencyList = new List<Currency>() { new Currency("UYU", "U$", 1), new Currency("USD", "US$", 43.9), new Currency("EUR", "€ ", 55), new Currency("BRL", "R$", 8.36) };
         }
-      
+
 
         /// <summary>
         /// Agrega un nuevo tipo de moneda
@@ -42,6 +42,20 @@ namespace BankerBot
                 Currency newCurrency = new Currency(code, type, rate);
                 CurrencyList.Add(newCurrency);
             }
+        }
+
+        /// <summary>
+        /// Muestra una lista de los tipo de monedas
+        /// </summary>
+        /// <returns></returns>
+        public string DisplayCurrencyList()
+        {
+            StringBuilder currencies = new StringBuilder();
+            foreach (Currency currency in CurrencyExchanger.Instance.CurrencyList)
+            {
+                currencies.Append($"{CurrencyExchanger.Instance.CurrencyList.IndexOf(currency) + 1} - {currency.Code}\n");
+            }
+            return currencies.ToString();
         }
 
         /// <summary>
@@ -59,24 +73,6 @@ namespace BankerBot
                 }
             }
         }
-
-        /// <summary>
-        /// Realiza la conversión entre los tipo de monedas
-        /// </summary>
-        /// <param name="amount"></param>
-        /// <param name="initialCurrency"></param>
-        /// <param name="finalCurrency"></param>
-        /// <returns></returns>
-         public double Convert(double amount, Currency initialCurrency, Currency finalCurrency)
-        {
-            if (initialCurrency.Code != "UYU")
-            {
-                amount = amount * initialCurrency.ExchangeRate;
-            }
-
-            return amount / finalCurrency.ExchangeRate;
-        }
-
         /// <summary>
         /// Verifica si existe el tipo de moneda en el listado
         /// </summary>
@@ -92,17 +88,23 @@ namespace BankerBot
         }
 
         /// <summary>
-        /// Muestra una lista de los tipo de monedas
+        /// Realiza la conversión entre los tipo de monedas
         /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="initialCurrency"></param>
+        /// <param name="finalCurrency"></param>
         /// <returns></returns>
-        public string DisplayCurrencyList()
+        public double Convert(double amount, Currency initialCurrency, Currency finalCurrency)
         {
-            StringBuilder currencies = new StringBuilder();
-            foreach (Currency currency in CurrencyExchanger.Instance.CurrencyList)
+            if (initialCurrency.Code != "UYU")
             {
-                currencies.Append($"{CurrencyExchanger.Instance.CurrencyList.IndexOf(currency) + 1} - {currency.Code}\n");
+                amount = amount * initialCurrency.ExchangeRate;
             }
-            return currencies.ToString();
+
+            return amount / finalCurrency.ExchangeRate;
         }
+
+
+
     }
 }

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 namespace BankerBot
 {
 
-     /// <summary>
-     /// 
-     /// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public enum Type
     {
         Debito = 1,
@@ -15,10 +15,10 @@ namespace BankerBot
 
 
     }
- 
+
     public class Account
     {
-        
+
         /*
         Patrones y principios:
         Cumple con SRP porque no se identifica más de un razón de cambio.
@@ -35,7 +35,7 @@ namespace BankerBot
         public double Amount { get; set; }
         public SavingsGoal SavingsGoal { get; set; }
 
-        
+
         /// <summary>
         /// Constructor de la cuenta
         /// </summary>
@@ -83,17 +83,6 @@ namespace BankerBot
         }
 
         /// <summary>
-        /// Cambia objetivo maximo y minimo
-        /// </summary>
-        /// <param name="newMax"></param>
-        /// <param name="newMin"></param>
-        public void ChangeSavingsGoal(double newMax, double newMin)
-        {
-            this.SavingsGoal.Max = newMax;
-            this.SavingsGoal.Min = newMin;
-        }
-
-        /// <summary>
         /// Muestra los tipos de cuenta a crear. En este caso, pueden ser solo Débito o Crédito por los definidos en el tipo enumerable. 
         /// </summary>
         /// <returns></returns>
@@ -106,6 +95,17 @@ namespace BankerBot
                 enumerator.Append($"{Array.IndexOf(accountType, type) + 1 } - {type}\n");
             }
             return enumerator.ToString();
+        }
+
+        /// <summary>
+        /// Cambia objetivo maximo y minimo
+        /// </summary>
+        /// <param name="newMax"></param>
+        /// <param name="newMin"></param>
+        public void ChangeSavingsGoal(double newMax, double newMin)
+        {
+            this.SavingsGoal.Max = newMax;
+            this.SavingsGoal.Min = newMin;
         }
     }
 }
