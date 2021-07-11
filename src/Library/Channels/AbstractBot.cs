@@ -22,8 +22,8 @@ namespace BankerBot
             Session.Instance.SetComunicationChannel(id, channel);
         }
         public abstract void SendMessage(string id, string message);
-        
 
+        public abstract void SendPrint(string id, string path);
 
     }
 }

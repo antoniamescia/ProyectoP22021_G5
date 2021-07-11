@@ -10,8 +10,8 @@ namespace BankerBot
     {
         private ITelegramBotClient Bot;
         private const string Token = "1871185609:AAGlnk0lPpi-ijJZFgsS_jyUIdVDlSHggzw";
-        private static TelegramBot instance;   
-        
+        private static TelegramBot instance;
+
         public static TelegramBot Instance
         {
             get
@@ -36,7 +36,6 @@ namespace BankerBot
                 return this.Bot;
             }
         }
-        
         public override void StartCommunication()
         {
             Bot.OnMessage += OnMessage;
@@ -55,9 +54,18 @@ namespace BankerBot
 
         public override void SendMessage(string id, string message)
         {
+
             var chatId = long.Parse(id);
             Bot.SendTextMessageAsync(chatId, message);
         }
+
+        public override async void SendPrint(string id, string path)
+        {
+            long chatId = long.Parse(id);
+            System.IO.FileStream fileStream = System.IO.File.OpenRead(path);
+            await Bot.SendDocumentAsync(chatId, new InputOnlineFile(fileStream, path));
+        }
+
     }
 }
 

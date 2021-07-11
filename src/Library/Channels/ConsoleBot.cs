@@ -32,6 +32,11 @@
         {
             System.Console.WriteLine(message);
         }
+
+        public override void SendPrint(string id, string path)
+        {
+            System.Console.WriteLine("Para ver su historial de transacciones ingrese en el archivo que se encuentra en: " + path);
+        }
     }
 }
 

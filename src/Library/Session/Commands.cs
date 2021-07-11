@@ -40,7 +40,8 @@ namespace BankerBot
                 "/mostrarbalance",
                 "/agregarcategoriadegasto",
                 "/cambiarobjetivodeahorro",
-                "/salir"
+                "/salir",
+                "/verhistorialdetransacciones"
             };
         }
 
@@ -100,6 +101,7 @@ namespace BankerBot
             hasAccountsList.Add("/Transaccion");
             hasAccountsList.Add("/AgregarCategoriaDeGasto");
             hasAccountsList.Add("/CambiarObjetivoDeAhorro");
+            hasAccountsList.Add("/VerHistorialDeTransacciones");
             return hasAccountsList;
         }
 

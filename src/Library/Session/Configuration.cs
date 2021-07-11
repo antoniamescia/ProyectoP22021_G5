@@ -21,6 +21,7 @@ namespace BankerBot
             AbstractHandler<IMessage> changeObjective = new ChangeSavingsGoalHandler(new ChangeSavingsGoalCondition());
             AbstractHandler<IMessage> balance = new ShowBalanceHandler(new ShowBalanceCondition());
             AbstractHandler<IMessage> transaction = new TransactionHandler(new TransactionCondition());
+            AbstractHandler<IMessage> print = new PrinterHandler(new PrinterCondition());
             AbstractHandler<IMessage> def = new DefaultHandler(new DefaultCondition());
             AbstractHandler<IMessage> exit = new ExitHandler(new ExitCondition());
 
@@ -34,7 +35,9 @@ namespace BankerBot
             createAccount.Succesor = addExpenseCategory;
             addExpenseCategory.Succesor = changeObjective;
             changeObjective.Succesor = balance;
-            balance.Succesor = def;
+            balance.Succesor = print;
+            print.Succesor = def;
+            
             
             return start;
         }
