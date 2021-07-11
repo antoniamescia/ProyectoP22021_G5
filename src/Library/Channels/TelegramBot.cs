@@ -20,10 +20,10 @@ namespace BankerBot
                 {
                     instance = new TelegramBot();
                 }
-
                 return instance;
             }
         }
+
         private TelegramBot() : base()
         {
             this.Bot = new TelegramBotClient(Token);
@@ -36,14 +36,12 @@ namespace BankerBot
                 return this.Bot;
             }
         }
-
         public override void StartCommunication()
         {
             Bot.OnMessage += OnMessage;
-
             Bot.StartReceiving();
-
         }
+
         private void OnMessage(object sender, MessageEventArgs messageEventArgs)
         {
             Message message = messageEventArgs.Message;
@@ -53,6 +51,7 @@ namespace BankerBot
             SetChannel(chatId, this);
             TelegramBot.Instance.HandleMessage(msg);
         }
+
         public override void SendMessage(string id, string message)
         {
 

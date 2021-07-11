@@ -5,6 +5,12 @@ namespace BankerBot
 
     public class TransactionHandler : AbstractHandler<IMessage>
     {
+
+        /// <summary>
+        /// Handler que se encarga de las transaciones
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public TransactionHandler(TransactionCondition condition) : base(condition)
         {
         }
@@ -24,7 +30,7 @@ namespace BankerBot
                 else
                 {
                     data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de transacción queires realizar? \n1 - Ingreso\n2 - Egreso");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de transacción queires realizar? \n1 - Ingreso\n2 - Egreso\n");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("account"))
@@ -40,8 +46,6 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
                     data.ComunicationChannel.SendMessage(request.UserID, "¿Desde qué cuenta quieres realizar la transacción?\n" + data.User.DisplayAccounts());
                 }
-
-
             }
             else if (!data.ProvisionalInfo.ContainsKey("currency"))
             {
@@ -56,8 +60,6 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
                     data.ComunicationChannel.SendMessage(request.UserID, "¿En qué moneda quieres realizar la transacción? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
-
-
             }
             else if (!data.ProvisionalInfo.ContainsKey("amount"))
             {
@@ -81,8 +83,6 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "¡Ingresa un valor mayor a 0!");
                     data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el monto de la transacción?");
                 }
-
-
             }
             else if (!data.ProvisionalInfo.ContainsKey("description"))
             {
@@ -106,16 +106,13 @@ namespace BankerBot
                     data.ProvisionalInfo.Add("description", request.MessageText);
                 }
             }
-
-
-
             if (data.ProvisionalInfo.ContainsKey("type") && data.ProvisionalInfo.ContainsKey("account") && data.ProvisionalInfo.ContainsKey("currency") && data.ProvisionalInfo.ContainsKey("amount") && data.ProvisionalInfo.ContainsKey("description"))
             {
-                var type = data.GetDictionaryValue<int>("type");
-                var account = data.GetDictionaryValue<Account>("account");
-                var currency = data.GetDictionaryValue<Currency>("currency");
-                var amount = data.GetDictionaryValue<double>("amount");
-                var description = data.GetDictionaryValue<string>("description");
+                Type type = data.GetDictionaryValue<Type>("type");
+                Account account = data.GetDictionaryValue<Account>("account");
+                Currency currency = data.GetDictionaryValue<Currency>("currency");
+                double amount = data.GetDictionaryValue<double>("amount");
+                string description = data.GetDictionaryValue<string>("description");
 
                 account.Transfer(currency, amount, description);
 
@@ -146,7 +143,6 @@ namespace BankerBot
                 {
                     return;
                 }
-
                 data.ClearOperation();
                 return;
             }

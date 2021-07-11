@@ -12,7 +12,6 @@ namespace BankerBot
         public LoginHandler(LoginCondition condition) : base(condition)
         {
         }
-
         protected override void handleRequest(IMessage request)
         {
             UserInfo data = Session.Instance.GetChatInfo(request.UserID);
@@ -31,8 +30,7 @@ namespace BankerBot
             {
                 string username = data.GetDictionaryValue<string>("username");
                 string password = data.GetDictionaryValue<string>("password");
-                var user = Session.Instance.GetUser(username, password);
-
+                EndUser user = Session.Instance.GetUser(username, password);
                 bool connected = false;
 
                 foreach (var item in Session.Instance.UserInfoMap)

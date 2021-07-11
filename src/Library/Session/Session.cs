@@ -6,7 +6,7 @@ namespace BankerBot
     {
         //SINGLETON
         public Dictionary<string, UserInfo> UserInfoMap;
-         public List<EndUser> AllUsers { get; set; }
+        public List<EndUser> AllUsers { get; set; }
         public IPrinter Printer { get; set; }
         private static Session instance;
         public static Session Instance
@@ -20,6 +20,10 @@ namespace BankerBot
                 return instance;
             }
         }
+
+        /// <summary>
+        /// Constructor de Session
+        /// </summary>
         private Session()
         {
             this.AllUsers = new List<EndUser>();
@@ -27,7 +31,11 @@ namespace BankerBot
             this.Printer = new HTMLPrinter();
         }
 
-
+        /// <summary>
+        /// Agrega un usuario nuevo en caso que no exista
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         public void AddUser(string username, string password)
         {
             foreach (EndUser user in AllUsers)
@@ -41,6 +49,11 @@ namespace BankerBot
             AllUsers.Add(new EndUser(username, password));
         }
 
+        /// <summary>
+        /// Se fija si ya existe ese nombre de usuario
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public bool UsernameExists(string username)
         {
             string u = "";
@@ -53,6 +66,13 @@ namespace BankerBot
             }
             return u == username;
         }
+
+        /// <summary>
+        /// Se fija si existe ese usuario con su respectiva contraseña, y si no no devuelve nada
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public EndUser GetUser(string username, string password)
         {
             foreach (EndUser user in AllUsers)
@@ -65,7 +85,12 @@ namespace BankerBot
             return null;
         }
 
-         public void SetComunicationChannel(string id, ICommunicationChannel newChannel)
+        /// <summary>
+        /// Setea el canal de comunicacion
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newChannel"></param>
+        public void SetComunicationChannel(string id, ICommunicationChannel newChannel)
         {
             GetChatInfo(id).ComunicationChannel = newChannel;
         }
@@ -81,7 +106,6 @@ namespace BankerBot
             newChat = new UserInfo();
             UserInfoMap.Add(id, newChat);
             return newChat;
-
         }
     }
 }

@@ -2,13 +2,18 @@ namespace BankerBot
 {
     public class MessengerHandler : AbstractHandler<IMessage>
     {
+        /// <summary>
+        /// Handler que segun que opcion se eliga de los comandos da su respetivo mensaje y acción
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public MessengerHandler(MessengerCondition condition) : base(condition)
         {
         }
 
         protected override void handleRequest(IMessage request)
         {
-            var data = Session.Instance.GetChatInfo(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
             data.ConversationState = ConversationState.HandlingRequest;
 
             switch (request.MessageText.ToLower())
@@ -39,7 +44,6 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
                     break;
 
-
                 case "/crearcuenta":
                     if (data.User != null)
                     {
@@ -47,7 +51,6 @@ namespace BankerBot
                         data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de cuenta es? 💳:\n" + Account.DisplayAccountType());
                         break;
                     }
-
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
 
@@ -70,7 +73,6 @@ namespace BankerBot
                     }
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
-
 
                 case "/agregarcategoriadegasto":
                     if (data.User != null)
