@@ -16,7 +16,7 @@ namespace BankerBot
             {
                 if (!data.User.ContainsExpenseCategory(request.MessageText))
                 {
-                    data.User.ExpenseCategories.Add(request.MessageText);
+                    data.User.AddExpenseCategory(request.MessageText);
                     data.ComunicationChannel.SendMessage(request.UserID, "¡Se ha agregado una nueva categoría de gasto con éxito! 🙌");
                     data.ClearOperation();
                 }

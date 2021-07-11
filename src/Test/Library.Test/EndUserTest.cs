@@ -13,8 +13,8 @@ namespace BankerBot.Test
         [SetUp]
         public void Setup()
         {
-            facundo = new EndUser("Facundo", "1234");
-            currency = new Currency("UYU", "UY$", 1);
+            this.facundo = new EndUser("Facundo", "1234");
+            this.currency = new Currency("UYU", "UY$", 1);
             this.type = new Type ();
             facundo.AddAccount(type, "BBVA", currency, 300, new SavingsGoal(800, 200));
         }
@@ -112,6 +112,26 @@ namespace BankerBot.Test
             string expectedResult = "1 - Comida\n2 - Ropa\n3 - Alquiler\n4 - Pagos fijos\n5 - Tarjetas\n6 - Luz\n7 - Transporte\n8 - Agua\n9 - Mascota\n10 - Regalos\n11 - Diversión\n12 - Rifa\n13 - Salud\n"; 
 
             Assert.AreEqual(expectedResult, facundo.DisplayExpenseCategories());
+        }
+
+        [Test]
+        public void TestIfTheAccountExistReturnTrueElseReturnsFalse() //Prueba que el metodo AccountExists devuelve true si la cuenta existe o false en caso contrario
+        {
+            Assert.IsTrue(facundo.AccountExists("BBVA"));
+            Assert.IsFalse(facundo.AccountExists("Santander"));
+        }
+
+        [Test]
+        public void TestIfTheCategoryExistReturnTrueElseReturnsFalse() //Prueba que el metodo AccountExists devuelve true si la cuenta existe o false en caso contrario
+        {
+            Assert.IsTrue(facundo.ContainsExpenseCategory("Comida"));
+            Assert.IsFalse(facundo.ContainsExpenseCategory("CategoriaFalsa"));
+        }
+
+        [Test]
+        public void TestContainsExpenseCategoryIsntCaseSensitive() //Prueba que el metodo AccountExists devuelve true si la cuenta existe o false en caso contrario
+        {
+            Assert.AreEqual(facundo.ContainsExpenseCategory("COMIDA"), facundo.ContainsExpenseCategory("comida"));
         }
     }
 }

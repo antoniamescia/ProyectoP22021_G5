@@ -23,17 +23,18 @@ namespace BankerBot
             this.Username = username;
             this.Password = password;
             this.Accounts = new List<Account> { };
-            this.ExpenseCategories = new List<String> { "Comida", 
-                                                        "Ropa", 
-                                                        "Alquiler", 
-                                                        "Pagos fijos", 
-                                                        "Tarjetas", 
-                                                        "Luz", 
-                                                        "Transporte", 
-                                                        "Agua", 
-                                                        "Mascota", 
-                                                        "Regalos", 
-                                                        "Diversión" };
+            this.ExpenseCategories = new List<String> { 
+            "Comida", 
+            "Ropa", 
+            "Alquiler", 
+            "Pagos fijos", 
+            "Tarjetas", 
+            "Luz", 
+            "Transporte", 
+            "Agua", 
+            "Mascota", 
+            "Regalos", 
+            "Diversión" };
         }
 
         /// <summary>
