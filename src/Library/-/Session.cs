@@ -5,9 +5,9 @@ namespace BankerBot
     public class Session 
     {
         //SINGLETON
-        public Dictionary<string, Data> DataMap;
-         public List<User> AllUsers { get; set; }
-        //public IPrinter Printer { get; set; }
+        public Dictionary<string, UserInfo> UserInfoMap;
+         public List<EndUser> AllUsers { get; set; }
+        public IPrinter Printer { get; set; }
         private static Session instance;
         public static Session Instance
         {
@@ -22,15 +22,15 @@ namespace BankerBot
         }
         private Session()
         {
-            this.AllUsers = new List<User>();
-            this.DataMap = new Dictionary<string, Data>();
-            //this.Printer = new HtmlPrinter();
+            this.AllUsers = new List<EndUser>();
+            this.UserInfoMap = new Dictionary<string, UserInfo>();
+            this.Printer = new HTMLPrinter();
         }
 
 
         public void AddUser(string username, string password)
         {
-            foreach (User user in AllUsers)
+            foreach (EndUser user in AllUsers)
             {
                 
                 if (user.Username == username)
@@ -38,13 +38,13 @@ namespace BankerBot
                     return;
                 }
             }
-            AllUsers.Add(new User(username, password));
+            AllUsers.Add(new EndUser(username, password));
         }
 
         public bool UsernameExists(string username)
         {
             string u = "";
-            foreach (User user in AllUsers)
+            foreach (EndUser user in AllUsers)
             {
                 if (user.Username == username)
                 {
@@ -53,9 +53,9 @@ namespace BankerBot
             }
             return u == username;
         }
-        public User GetUser(string username, string password)
+        public EndUser GetUser(string username, string password)
         {
-            foreach (User user in AllUsers)
+            foreach (EndUser user in AllUsers)
             {
                 if (user.Username == username && user.Password == password)
                 {
@@ -65,21 +65,21 @@ namespace BankerBot
             return null;
         }
 
-         public void SetChannel(string id, ICommunicationChannel newChannel)
+         public void SetComunicationChannel(string id, ICommunicationChannel newChannel)
         {
-            GetChat(id).Channel = newChannel;
+            GetChatInfo(id).ComunicationChannel = newChannel;
         }
 
-        public Data GetChat(string id)
+        public UserInfo GetChatInfo(string id)
         {
-            Data newChat;
-            if (DataMap.TryGetValue(id, out newChat))
+            UserInfo newChat;
+            if (UserInfoMap.TryGetValue(id, out newChat))
             {
                 return newChat;
             }
 
-            newChat = new Data();
-            DataMap.Add(id, newChat);
+            newChat = new UserInfo();
+            UserInfoMap.Add(id, newChat);
             return newChat;
 
         }

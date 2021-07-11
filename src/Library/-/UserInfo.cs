@@ -2,33 +2,33 @@ using System.Collections.Generic;
 
 namespace BankerBot
 {
-    public enum State
+    public enum ConversationState
     {
         Start,
         Messenger,
         HandlingRequest
     }
-    public class Data
+    public class UserInfo
     {
-        public State State { get; set; }
+        public ConversationState ConversationState { get; set; }
         public string Command { get; set; }
-        public User User { get; set; }
+        public EndUser User { get; set; }
         public Dictionary<string, object> ProvisionalInfo { get; set; }
-        public ICommunicationChannel Channel { get; set; }
+        public ICommunicationChannel ComunicationChannel { get; set; }
 
-        public Data()
+        public UserInfo()
         {
-            this.State = State.Start;
+            this.ConversationState = ConversationState.Start;
             this.Command = string.Empty;
             this.User = null;
             this.ProvisionalInfo = new Dictionary<string, object>();
-            this.Channel = null;
+            this.ComunicationChannel = null;
             
         }
 
         public void ClearOperation()
         {
-            this.State = State.Messenger;
+            this.ConversationState = ConversationState.Messenger;
             this.ProvisionalInfo.Clear();
             this.Command = string.Empty;
         }

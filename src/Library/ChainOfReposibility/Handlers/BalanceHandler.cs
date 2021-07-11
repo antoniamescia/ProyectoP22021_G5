@@ -10,7 +10,7 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
 
             if (!data.ProvisionalInfo.ContainsKey("account"))
             {
@@ -18,14 +18,14 @@ namespace BankerBot
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= data.User.Accounts.Count)
                 {
                     var account = data.User.Accounts[index - 1];
-                    data.Channel.SendMessage(request.UserID, $"El balance actual de la cuenta es: {account.CurrencyType.Code} {account.Amount}");
+                    data.ComunicationChannel.SendMessage(request.UserID, $"El balance actual de la cuenta es: {account.CurrencyType.Code} {account.Amount}");
 
                     data.ClearOperation();
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.UserID, "¿De qué cuenta quieres consultar el balance?:\n" + data.User.DisplayAccounts());
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿De qué cuenta quieres consultar el balance?:\n" + data.User.DisplayAccounts());
                 }
                 return;
             }

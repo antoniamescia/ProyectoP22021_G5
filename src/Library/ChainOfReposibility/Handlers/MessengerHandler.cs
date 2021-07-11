@@ -8,14 +8,14 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            var data = Session.Instance.GetChat(request.UserID);
-            data.State = State.HandlingRequest;
+            var data = Session.Instance.GetChatInfo(request.UserID);
+            data.ConversationState = ConversationState.HandlingRequest;
 
             switch (request.MessageText.ToLower())
             {
                 case "/comandos":
-                    data.Channel.SendMessage(request.UserID, Commands.Instance.ListCommands(request.UserID));
-                    data.State = State.Messenger;
+                    data.ComunicationChannel.SendMessage(request.UserID, Commands.Instance.CommandList(request.UserID));
+                    data.ConversationState = ConversationState.Messenger;
                     break;
 
                 case "/crearusuario":
@@ -23,20 +23,20 @@ namespace BankerBot
                     if (data.User == null)
                     {
                         data.Command = request.MessageText.ToLower();
-                        data.Channel.SendMessage(request.UserID, "Nombre de usuario:");
+                        data.ComunicationChannel.SendMessage(request.UserID, "Nombre de usuario:");
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
                     break;
 
                 case "/iniciarsesion":
                     if (data.User == null)
                     {
                         data.Command = request.MessageText;
-                        data.Channel.SendMessage(request.UserID, "Ingresa tu nombre de usuario:");
+                        data.ComunicationChannel.SendMessage(request.UserID, "Ingresa tu nombre de usuario:");
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
                     break;
 
 
@@ -44,31 +44,31 @@ namespace BankerBot
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
-                        data.Channel.SendMessage(request.UserID, "¿Qué tipo de cuenta es? 💳:\n" + Account.DisplayAccountType());
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de cuenta es? 💳:\n" + Account.DisplayAccountType());
                         break;
                     }
 
-                    data.Channel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
 
                 case "/transaccion":
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
-                        data.Channel.SendMessage(request.UserID, "¿Qué tipo de transacción deseas realizar? :\n1 - Ingreso\n2 - Egreso");
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de transacción deseas realizar? :\n1 - Ingreso\n2 - Egreso");
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
                 
                  case "/mostrarbalance":
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
-                        data.Channel.SendMessage(request.UserID, "¿De qué cuenta quieres consultar el balance?\n" + data.User.DisplayAccounts());
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿De qué cuenta quieres consultar el balance?\n" + data.User.DisplayAccounts());
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
 
 
@@ -76,26 +76,26 @@ namespace BankerBot
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
-                        data.Channel.SendMessage(request.UserID, "Ingrese una nueva categoría de gasto:");
+                        data.ComunicationChannel.SendMessage(request.UserID, "Ingrese una nueva categoría de gasto:");
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
 
                 case "/cambiarobjetivodeahorro":
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
-                        data.Channel.SendMessage(request.UserID, "¿De qué cuenta quieres cambiar el objetivo de ahorro?\n" + data.User.DisplayAccounts());
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿De qué cuenta quieres cambiar el objetivo de ahorro?\n" + data.User.DisplayAccounts());
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
                 
                 case "/convertir":
 
                     data.Command = request.MessageText;
-                    data.Channel.SendMessage(request.UserID, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Desde qué moneda quieres convertir? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                     break;
 
 
@@ -104,13 +104,13 @@ namespace BankerBot
                     if (data.User != null)
                     {
                         data.User = null;
-                        data.Channel.SendMessage(request.UserID, "¡Desconectado con éxito! 👏🏼");
-                        data.Channel.SendMessage(request.UserID, "¿Cómo quieres proceder?:\n" + Commands.Instance.ListCommands((request.UserID)));
-                        data.State = State.Messenger;
+                        data.ComunicationChannel.SendMessage(request.UserID, "¡Desconectado con éxito! 👏🏼");
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿Cómo quieres proceder?:\n" + Commands.Instance.CommandList((request.UserID)));
+                        data.ConversationState = ConversationState.Messenger;
                         break;
                     }
-                    data.Channel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
-                    data.State = State.Messenger;
+                    data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, cierra sesión. 🙏🏼");
+                    data.ConversationState = ConversationState.Messenger;
                     break;
             }
         }

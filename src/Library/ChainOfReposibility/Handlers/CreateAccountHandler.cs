@@ -20,7 +20,7 @@ namespace BankerBot
         protected override void handleRequest(IMessage request)
         {
 
-            Data data = Session.Instance.GetChat(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
 
             if (!data.ProvisionalInfo.ContainsKey("type"))
             {
@@ -28,12 +28,12 @@ namespace BankerBot
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index > 0 && index <= Enum.GetNames(typeof(Type)).Length)
                 {
                     data.ProvisionalInfo.Add("type", (Type)index - 1);
-                    data.Channel.SendMessage(request.UserID, "Ingresa el nombre de la nueva cuenta.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el nombre de la nueva cuenta.");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.UserID, "¿Qué tipo de cuenta es?\n" + Account.DisplayAccountType());
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Qué tipo de cuenta es?\n" + Account.DisplayAccountType());
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("name"))
@@ -41,11 +41,11 @@ namespace BankerBot
                 if (!data.User.AccountExists(request.MessageText))
                 {
                     data.ProvisionalInfo.Add("name", request.MessageText);
-                    data.Channel.SendMessage(request.UserID, "¿Qué moneda tiene la cuenta? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Qué moneda tiene la cuenta? 🪙\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Ya existe una cuenta con ese nombre! Vuelve a ingresar un nombre de cuenta, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Ya existe una cuenta con ese nombre! Vuelve a ingresar un nombre de cuenta, por favor.");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("currency"))
@@ -54,12 +54,12 @@ namespace BankerBot
                 if (Int32.TryParse(request.MessageText, out index) && index > 0 && index <= CurrencyExchanger.Instance.CurrencyList.Count)
                 {
                     data.ProvisionalInfo.Add("currency", CurrencyExchanger.Instance.CurrencyList[index - 1]);
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el balance inicial de la cuenta?");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el balance inicial de la cuenta?");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
-                    data.Channel.SendMessage(request.UserID, "¿Qué moneda tiene la cuenta? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
+                    data.ComunicationChannel.SendMessage(request.UserID, "Ingresa el índice, por favor.");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Qué moneda tiene la cuenta? 🪙:\n" + CurrencyExchanger.Instance.DisplayCurrencyList());
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("amount"))
@@ -68,12 +68,12 @@ namespace BankerBot
                 if (double.TryParse(request.MessageText, out amount) && amount > 0)
                 {
                     data.ProvisionalInfo.Add("amount", amount);
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Ingresa otro valor!");
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el balance inicial de la cuenta?");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el balance inicial de la cuenta?");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("maxObjective"))
@@ -82,12 +82,12 @@ namespace BankerBot
                 if (double.TryParse(request.MessageText, out amount) && amount > 1)
                 {
                     data.ProvisionalInfo.Add("maxObjective", amount);
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta? ");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta? ");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Ingresa otro valor!");
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo máximo de ahorro de la cuenta? 💸");
                 }
             }
             else if (!data.ProvisionalInfo.ContainsKey("minObjective"))
@@ -99,8 +99,8 @@ namespace BankerBot
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Ingresa otro valor!");
-                    data.Channel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Ingresa otro valor!");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¿Cuál es el objetivo mínimo de ahorro de la cuenta?");
                 }
             }
 
@@ -117,11 +117,11 @@ namespace BankerBot
 
                 if (account != null)
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Wohoo! ¡Cuenta creada con éxito! 🙌");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Wohoo! ¡Cuenta creada con éxito! 🙌");
                 }
                 else
                 {
-                    data.Channel.SendMessage(request.UserID, "¡Ha ocurrido un error! 🥲");
+                    data.ComunicationChannel.SendMessage(request.UserID, "¡Ha ocurrido un error! 🥲");
                 }
 
                 data.ClearOperation();

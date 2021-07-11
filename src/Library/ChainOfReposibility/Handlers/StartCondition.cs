@@ -11,13 +11,13 @@ namespace BankerBot
 
         protected override void handleRequest(IMessage request)
         {
-            Data data = Session.Instance.GetChat(request.UserID);
+            UserInfo data = Session.Instance.GetChatInfo(request.UserID);
 
-            data.Channel.SendMessage(request.UserID, "¡Bienvenido a BankerBot! 💰");
-            data.Channel.SendMessage(request.UserID, "¿Qué deseas hacer?:\n" + Commands.Instance.ListCommands(request.UserID));
-            data.Channel.SendMessage(request.UserID, "Recuerda que puedes escribir /Salir en cualquier momento para finalizar la acción o /Comandos para ver los comandos disponibles. 😉");
+            data.ComunicationChannel.SendMessage(request.UserID, "¡Bienvenido a BankerBot! 💰");
+            data.ComunicationChannel.SendMessage(request.UserID, "¿Qué deseas hacer?:\n" + Commands.Instance.CommandList(request.UserID));
+            data.ComunicationChannel.SendMessage(request.UserID, "Recuerda que puedes escribir /Salir en cualquier momento para finalizar la acción o /Comandos para ver los comandos disponibles. 😉");
 
-            data.State = State.Messenger;
+            data.ConversationState = ConversationState.Messenger;
         }
     }
 }
