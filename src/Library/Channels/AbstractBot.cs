@@ -1,5 +1,7 @@
 namespace BankerBot
 {
+    /* Cumple con ## OCP ## ya que se pueden seguir agregando bots sin alterar código.*/
+
     /// <summary>
     /// Bot abstracto que del cual heredarán todos los bots concretos.
     /// </summary>
@@ -11,10 +13,6 @@ namespace BankerBot
             this.Handler = Configuration.HandlerSetup();
         }
         public abstract void StartCommunication();
-        public void HandleMessage(IMessage message)
-        {
-            Handler.Handler(message);
-        }
         public void SetChannel(string id, ICommunicationChannel channel)
         {
             Session.Instance.SetComunicationChannel(id, channel);
@@ -22,6 +20,9 @@ namespace BankerBot
         public abstract void SendMessage(string id, string message);
 
         public abstract void SendPrint(string id, string path);
-
+        public void HandleMessage(IMessage message)
+        {
+            Handler.Handler(message);
+        }
     }
 }
