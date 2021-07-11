@@ -10,8 +10,8 @@ namespace BankerBot
      /// </summary>
     public enum Type
     {
-        CajaDeAhorros = 1,
-        CuentaCorriente = 2
+        Debito = 1,
+        Credito = 2
 
 
     }
