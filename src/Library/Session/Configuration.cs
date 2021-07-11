@@ -2,7 +2,13 @@ namespace BankerBot
 {
     public class Configuration
     {
-        //ESTABLECE CHAIN OF RESPONSIBILITY 
+        /*
+        Patrones y principios:
+        Cumple con SRP pues no se identifica más de una razón de cambio. 
+        Cumple con Expert pues el experto en la informació necesaria para llevar a cabo las responsabilidades asignadas. 
+        Cumple con polymorphism porque usa el método polimórfico StartCommunication.
+        Arma la cadena de responsabilidad, por lo que cumple con dicho patrón.
+        */
 
         public static void StartCommunication()
         {

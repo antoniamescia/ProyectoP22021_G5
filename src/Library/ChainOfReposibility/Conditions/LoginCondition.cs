@@ -1,10 +1,18 @@
 namespace BankerBot
 {
-    /*Cumple con EXPERT y SRP*/
-
+    
     /// <summary>
-    /// Condición para loguearse.
+    /// Condición que deberá ser cumplida para que el LoginHandler pueda llevar a cabo su acción.
     /// </summary>
+    
+         /*
+        Patrones y principios:
+        Cumple con SRP porque solo se identifica una razón de cambio: algún cambio en la lógica del método ConditionIsMet.
+        Cumple con LSP porque el tipo implícito que define la clase puede ser sustiuido por ICondition.
+        Cumple con ISP porque solo implementa una interfaz (ICondition).
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa el método polimórfico ConditionIsMet.
+        */
     public class LoginCondition : ICondition<IMessage>
     {
         public bool ConditionIsMet(IMessage request)

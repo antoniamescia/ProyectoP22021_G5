@@ -4,7 +4,12 @@ namespace BankerBot
 {
     public class Session 
     {
-        //SINGLETON
+        /*
+        Patrones y principios:
+        Cumple con SRP pues no se identifica más de una razón de cambio. 
+        Cumple con Expert pues el experto en la informació necesaria para llevar a cabo las responsabilidades asignadas. 
+        Cumple con el patrón Singleton: garantiza que haya una única instancia de la clase y proporciona un punto de acceso global a esta instancia.
+        */
         public Dictionary<string, UserInfo> UserInfoMap;
         public List<EndUser> AllUsers { get; set; }
         public IPrinter Printer { get; set; }

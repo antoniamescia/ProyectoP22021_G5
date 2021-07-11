@@ -3,7 +3,7 @@ namespace BankerBot
     /* Cumple con ## OCP ## ya que se pueden seguir agregando bots sin alterar código.*/
 
     /// <summary>
-    /// Implementa un bot que se le pase.
+    /// Bot abstracto que del cual heredarán todos los bots concretos.
     /// </summary>
     public abstract class AbstractBot : ICommunicationChannel
     {
