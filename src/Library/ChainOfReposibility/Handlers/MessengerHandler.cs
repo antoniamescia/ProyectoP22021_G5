@@ -3,10 +3,17 @@ namespace BankerBot
     public class MessengerHandler : AbstractHandler<IMessage>
     {
         /// <summary>
-        /// Handler que segun que opcion se eliga de los comandos da su respetivo mensaje y acción
+        /// Handler que segun que opcion se eliga de los comandos da su respetivo mensaje y acción.
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
+        
+        /*
+        Cumple con SRP porque solo se identifica una razón de cambio: algún cambio en la lógica del método HandleRequest.
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa el método polimórfico handleRequest.
+        Cumple con el patrón Chain of Responsibility.
+        */
         public MessengerHandler(MessengerCondition condition) : base(condition)
         {
         }

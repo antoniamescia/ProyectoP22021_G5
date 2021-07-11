@@ -6,10 +6,17 @@ namespace BankerBot
     public class StartConversationHandler : AbstractHandler<IMessage>
     {
         /// <summary>
-        /// Handler que se encatga de iniciar la conversación
+        /// Handler que se encarga de iniciar la conversación.
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
+        
+        /*
+        Cumple con SRP porque solo se identifica una razón de cambio: algún cambio en la lógica del método HandleRequest.
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa el método polimórfico handleRequest.
+        Cumple con el patrón Chain of Responsibility.
+        */
         public StartConversationHandler(StartConversationCondition condition) : base(condition)
         {
         }
