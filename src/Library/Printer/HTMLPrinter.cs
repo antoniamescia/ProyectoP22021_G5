@@ -56,11 +56,11 @@ namespace BankerBot
         {
 
             string path = $@".\..\..\docs\{fileName}.html";
-            
-            if (File.Exists(path))
-            {
-                File.WriteAllText(path, "");
-            }
+            //La idea era eliminar la informacion vieja del archivo antes de enviarlo
+            // if (File.Exists(path))
+            // {
+            //     File.WriteAllText(path, "");
+            // }
             HtmlDocument doc = new HtmlDocument(path, "Transaction Record");
             doc.AddContent(new Span("Transaction Record"));
             doc.AddContent(new Table(

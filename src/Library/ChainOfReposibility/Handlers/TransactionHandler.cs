@@ -132,19 +132,19 @@ namespace BankerBot
 
                 if (alert1.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA1 ⚠️:\n"+ alert1.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert1.SendAlert(account));
                 }
                 else if (alert2.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA2 ⚠️:\n"+ alert2.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert2.SendAlert(account));
                 }
                 else if (alert3.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA3 ⚠️:\n"+ alert3.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert3.SendAlert(account));
                 }
                 else if (alert4.SendAlert(account) != null)
                 {
-                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA4 ⚠️:\n"+ alert4.SendAlert(account));
+                    data.ComunicationChannel.SendMessage(request.UserID, "ALERTA ⚠️:\n"+ alert4.SendAlert(account));
                 }
                 data.ClearOperation();
                 return;
