@@ -10,6 +10,12 @@ namespace BankerBot
         Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
         Cumple con Polymorphism porque usa el método polimórfico ConditionIsMet.
         */
+
+        /// <summary>
+        /// Condición que deberá ser cumplida para que el MessengerHandler pueda llevar a cabo su acción.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public bool ConditionIsMet(IMessage request)
         {
             UserInfo data = Session.Instance.GetChatInfo(request.UserID);
