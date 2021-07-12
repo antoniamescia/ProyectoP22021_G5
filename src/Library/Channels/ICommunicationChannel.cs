@@ -8,9 +8,9 @@
         Cumple con OCP porque permite la introducción de nuevos tipos de canales de comunicación sin modificar el código existente (se agregan como nuevas clases).
         */
         void StartCommunication();
-        void HandleMessage(IMessage message);
         void SendMessage(string id, string message);
         void SendPrint(string id, string path);
+        void HandleMessage(IMessage message);
 
     }
 }

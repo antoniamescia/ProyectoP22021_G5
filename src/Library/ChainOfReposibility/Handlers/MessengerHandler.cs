@@ -91,7 +91,7 @@ namespace BankerBot
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicia sesión. 🙏🏼");
                     break;
 
-                case "/cambiarobjetivodeahorro":
+                case "/cambiarobjetivo":
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
