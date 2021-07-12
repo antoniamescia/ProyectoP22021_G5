@@ -56,11 +56,11 @@ namespace BankerBot
         {
 
             string path = $@".\..\..\docs\{fileName}.html";
-            //Con esto se borra el archivo anterior pero hay que cerrar la ventana del archivo antes de crear uno nuevo, sino se rompe todo
-            // if (File.Exists(path))
-            // {
-            //     File.Delete(path);
-            // }
+            
+            if (File.Exists(path))
+            {
+                File.WriteAllText(path, "");
+            }
             HtmlDocument doc = new HtmlDocument(path, "Transaction Record");
             doc.AddContent(new Span("Transaction Record"));
             doc.AddContent(new Table(
