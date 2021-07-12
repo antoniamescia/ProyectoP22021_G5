@@ -17,7 +17,7 @@ namespace BankerBot
         Cumple con Polymorphism porque usa el método polimórfico handleRequest.
         Cumple con el patrón Chain of Responsibility.
         */
-        public CreateAccountHandler(ICondition<IMessage> condition) : base(condition)
+        public CreateAccountHandler(CreateAccountCondition condition) : base(condition)
         {
         }
 
