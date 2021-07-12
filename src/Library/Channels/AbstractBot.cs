@@ -1,6 +1,10 @@
 namespace BankerBot
 {
-    /* Cumple con ## OCP ## ya que se pueden seguir agregando bots sin alterar código.*/
+        /*
+        Cumple con SRP porque solo se identifica una razón de cambio.
+        Cumple con Expert porque tiene toda la información necesaria para poder cumplir con la responsabilidad otorgada.
+        Cumple con Polymorphism porque usa los métodos polimórficos StartCommunication, SendMessage y SendPrint.
+        */
 
     /// <summary>
     /// Bot abstracto que del cual heredarán todos los bots concretos.

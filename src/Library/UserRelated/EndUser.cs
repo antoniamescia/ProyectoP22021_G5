@@ -193,17 +193,17 @@ namespace BankerBot
         /// </summary>
         /// <param name="newExpenseCategory"></param>
         /// <returns></returns>
-        public bool ContainsExpenseCategory(string newExpenseCategory)
+        public bool ContainsExpenseCategory(string expenseCategory)
         {
             string exists = string.Empty;
             foreach (string item in ExpenseCategories)
             {
-                if (item.ToLower() == newExpenseCategory.ToLower())
+                if (item.ToLower() == expenseCategory.ToLower())
                 {
                     exists = item;
                 }
             }
-            return exists == newExpenseCategory;
+            return exists == expenseCategory;
         }
     }
 }

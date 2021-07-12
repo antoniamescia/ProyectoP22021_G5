@@ -127,7 +127,7 @@ namespace BankerBot
                     if (data.User != null)
                     {
                         data.Command = request.MessageText;
-                        data.ComunicationChannel.SendMessage(request.UserID, "Seleccione una cuenta para ver el historial:\n" + data.User.DisplayAccounts());
+                        data.ComunicationChannel.SendMessage(request.UserID, "¿Qué historial de transacciones deseas ver?:\n" + data.User.DisplayAccounts());
                         break;
                     }
                     data.ComunicationChannel.SendMessage(request.UserID, "Para proceder, inicie sesión. 🙏🏼");
